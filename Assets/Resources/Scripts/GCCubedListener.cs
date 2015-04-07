@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Prime31;
 
 public class GCCubedListener : MonoBehaviour
 {
@@ -18,13 +19,11 @@ public class GCCubedListener : MonoBehaviour
 	}
 	void Start() {
 		Debug.Log("Listener working");
-		if (GameCenterBinding.isGameCenterAvailable()) {
-			Debug.Log("GameCenter working");
-			GameCenterBinding.authenticateLocalPlayer();
-			LoadEvents();
-			eventsLoaded = true;
-			gcInUse = true;
-		}
+		Debug.Log("GameCenter working");
+		GameCenterBinding.authenticateLocalPlayer();
+		// LoadEvents();
+		eventsLoaded = true;
+		gcInUse = true;
 		Handheld.SetActivityIndicatorStyle(iOSActivityIndicatorStyle.Gray);
 	//	else
 			//Debug.Log("Fuck Game Center");
@@ -80,135 +79,139 @@ public class GCCubedListener : MonoBehaviour
 		yield return load;
 		EtceteraBinding.hideActivityView();
 	}
+	/*
 	void LoadEvents() {
 		// Listens to all the GameCenter events.  All event listeners MUST be removed before this object is disposed!
 		// Player events
-		GameCenterManager.loadPlayerDataFailed += loadPlayerDataFailed;
-		GameCenterManager.playerDataLoaded += playerDataLoaded;
-		GameCenterManager.playerAuthenticated += playerAuthenticated;
-		GameCenterManager.playerFailedToAuthenticate += playerFailedToAuthenticate;
-		GameCenterManager.playerLoggedOut += playerLoggedOut;
-		GameCenterManager.profilePhotoLoaded += profilePhotoLoaded;
-		GameCenterManager.profilePhotoFailed += profilePhotoFailed;
+		GameCenterManager.loadPlayerDataFailedEvent += loadPlayerDataFailed;
+		GameCenterManager.playerDataLoadedEvent += playerDataLoaded;
+		GameCenterManager.playerAuthenticatedEvent += playerAuthenticated;
+		GameCenterManager.playerFailedToAuthenticateEvent += playerFailedToAuthenticate;
+		GameCenterManager.playerLoggedOutEvent += playerLoggedOut;
+		GameCenterManager.profilePhotoLoadedEvent += profilePhotoLoaded;
+		GameCenterManager.profilePhotoFailedEvent += profilePhotoFailed;
 		
 		// Leaderboards and scores
-		GameCenterManager.loadCategoryTitlesFailed += loadCategoryTitlesFailed;
-		GameCenterManager.categoriesLoaded += categoriesLoaded;
-		GameCenterManager.reportScoreFailed += reportScoreFailed;
-		GameCenterManager.reportScoreFinished += reportScoreFinished;
-		GameCenterManager.retrieveScoresFailed += retrieveScoresFailed;
-		GameCenterManager.scoresLoaded += scoresLoaded;
-		GameCenterManager.retrieveScoresForPlayerIdFailed += retrieveScoresForPlayerIdFailed;
-		GameCenterManager.scoresForPlayerIdLoaded += scoresForPlayerIdLoaded;
+		GameCenterManager.loadCategoryTitlesFailedEvent += loadCategoryTitlesFailed;
+		GameCenterManager.categoriesLoadedEvent += categoriesLoaded;
+		GameCenterManager.reportScoreFailedEvent += reportScoreFailed;
+		GameCenterManager.reportScoreFinishedEvent += reportScoreFinished;
+		GameCenterManager.retrieveScoresFailedEvent += retrieveScoresFailed;
+		GameCenterManager.scoresLoadedEvent += scoresLoaded;
+		GameCenterManager.retrieveScoresForPlayerIdFailedEvent += retrieveScoresForPlayerIdFailed;
+		GameCenterManager.scoresForPlayerIdLoadedEvent += scoresForPlayerIdLoaded;
 		
 		// Achievements
-		GameCenterManager.reportAchievementFailed += reportAchievementFailed;
-		GameCenterManager.reportAchievementFinished += reportAchievementFinished;
-		GameCenterManager.loadAchievementsFailed += loadAchievementsFailed;
-		GameCenterManager.achievementsLoaded += achievementsLoaded;
-		GameCenterManager.resetAchievementsFailed += resetAchievementsFailed;
-		GameCenterManager.resetAchievementsFinished += resetAchievementsFinished;
-		GameCenterManager.retrieveAchievementMetadataFailed += retrieveAchievementMetadataFailed;
-		GameCenterManager.achievementMetadataLoaded += achievementMetadataLoaded;
-		
+		GameCenterManager.reportAchievementFailedEvent += reportAchievementFailed;
+		GameCenterManager.reportAchievementFinishedEvent += reportAchievementFinished;
+		GameCenterManager.loadAchievementsFailedEvent += loadAchievementsFailed;
+		GameCenterManager.achievementsLoadedEvent += achievementsLoaded;
+		GameCenterManager.resetAchievementsFailedEvent += resetAchievementsFailed;
+		GameCenterManager.resetAchievementsFinishedEvent += resetAchievementsFinished;
+		GameCenterManager.retrieveAchievementMetadataFailedEvent += retrieveAchievementMetadataFailed;
+		GameCenterManager.achievementMetadataLoadedEvent += achievementMetadataLoaded;
+
+		/*
 		// Challenges
-		GameCenterManager.localPlayerDidSelectChallengeEvent += localPlayerDidSelectChallengeEvent;
-		GameCenterManager.localPlayerDidCompleteChallengeEvent += localPlayerDidCompleteChallengeEvent;
-		GameCenterManager.remotePlayerDidCompleteChallengeEvent += remotePlayerDidCompleteChallengeEvent;
-		GameCenterManager.challengesLoadedEvent += challengesLoadedEvent;
-		GameCenterManager.challengesFailedToLoadEvent += challengesFailedToLoadEvent;
+		GameCenterManager.localPlayerDidSelectChallengeEventEvent += localPlayerDidSelectChallengeEvent;
+		GameCenterManager.localPlayerDidCompleteChallengeEventEvent += localPlayerDidCompleteChallengeEvent;
+		GameCenterManager.remotePlayerDidCompleteChallengeEventEvent += remotePlayerDidCompleteChallengeEvent;
+		GameCenterManager.challengesLoadedEventEvent += challengesLoadedEvent;
+		GameCenterManager.challengesFailedToLoadEventEvent += challengesFailedToLoadEvent;
 		
-		GameCenterTurnBasedManager.loadMatchDataEvent += loadMatchDataEvent;
-		GameCenterTurnBasedManager.saveCurrentTurnWithMatchDataFinishedEvent += saveCurrentTurnWithMatchDataFinishedEvent;
-		GameCenterTurnBasedManager.saveCurrentTurnWithMatchDataFailedEvent += saveCurrentTurnWithMatchDataFailedEvent;
-		GameCenterTurnBasedManager.endTurnWithNextParticipantFailedEvent += endTurnWithNextParticipantFailedEvent;
-		GameCenterTurnBasedManager.endTurnWithNextParticipantFinishedEvent += endTurnWithNextParticipantFinishedEvent;
-		GameCenterTurnBasedManager.endMatchInTurnWithMatchDataFailedEvent += endMatchInTurnWithMatchDataFailedEvent;
-		GameCenterTurnBasedManager.endMatchInTurnWithMatchDataFinishedEvent += endMatchInTurnWithMatchDataFinishedEvent;
-		GameCenterTurnBasedManager.loadMatchDataFailedEvent += loadMatchDataFailedEvent;
-		GameCenterTurnBasedManager.participantQuitInTurnFailedEvent += participantQuitInTurnFailedEvent;
-		GameCenterTurnBasedManager.participantQuitInTurnFinishedEvent += participantQuitInTurnFinishedEvent;
-		GameCenterTurnBasedManager.participantQuitOutOfTurnFailedEvent += participantQuitOutOfTurnFailedEvent;
-		GameCenterTurnBasedManager.participantQuitOutOfTurnFinishedEvent += participantQuitOutOfTurnFinishedEvent;
-		GameCenterTurnBasedManager.findMatchProgramaticallyFailedEvent += findMatchProgramaticallyFailedEvent;
-		GameCenterTurnBasedManager.findMatchProgramaticallyFinishedEvent += findMatchProgramaticallyFinishedEvent;
-		GameCenterTurnBasedManager.loadMatchesDidFailEvent += loadMatchesDidFailEvent;
-		GameCenterTurnBasedManager.loadMatchesDidFinishEvent += loadMatchesDidFinishEvent;
-		GameCenterTurnBasedManager.removeMatchFailedEvent += removeMatchFailedEvent;
-		GameCenterTurnBasedManager.removeMatchFinishedEvent += removeMatchFinishedEvent;
-		GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerWasCancelledEvent += turnBasedMatchmakerViewControllerWasCancelledEvent;
-		GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerFailedEvent += turnBasedMatchmakerViewControllerFailedEvent;
-		GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerPlayerQuitEvent += turnBasedMatchmakerViewControllerPlayerQuitEvent;
-		GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerDidFindMatchEvent += turnBasedMatchmakerViewControllerDidFindMatchEvent;
-		GameCenterTurnBasedManager.handleTurnEventEvent += handleTurnEventEvent;
-		GameCenterTurnBasedManager.handleMatchEndedEvent += handleMatchEndedEvent;
-		GameCenterTurnBasedManager.handleInviteFromGameCenterEvent += handleInviteFromGameCenterEvent;
+		GameCenterTurnBasedManager.loadMatchDataEventEvent += loadMatchDataEvent;
+		GameCenterTurnBasedManager.saveCurrentTurnWithMatchDataFinishedEventEvent += saveCurrentTurnWithMatchDataFinishedEvent;
+		GameCenterTurnBasedManager.saveCurrentTurnWithMatchDataFailedEventEvent += saveCurrentTurnWithMatchDataFailedEvent;
+		GameCenterTurnBasedManager.endTurnWithNextParticipantFailedEventEvent += endTurnWithNextParticipantFailedEvent;
+		GameCenterTurnBasedManager.endTurnWithNextParticipantFinishedEventEvent += endTurnWithNextParticipantFinishedEvent;
+		GameCenterTurnBasedManager.endMatchInTurnWithMatchDataFailedEventEvent += endMatchInTurnWithMatchDataFailedEvent;
+		GameCenterTurnBasedManager.endMatchInTurnWithMatchDataFinishedEventEvent += endMatchInTurnWithMatchDataFinishedEvent;
+		GameCenterTurnBasedManager.loadMatchDataFailedEventEvent += loadMatchDataFailedEvent;
+		GameCenterTurnBasedManager.participantQuitInTurnFailedEventEvent += participantQuitInTurnFailedEvent;
+		GameCenterTurnBasedManager.participantQuitInTurnFinishedEventEvent += participantQuitInTurnFinishedEvent;
+		GameCenterTurnBasedManager.participantQuitOutOfTurnFailedEventEvent += participantQuitOutOfTurnFailedEvent;
+		GameCenterTurnBasedManager.participantQuitOutOfTurnFinishedEventEvent += participantQuitOutOfTurnFinishedEvent;
+		GameCenterTurnBasedManager.findMatchProgramaticallyFailedEventEvent += findMatchProgramaticallyFailedEvent;
+		GameCenterTurnBasedManager.findMatchProgramaticallyFinishedEventEvent += findMatchProgramaticallyFinishedEvent;
+		GameCenterTurnBasedManager.loadMatchesDidFailEventEvent += loadMatchesDidFailEvent;
+		GameCenterTurnBasedManager.loadMatchesDidFinishEventEvent += loadMatchesDidFinishEvent;
+		GameCenterTurnBasedManager.removeMatchFailedEventEvent += removeMatchFailedEvent;
+		GameCenterTurnBasedManager.removeMatchFinishedEventEvent += removeMatchFinishedEvent;
+		GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerWasCancelledEventEvent += turnBasedMatchmakerViewControllerWasCancelledEvent;
+		GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerFailedEventEvent += turnBasedMatchmakerViewControllerFailedEvent;
+		GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerPlayerQuitEventEvent += turnBasedMatchmakerViewControllerPlayerQuitEvent;
+		GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerDidFindMatchEventEvent += turnBasedMatchmakerViewControllerDidFindMatchEvent;
+		GameCenterTurnBasedManager.handleTurnEventEventEvent += handleTurnEventEvent;
+		GameCenterTurnBasedManager.handleMatchEndedEventEvent += handleMatchEndedEvent;
+		GameCenterTurnBasedManager.handleInviteFromGameCenterEventEvent += handleInviteFromGameCenterEvent;
 	}
+
 	void OnDisable() {
 		if (eventsLoaded) {
 			// Remove all the event handlers
 			// Player events
-			GameCenterManager.loadPlayerDataFailed -= loadPlayerDataFailed;
-			GameCenterManager.playerDataLoaded -= playerDataLoaded;
-			GameCenterManager.playerAuthenticated -= playerAuthenticated;
-			GameCenterManager.playerLoggedOut -= playerLoggedOut;
-			GameCenterManager.profilePhotoLoaded -= profilePhotoLoaded;
-			GameCenterManager.profilePhotoFailed -= profilePhotoFailed;
+			GameCenterManager.loadPlayerDataFailedEvent -= loadPlayerDataFailed;
+			GameCenterManager.playerDataLoadedEvent -= playerDataLoaded;
+			GameCenterManager.playerAuthenticatedEvent -= playerAuthenticated;
+			GameCenterManager.playerLoggedOutEvent -= playerLoggedOut;
+			GameCenterManager.profilePhotoLoadedEvent -= profilePhotoLoaded;
+			GameCenterManager.profilePhotoFailedEvent -= profilePhotoFailed;
 			
 			// Leaderboards and scores
-			GameCenterManager.loadCategoryTitlesFailed -= loadCategoryTitlesFailed;
-			GameCenterManager.categoriesLoaded -= categoriesLoaded;
-			GameCenterManager.reportScoreFailed -= reportScoreFailed;
-			GameCenterManager.reportScoreFinished -= reportScoreFinished;
-			GameCenterManager.retrieveScoresFailed -= retrieveScoresFailed;
-			GameCenterManager.scoresLoaded -= scoresLoaded;
-			GameCenterManager.retrieveScoresForPlayerIdFailed -= retrieveScoresForPlayerIdFailed;
-			GameCenterManager.scoresForPlayerIdLoaded -= scoresForPlayerIdLoaded;
+			GameCenterManager.loadCategoryTitlesFailedEvent -= loadCategoryTitlesFailed;
+			GameCenterManager.categoriesLoadedEvent -= categoriesLoaded;
+			GameCenterManager.reportScoreFailedEvent -= reportScoreFailed;
+			GameCenterManager.reportScoreFinishedEvent -= reportScoreFinished;
+			GameCenterManager.retrieveScoresFailedEvent -= retrieveScoresFailed;
+			GameCenterManager.scoresLoadedEvent -= scoresLoaded;
+			GameCenterManager.retrieveScoresForPlayerIdFailedEvent -= retrieveScoresForPlayerIdFailed;
+			GameCenterManager.scoresForPlayerIdLoadedEvent -= scoresForPlayerIdLoaded;
 			
 			// Achievements
-			GameCenterManager.reportAchievementFailed -= reportAchievementFailed;
-			GameCenterManager.reportAchievementFinished -= reportAchievementFinished;
-			GameCenterManager.loadAchievementsFailed -= loadAchievementsFailed;
-			GameCenterManager.achievementsLoaded -= achievementsLoaded;
-			GameCenterManager.resetAchievementsFailed -= resetAchievementsFailed;
-			GameCenterManager.resetAchievementsFinished -= resetAchievementsFinished;
-			GameCenterManager.retrieveAchievementMetadataFailed -= retrieveAchievementMetadataFailed;
-			GameCenterManager.achievementMetadataLoaded -= achievementMetadataLoaded;
-			
+			GameCenterManager.reportAchievementFailedEvent -= reportAchievementFailed;
+			GameCenterManager.reportAchievementFinishedEvent -= reportAchievementFinished;
+			GameCenterManager.loadAchievementsFailedEvent -= loadAchievementsFailed;
+			GameCenterManager.achievementsLoadedEvent -= achievementsLoaded;
+			GameCenterManager.resetAchievementsFailedEvent -= resetAchievementsFailed;
+			GameCenterManager.resetAchievementsFinishedEvent -= resetAchievementsFinished;
+			GameCenterManager.retrieveAchievementMetadataFailedEvent -= retrieveAchievementMetadataFailed;
+			GameCenterManager.achievementMetadataLoadedEvent -= achievementMetadataLoaded;
+			/*
 			// Challenges
-			GameCenterManager.localPlayerDidSelectChallengeEvent -= localPlayerDidSelectChallengeEvent;
-			GameCenterManager.localPlayerDidCompleteChallengeEvent -= localPlayerDidCompleteChallengeEvent;
-			GameCenterManager.remotePlayerDidCompleteChallengeEvent -= remotePlayerDidCompleteChallengeEvent;
-			GameCenterManager.challengesLoadedEvent -= challengesLoadedEvent;
-			GameCenterManager.challengesFailedToLoadEvent -= challengesFailedToLoadEvent;
+			GameCenterManager.localPlayerDidSelectChallengeEventEvent -= localPlayerDidSelectChallengeEvent;
+			GameCenterManager.localPlayerDidCompleteChallengeEventEvent -= localPlayerDidCompleteChallengeEvent;
+			GameCenterManager.remotePlayerDidCompleteChallengeEventEvent -= remotePlayerDidCompleteChallengeEvent;
+			GameCenterManager.challengesLoadedEventEvent -= challengesLoadedEvent;
+			GameCenterManager.challengesFailedToLoadEventEvent -= challengesFailedToLoadEvent;
 			
-			GameCenterTurnBasedManager.loadMatchDataEvent -= loadMatchDataEvent;
-			GameCenterTurnBasedManager.saveCurrentTurnWithMatchDataFinishedEvent -= saveCurrentTurnWithMatchDataFinishedEvent;
-			GameCenterTurnBasedManager.saveCurrentTurnWithMatchDataFailedEvent -= saveCurrentTurnWithMatchDataFailedEvent;
-			GameCenterTurnBasedManager.endTurnWithNextParticipantFailedEvent -= endTurnWithNextParticipantFailedEvent;
-			GameCenterTurnBasedManager.endTurnWithNextParticipantFinishedEvent -= endTurnWithNextParticipantFinishedEvent;
-			GameCenterTurnBasedManager.endMatchInTurnWithMatchDataFailedEvent -= endMatchInTurnWithMatchDataFailedEvent;
-			GameCenterTurnBasedManager.endMatchInTurnWithMatchDataFinishedEvent -= endMatchInTurnWithMatchDataFinishedEvent;
-			GameCenterTurnBasedManager.loadMatchDataFailedEvent -= loadMatchDataFailedEvent;
-			GameCenterTurnBasedManager.participantQuitInTurnFailedEvent -= participantQuitInTurnFailedEvent;
-			GameCenterTurnBasedManager.participantQuitInTurnFinishedEvent -= participantQuitInTurnFinishedEvent;
-			GameCenterTurnBasedManager.participantQuitOutOfTurnFailedEvent -= participantQuitOutOfTurnFailedEvent;
-			GameCenterTurnBasedManager.participantQuitOutOfTurnFinishedEvent -= participantQuitOutOfTurnFinishedEvent;
-			GameCenterTurnBasedManager.findMatchProgramaticallyFailedEvent -= findMatchProgramaticallyFailedEvent;
-			GameCenterTurnBasedManager.findMatchProgramaticallyFinishedEvent -= findMatchProgramaticallyFinishedEvent;
-			GameCenterTurnBasedManager.loadMatchesDidFailEvent -= loadMatchesDidFailEvent;
-			GameCenterTurnBasedManager.loadMatchesDidFinishEvent -= loadMatchesDidFinishEvent;
-			GameCenterTurnBasedManager.removeMatchFailedEvent -= removeMatchFailedEvent;
-			GameCenterTurnBasedManager.removeMatchFinishedEvent -= removeMatchFinishedEvent;
-			GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerWasCancelledEvent -= turnBasedMatchmakerViewControllerWasCancelledEvent;
-			GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerFailedEvent -= turnBasedMatchmakerViewControllerFailedEvent;
-			GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerPlayerQuitEvent -= turnBasedMatchmakerViewControllerPlayerQuitEvent;
-			GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerDidFindMatchEvent -= turnBasedMatchmakerViewControllerDidFindMatchEvent;
-			GameCenterTurnBasedManager.handleTurnEventEvent -= handleTurnEventEvent;
-			GameCenterTurnBasedManager.handleMatchEndedEvent -= handleMatchEndedEvent;
-			GameCenterTurnBasedManager.handleInviteFromGameCenterEvent -= handleInviteFromGameCenterEvent;
+			GameCenterTurnBasedManager.loadMatchDataEventEvent -= loadMatchDataEvent;
+			GameCenterTurnBasedManager.saveCurrentTurnWithMatchDataFinishedEventEvent -= saveCurrentTurnWithMatchDataFinishedEvent;
+			GameCenterTurnBasedManager.saveCurrentTurnWithMatchDataFailedEventEvent -= saveCurrentTurnWithMatchDataFailedEvent;
+			GameCenterTurnBasedManager.endTurnWithNextParticipantFailedEventEvent -= endTurnWithNextParticipantFailedEvent;
+			GameCenterTurnBasedManager.endTurnWithNextParticipantFinishedEventEvent -= endTurnWithNextParticipantFinishedEvent;
+			GameCenterTurnBasedManager.endMatchInTurnWithMatchDataFailedEventEvent -= endMatchInTurnWithMatchDataFailedEvent;
+			GameCenterTurnBasedManager.endMatchInTurnWithMatchDataFinishedEventEvent -= endMatchInTurnWithMatchDataFinishedEvent;
+			GameCenterTurnBasedManager.loadMatchDataFailedEventEvent -= loadMatchDataFailedEvent;
+			GameCenterTurnBasedManager.participantQuitInTurnFailedEventEvent -= participantQuitInTurnFailedEvent;
+			GameCenterTurnBasedManager.participantQuitInTurnFinishedEventEvent -= participantQuitInTurnFinishedEvent;
+			GameCenterTurnBasedManager.participantQuitOutOfTurnFailedEventEvent -= participantQuitOutOfTurnFailedEvent;
+			GameCenterTurnBasedManager.participantQuitOutOfTurnFinishedEventEvent -= participantQuitOutOfTurnFinishedEvent;
+			GameCenterTurnBasedManager.findMatchProgramaticallyFailedEventEvent -= findMatchProgramaticallyFailedEvent;
+			GameCenterTurnBasedManager.findMatchProgramaticallyFinishedEventEvent -= findMatchProgramaticallyFinishedEvent;
+			GameCenterTurnBasedManager.loadMatchesDidFailEventEvent -= loadMatchesDidFailEvent;
+			GameCenterTurnBasedManager.loadMatchesDidFinishEventEvent -= loadMatchesDidFinishEvent;
+			GameCenterTurnBasedManager.removeMatchFailedEventEvent -= removeMatchFailedEvent;
+			GameCenterTurnBasedManager.removeMatchFinishedEventEvent -= removeMatchFinishedEvent;
+			GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerWasCancelledEventEvent -= turnBasedMatchmakerViewControllerWasCancelledEvent;
+			GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerFailedEventEvent -= turnBasedMatchmakerViewControllerFailedEvent;
+			GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerPlayerQuitEventEvent -= turnBasedMatchmakerViewControllerPlayerQuitEvent;
+			GameCenterTurnBasedManager.turnBasedMatchmakerViewControllerDidFindMatchEventEvent -= turnBasedMatchmakerViewControllerDidFindMatchEvent;
+			GameCenterTurnBasedManager.handleTurnEventEventEvent -= handleTurnEventEvent;
+			GameCenterTurnBasedManager.handleMatchEndedEventEvent -= handleMatchEndedEvent;
+			GameCenterTurnBasedManager.handleInviteFromGameCenterEventEvent -= handleInviteFromGameCenterEvent;
+
 		}
-	}
+	} */
 	#region Player Events
 	
 	void playerAuthenticated()

@@ -29,66 +29,81 @@ public enum GKTurnBasedMatchOutcome
     Second       = 7,
     Third        = 8,
     Fourth       = 9,
-    
+
     CustomRange = 0x00FF0000	// game result range available for custom app use
 }
 
 
-public class GKTurnBasedParticipant
+
+namespace Prime31
 {
-	public string playerId;
-	public GKTurnBasedParticipantStatus status;
-	public DateTime lastTurnDate;
-	public GKTurnBasedMatchOutcome matchOutcome;
-	
-	
-	public static List<GKTurnBasedParticipant> fromJSON( string json )
+	public class GKTurnBasedParticipant
 	{
-		var participantList = new List<GKTurnBasedParticipant>();
-		
-		// decode the json
-		var list = json.listFromJson();
-		
-		// create DTO's from the Hashtables
-		foreach( Dictionary<string,object> dict in list )
-			participantList.Add( new GKTurnBasedParticipant( dict ) );
-		
-		return participantList;
-	}
+		public string playerId;
+		public GKTurnBasedParticipantStatus status;
+		public DateTime lastTurnDate;
+		public GKTurnBasedMatchOutcome matchOutcome;
+		/// <summary>
+		/// this will be null on iOS </summary> 8
+		/// </summary>
+		public GKPlayer player;
 	
 	
-	public GKTurnBasedParticipant()
-	{}
-	
-	
-	public GKTurnBasedParticipant( Dictionary<string,object> dict )
-	{
-		if( dict == null )
-			return;
-		
-		if( dict.ContainsKey( "playerId" ) )
-			playerId = dict["playerId"].ToString();
-		
-		if( dict.ContainsKey( "status" ) )
-			status = (GKTurnBasedParticipantStatus)int.Parse( dict["status"].ToString() );
-		
-		if( dict.ContainsKey( "matchOutcome" ) )
-			matchOutcome = (GKTurnBasedMatchOutcome)int.Parse( dict["matchOutcome"].ToString() );
-		
-		// grab and convert the date
-		if( dict.ContainsKey( "lastTurnDate" ) )
+		public static List<GKTurnBasedParticipant> fromJSON( string json )
 		{
-			var timeSinceEpoch = double.Parse( dict["lastTurnDate"].ToString() );
-			var intermediate = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
-			lastTurnDate = intermediate.AddSeconds( timeSinceEpoch );
+			var participantList = new List<GKTurnBasedParticipant>();
+	
+			// decode the json
+			var list = json.listFromJson();
+	
+			// create DTO's from the Hashtables
+			foreach( Dictionary<string,object> dict in list )
+				participantList.Add( new GKTurnBasedParticipant( dict ) );
+	
+			return participantList;
+		}
+	
+	
+		public GKTurnBasedParticipant()
+		{}
+	
+	
+		public GKTurnBasedParticipant( Dictionary<string,object> dict )
+		{
+			if( dict == null )
+				return;
+	
+			if( dict.ContainsKey( "playerId" ) )
+				playerId = dict["playerId"].ToString();
+	
+			if( dict.ContainsKey( "status" ) )
+				status = (GKTurnBasedParticipantStatus)int.Parse( dict["status"].ToString() );
+	
+			if( dict.ContainsKey( "matchOutcome" ) )
+				matchOutcome = (GKTurnBasedMatchOutcome)int.Parse( dict["matchOutcome"].ToString() );
+	
+			// grab and convert the date
+			if( dict.ContainsKey( "lastTurnDate" ) )
+			{
+				var timeSinceEpoch = double.Parse( dict["lastTurnDate"].ToString() );
+				var intermediate = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
+				lastTurnDate = intermediate.AddSeconds( timeSinceEpoch );
+			}
+	
+			if( dict.ContainsKey( "player" ) )
+			{
+				var playerDict = dict["player"] as Dictionary<string,object>;
+				player = new GKPlayer( playerDict );
+			}
+		}
+	
+	
+		public override string ToString()
+		{
+			 return string.Format( "<Participant> playerId: {0}, status: {1}, matchOutcome: {2}, lastTurnDate: {3}",
+				playerId, status, matchOutcome, lastTurnDate );
 		}
 	}
-	
-	
-	public override string ToString()
-	{
-		 return string.Format( "<Participant> playerId: {0}, status: {1}, matchOutcome: {2}, lastTurnDate: {3}",
-			playerId, status, matchOutcome, lastTurnDate );
-	}
+
 }
 #endif

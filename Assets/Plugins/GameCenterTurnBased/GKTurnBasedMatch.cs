@@ -15,75 +15,80 @@ public enum GKTurnBasedMatchStatus
 }
 
 
-public class GKTurnBasedMatch
+
+namespace Prime31
 {
-	public string matchId;
-	public GKTurnBasedMatchStatus status;
-	public List<GKTurnBasedParticipant> participants;
-	public DateTime creationDate;
-	public GKTurnBasedParticipant currentParticipant;
-	public string message;
-	
-	
-	public static List<GKTurnBasedMatch> fromJSON( string json )
+	public class GKTurnBasedMatch
 	{
-		var matchList = new List<GKTurnBasedMatch>();
+		public string matchId;
+		public GKTurnBasedMatchStatus status;
+		public List<GKTurnBasedParticipant> participants;
+		public DateTime creationDate;
+		public GKTurnBasedParticipant currentParticipant;
+		public string message;
 		
-		// decode the json
-		var list = json.listFromJson();
 		
-		// create DTO's from the Hashtables
-		foreach( Dictionary<string,object> ht in list )
-			matchList.Add( new GKTurnBasedMatch( ht ) );
-		
-		return matchList;
-	}
-	
-	
-	public GKTurnBasedMatch( Dictionary<string,object> dict )
-	{
-		if( dict.ContainsKey( "matchId" ) )
-			matchId = dict["matchId"].ToString();
-		
-		if( dict.ContainsKey( "status" ) )
-			status = (GKTurnBasedMatchStatus)int.Parse( dict["status"].ToString() );
-		
-		if( dict.ContainsKey( "message" ) )
-			message = dict["message"].ToString();
-		
-		// grab and convert the date
-		if( dict.ContainsKey( "creationDate" ) )
+		public static List<GKTurnBasedMatch> fromJSON( string json )
 		{
-			var timeSinceEpoch = double.Parse( dict["creationDate"].ToString() );
-			var intermediate = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
-			creationDate = intermediate.AddSeconds( timeSinceEpoch );
-		}
-		
-		// get the participants
-		if( dict.ContainsKey( "participants" ) )
-		{
-			var participantsList = dict["participants"] as List<object>;
-			participants = new List<GKTurnBasedParticipant>( participantsList.Count );
+			var matchList = new List<GKTurnBasedMatch>();
 			
-			foreach( Dictionary<string,object> particpantDict in participantsList )
-			{
-				if( particpantDict != null )
-					participants.Add( new GKTurnBasedParticipant( particpantDict ) );
-				else
-					participants.Add( new GKTurnBasedParticipant() );
-			}
+			// decode the json
+			var list = json.listFromJson();
+			
+			// create DTO's from the Hashtables
+			foreach( Dictionary<string,object> ht in list )
+				matchList.Add( new GKTurnBasedMatch( ht ) );
+			
+			return matchList;
 		}
 		
-		// get the current participant
-		if( dict.ContainsKey( "currentParticipant" ) )
-			currentParticipant = new GKTurnBasedParticipant( dict["currentParticipant"] as Dictionary<string,object> );
+		
+		public GKTurnBasedMatch( Dictionary<string,object> dict )
+		{
+			if( dict.ContainsKey( "matchId" ) )
+				matchId = dict["matchId"].ToString();
+			
+			if( dict.ContainsKey( "status" ) )
+				status = (GKTurnBasedMatchStatus)int.Parse( dict["status"].ToString() );
+			
+			if( dict.ContainsKey( "message" ) )
+				message = dict["message"].ToString();
+			
+			// grab and convert the date
+			if( dict.ContainsKey( "creationDate" ) )
+			{
+				var timeSinceEpoch = double.Parse( dict["creationDate"].ToString() );
+				var intermediate = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
+				creationDate = intermediate.AddSeconds( timeSinceEpoch );
+			}
+			
+			// get the participants
+			if( dict.ContainsKey( "participants" ) )
+			{
+				var participantsList = dict["participants"] as List<object>;
+				participants = new List<GKTurnBasedParticipant>( participantsList.Count );
+				
+				foreach( Dictionary<string,object> particpantDict in participantsList )
+				{
+					if( particpantDict != null )
+						participants.Add( new GKTurnBasedParticipant( particpantDict ) );
+					else
+						participants.Add( new GKTurnBasedParticipant() );
+				}
+			}
+			
+			// get the current participant
+			if( dict.ContainsKey( "currentParticipant" ) )
+				currentParticipant = new GKTurnBasedParticipant( dict["currentParticipant"] as Dictionary<string,object> );
+		}
+		
+		
+		public override string ToString()
+		{
+			 return string.Format( "<GKTurnBasedMatch> matchId: {0}, status: {1}, participants: {2}, creationDate: {3}, currentParticipant: {4}, message: {5}",
+				matchId, status, participants, creationDate, currentParticipant, message );
+		}
 	}
-	
-	
-	public override string ToString()
-	{
-		 return string.Format( "<GKTurnBasedMatch> matchId: {0}, status: {1}, participants: {2}, creationDate: {3}, currentParticipant: {4}, message: {5}",
-			matchId, status, participants, creationDate, currentParticipant, message );
-	}
+
 }
 #endif

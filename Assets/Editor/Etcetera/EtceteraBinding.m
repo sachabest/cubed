@@ -3,10 +3,13 @@
 //  EtceteraTest
 //
 //  Created by Mike on 10/2/10.
-//  Copyright 2010 Prime31 Studios. All rights reserved.
+//  Copyright 2014 prime[31]. All rights reserved.
 //
 #import "EtceteraManager.h"
 #import "P31ActivityView.h"
+
+
+//#define INCLUDE_ADDRESS_BOOK_FEATURE 1
 
 
 #if UNITY_VERSION < 420
@@ -28,9 +31,30 @@
 #define GetStringParamOrNil( _x_ ) ( _x_ != NULL && strlen( _x_ ) ) ? [NSString stringWithUTF8String:_x_] : nil
 
 
+
 BOOL _etceteraApplicationCanOpenUrl( const char * url )
 {
 	return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:GetStringParam( url )]];
+}
+
+
+// pasteboard
+const char * _etceteraGetPasteboardString()
+{
+	return MakeStringCopy( [UIPasteboard generalPasteboard].string );
+}
+
+
+void _etceteraSetPasteboardString( const char * string )
+{
+	[UIPasteboard generalPasteboard].string = GetStringParamOrNil( string );
+}
+
+
+void _etceteraSetPasteboardImage( UInt8 *bytes, int length )
+{
+	NSData *data = [[NSData alloc] initWithBytes:(void*)bytes length:length];
+	[UIPasteboard generalPasteboard].image = [UIImage imageWithData:data];
 }
 
 
@@ -189,7 +213,13 @@ void _etceteraAskForReviewImmediately( const char * title, const char * message,
 {
 	[[EtceteraManager sharedManager] askForReviewWithTitle:GetStringParam( title )
 												   message:GetStringParam( message )
-												 iTunesAppId:GetStringParam( iTunesAppId )];
+											   iTunesAppId:GetStringParam( iTunesAppId )];
+}
+
+
+void _etceteraOpenAppStoreReviewPage( const char * iTunesAppId )
+{
+	[[EtceteraManager sharedManager] openAppStoreReviewPageWithiTunesAppId:GetStringParam( iTunesAppId )];
 }
 
 
@@ -204,7 +234,9 @@ void _etceteraPromptForPhoto( float scaledToSize, int promptType, float jpegComp
 {
 	[EtceteraManager sharedManager].JPEGCompression = jpegCompression;
 	[EtceteraManager sharedManager].pickerAllowsEditing = allowsEditing;
-	[EtceteraManager sharedManager].scaledImageSize = scaledToSize;
+	
+	if( scaledToSize <= 1.0 )
+		[EtceteraManager sharedManager].scaledImageSize = scaledToSize;
 	[[EtceteraManager sharedManager] promptForPhotoWithType:(PhotoType)promptType];
 }
 
@@ -373,4 +405,100 @@ void _etceteraInlineWebViewSetFrame( int x, int y, int width, int height )
 {
 	[[EtceteraManager sharedManager] inlineWebViewSetFrame:CGRectMake( x, y, width, height)];
 }
+
+
+
+#if INCLUDE_ADDRESS_BOOK_FEATURE
+
+#import <AddressBook/AddressBook.h>
+const char * _etceteraGetContacts( int startIndex, long count )
+{
+	__block BOOL accessGranted = NO;
+	ABAddressBookRef addressbook = ABAddressBookCreate();
+
+	// deal with iOS 6+ permissions
+	if( &ABAddressBookRequestAccessWithCompletion != NULL )
+	{
+		dispatch_semaphore_t sema = dispatch_semaphore_create( 0 );
+		ABAddressBookRequestAccessWithCompletion( addressbook, ^( bool granted, CFErrorRef error )
+												 {
+													 accessGranted = granted;
+													 dispatch_semaphore_signal( sema );
+												 });
+
+		dispatch_semaphore_wait( sema, DISPATCH_TIME_FOREVER );
+		dispatch_release( sema );
+	}
+	else
+	{
+		// old iOS version
+		accessGranted = YES;
+	}
+
+	if( !accessGranted )
+		return MakeStringCopy( @"[]" );
+
+
+	// actually get the contacts
+	NSMutableArray *contacts = [NSMutableArray array];
+
+	CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressbook );
+	CFIndex nPeople = ABAddressBookGetPersonCount( addressbook );
+
+	// handle clamping our startIndex and count if need be
+	if( startIndex >= nPeople )
+		return MakeStringCopy( @"[]" );
+
+	if( startIndex + count > nPeople )
+		count = nPeople;
+
+	for( int i = startIndex; i < count; i++ )
+	{
+		ABRecordRef person = CFArrayGetValueAtIndex( allPeople, i );
+		NSString *firstName = (__bridge NSString *)(ABRecordCopyValue( person, kABPersonFirstNameProperty ));
+		NSString *lastName = (__bridge NSString *)(ABRecordCopyValue( person, kABPersonLastNameProperty ));
+		NSString *name = [NSString stringWithFormat:@"%@ %@", firstName ? firstName : @"", lastName ? lastName : @""];
+
+		ABMultiValueRef phoneNumbers = ABRecordCopyValue( person, kABPersonPhoneProperty );
+		NSMutableArray *numbers = [NSMutableArray array];
+		for( CFIndex i = 0; i < ABMultiValueGetCount( phoneNumbers ); i++ )
+		{
+			NSString *phoneNumber = (NSString*)ABMultiValueCopyValueAtIndex( phoneNumbers, i );
+			[numbers addObject:phoneNumber];
+		}
+		CFRelease( phoneNumbers );
+
+		ABMultiValueRef emailAddresses = ABRecordCopyValue( person, kABPersonEmailProperty );
+		NSMutableArray *emails = [NSMutableArray array];
+		for( CFIndex i = 0; i < ABMultiValueGetCount( emailAddresses ); i++ )
+		{
+			NSString *email = (NSString*)ABMultiValueCopyValueAtIndex( emailAddresses, i );
+			[emails addObject:email];
+		}
+		CFRelease( emailAddresses );
+
+		NSDictionary *dict = @{
+							   @"name": name,
+							   @"phoneNumbers": numbers,
+							   @"emails": emails
+							   };
+		[firstName release];
+		[lastName release];
+
+		[contacts addObject:dict];
+	}
+
+
+	NSString *json = [EtceteraManager jsonFromObject:contacts];
+	return MakeStringCopy( json );
+}
+
+#else
+
+const char * _etceteraGetContacts( int startIndex, long count )
+{
+	return MakeStringCopy( @"[]" );
+}
+
+#endif
 

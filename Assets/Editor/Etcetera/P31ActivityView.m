@@ -79,7 +79,7 @@ static P31ActivityView *activityView = nil;
     // Immediately remove any existing activity view:
     if( activityView )
         [[self class] removeView];
-    
+
     // Remember the new view (it is already retained):
     activityView = self;
 	
@@ -93,7 +93,7 @@ static P31ActivityView *activityView = nil;
 	
 	[self orientationDidChangeNotification:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChangeNotification:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
-    
+
 	return self;
 }
 
@@ -106,9 +106,9 @@ static P31ActivityView *activityView = nil;
     [_activityIndicator release];
     [_borderView release];
     [_originalView release];
-    
+
     [super dealloc];
-    
+
     activityView = nil;
 }
 
@@ -135,7 +135,7 @@ static P31ActivityView *activityView = nil;
     [self addSubview:self.borderView];
     [self.borderView addSubview:self.activityIndicator];
     [self.borderView addSubview:self.activityLabel];
-    
+
 	// Animate the view in, if appropriate:
 	[self animateShow];
 }
@@ -148,10 +148,10 @@ static P31ActivityView *activityView = nil;
 {
     if (!activityView)
         return;
-    
+
     if (activityView.showNetworkActivityIndicator)
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
+
     [activityView removeFromSuperview];
 	
     // Remove the global reference:
@@ -196,16 +196,16 @@ static P31ActivityView *activityView = nil;
     if( !_borderView )
     {
         _borderView = [[UIView alloc] initWithFrame:CGRectZero];
-        
+
         _borderView.opaque = NO;
         _borderView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     }
-    
+
     return _borderView;
 }
 
 
-/* 
+/*
  Returns the activity indicator view, creating it if necessary.
 */
 - (UIActivityIndicatorView*)activityIndicator;
@@ -215,7 +215,7 @@ static P31ActivityView *activityView = nil;
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [_activityIndicator startAnimating];
     }
-    
+
     return _activityIndicator;
 }
 
@@ -228,7 +228,7 @@ static P31ActivityView *activityView = nil;
     if (!_activityLabel)
     {
         _activityLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        
+
         _activityLabel.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
         _activityLabel.textAlignment = UITextAlignmentLeft;
         _activityLabel.textColor = [UIColor blackColor];
@@ -236,34 +236,34 @@ static P31ActivityView *activityView = nil;
         _activityLabel.shadowColor = [UIColor whiteColor];
         _activityLabel.shadowOffset = CGSizeMake(0.0, 1.0);
     }
-    
+
     return _activityLabel;
 }
 
 
-/* 
+/*
  Positions and sizes the various views that make up the activity view, including after rotation.
 */
 - (void)layoutSubviews;
 {
     self.frame = [self enclosingFrame];
-    
+
     // If we're animating a transform, don't lay out now, as can't use the frame property when transforming:
     if (!CGAffineTransformIsIdentity(self.borderView.transform))
         return;
-    
+
     CGSize textSize = CGSizeZero;
 	BOOL labelHasText = ( self.activityLabel.text != nil );
 	
 	if( labelHasText )
 		textSize = [self.activityLabel.text sizeWithFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]];
-    
+
     // Use the fixed width if one is specified only if we have text
     if( labelHasText && self.labelWidth > 10 )
         textSize.width = self.labelWidth;
-    
+
     //self.activityLabel.frame = CGRectMake( self.activityLabel.frame.origin.x, self.activityLabel.frame.origin.y, textSize.width, textSize.height );
-    
+
     // Calculate the size and position for the border view: with the indicator to the left of the label, and centered in the receiver:
 	CGRect borderFrame = CGRectZero;
 	
@@ -290,7 +290,7 @@ static P31ActivityView *activityView = nil;
 	indicatorFrame.origin.x = ( labelHasText ) ? 10.0f : 0.0f;
 	indicatorFrame.origin.y = 0.5 * (borderFrame.size.height - indicatorFrame.size.height);
     self.activityIndicator.frame = indicatorFrame;
-    
+
     // Calculate the position of the label: vertically centered and at the right of the border view:
 	if( labelHasText )
 	{
@@ -326,7 +326,7 @@ static P31ActivityView *activityView = nil;
 - (void)setShowNetworkActivityIndicator:(BOOL)showNetworkActivityIndicator;
 {
     _showNetworkActivityIndicator = showNetworkActivityIndicator;
-    
+
     [UIApplication sharedApplication].networkActivityIndicatorVisible = showNetworkActivityIndicator;
 }
 
@@ -351,7 +351,7 @@ static P31ActivityView *activityView = nil;
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [_activityIndicator startAnimating];
     }
-    
+
     return _activityIndicator;
 }
 
@@ -364,11 +364,11 @@ static P31ActivityView *activityView = nil;
     if (!_activityLabel)
     {
         _activityLabel = [super activityLabel];
-        
+
         _activityLabel.textColor = [UIColor whiteColor];
         _activityLabel.shadowColor = [UIColor blackColor];
     }
-    
+
     return _activityLabel;
 }
 
@@ -427,10 +427,10 @@ static UIColor *__actvityLabelFontColor;
 - (CGRect)enclosingFrame;
 {
     CGRect frame = [super enclosingFrame];
-    
+
     if (self.superview != self.originalView)
         frame = [self.originalView convertRect:self.originalView.bounds toView:self.superview];
-    
+
     return frame;
 }
 
@@ -441,7 +441,7 @@ static UIColor *__actvityLabelFontColor;
 - (void)setupBackground;
 {
     [super setupBackground];
-    
+
 	self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
 }
 
@@ -454,12 +454,12 @@ static UIColor *__actvityLabelFontColor;
     if( !_borderView )
     {
         [super borderView];
-        
+
 		UIColor *color = ( __bezelColor ) ? __bezelColor : [UIColor blackColor];
         _borderView.backgroundColor = [color colorWithAlphaComponent:0.6];
         _borderView.layer.cornerRadius = 10.0;
     }
-    
+
     return _borderView;
 }
 
@@ -474,7 +474,7 @@ static UIColor *__actvityLabelFontColor;
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [_activityIndicator startAnimating];
     }
-    
+
     return _activityIndicator;
 }
 
@@ -487,14 +487,14 @@ static UIColor *__actvityLabelFontColor;
     if (!_activityLabel)
     {
         _activityLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        
+
         _activityLabel.font = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
         _activityLabel.textAlignment = UITextAlignmentCenter;
 		UIColor *color = ( __actvityLabelFontColor ) ? __actvityLabelFontColor : [UIColor whiteColor];
         _activityLabel.textColor = color;
         _activityLabel.backgroundColor = [UIColor clearColor];
     }
-    
+
     return _activityLabel;
 }
 
@@ -507,27 +507,27 @@ static UIColor *__actvityLabelFontColor;
     // If we're animating a transform, don't lay out now, as can't use the frame property when transforming:
     if (!CGAffineTransformIsIdentity(self.borderView.transform))
         return;
-    
+
 	
 	
     self.frame = [self enclosingFrame];
-    
+
     CGSize textSize = [self.activityLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:[UIFont systemFontSize]]];
-    
+
     // Use the fixed width if one is specified:
     if (self.labelWidth > 10)
         textSize.width = self.labelWidth;
-    
+
     // Require that the label be at least as wide as the indicator, since that width is used for the border view:
     if (textSize.width < self.activityIndicator.frame.size.width)
         textSize.width = self.activityIndicator.frame.size.width + 10.0;
-    
+
     // If there's no label text, don't need to allow height for it:
     if (self.activityLabel.text.length == 0)
         textSize.height = 0.0;
-    
+
     self.activityLabel.frame = CGRectMake(self.activityLabel.frame.origin.x, self.activityLabel.frame.origin.y, textSize.width, textSize.height);
-    
+
     // Calculate the size and position for the border view: with the indicator vertically above the label, and centered in the receiver:
 	CGRect borderFrame = CGRectZero;
     borderFrame.size.width = textSize.width + 30.0;
@@ -541,7 +541,7 @@ static UIColor *__actvityLabelFontColor;
 	indicatorFrame.origin.x = 0.5 * (borderFrame.size.width - indicatorFrame.size.width);
 	indicatorFrame.origin.y = 20.0;
     self.activityIndicator.frame = indicatorFrame;
-    
+
     // Calculate the position of the label: horizontally centered and near the bottom of the border view:
 	CGRect labelFrame = self.activityLabel.frame;
     labelFrame.origin.x = floor(0.5 * (borderFrame.size.width - labelFrame.size.width));
@@ -557,13 +557,13 @@ static UIColor *__actvityLabelFontColor;
 {
     self.alpha = 0.0;
     self.borderView.transform = CGAffineTransformMakeScale(3.0, 3.0);
-    
+
 	[UIView beginAnimations:nil context:nil];
 //	[UIView setAnimationDuration:5.0];            // Uncomment to see the animation in slow motion
 	
     self.borderView.transform = CGAffineTransformIdentity;
     self.alpha = 1.0;
-    
+
 	[UIView commitAnimations];
 }
 
@@ -575,9 +575,9 @@ static UIColor *__actvityLabelFontColor;
 {
     if (self.showNetworkActivityIndicator)
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
+
     self.borderView.transform = CGAffineTransformIdentity;
-    
+
 	[UIView beginAnimations:nil context:nil];
 //	[UIView setAnimationDuration:5.0];            // Uncomment to see the animation in slow motion
 	[UIView setAnimationDelegate:self];
@@ -585,7 +585,7 @@ static UIColor *__actvityLabelFontColor;
 	
     self.borderView.transform = CGAffineTransformMakeScale(0.5, 0.5);
     self.alpha = 0.0;
-    
+
 	[UIView commitAnimations];
 }
 
@@ -603,7 +603,7 @@ static UIColor *__actvityLabelFontColor;
 {
     if (!activityView)
         return;
-    
+
     if (animated)
         [activityView animateRemove];
     else

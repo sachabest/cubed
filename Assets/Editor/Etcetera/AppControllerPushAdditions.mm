@@ -75,12 +75,38 @@ void UnitySendLocalNotification( UILocalNotification* notification );
 
 + (void)registerForRemoteNotificationTypes:(NSNumber*)types
 {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+	
+	if( [[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)] )
+	{
+		UIUserNotificationSettings *pushSettings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil];
+		[[UIApplication sharedApplication] registerUserNotificationSettings:pushSettings];
+	}
+	else
+	{
+		[[UIApplication sharedApplication] registerForRemoteNotificationTypes:[types intValue]];
+	}
+
+#else
+
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:[types intValue]];
+
+#endif
 }
 
 
 + (NSNumber*)enabledRemoteNotificationTypes
 {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+	
+	if( [[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)] )
+	{
+		UIUserNotificationSettings *pushSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+		return @( pushSettings.types );
+	}
+
+#endif
+
 	int val = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
 	return [NSNumber numberWithInt:val];
 }
@@ -160,6 +186,16 @@ void UnitySendLocalNotification( UILocalNotification* notification );
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark UIApplicationDelegate
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+
+- (void)application:(UIApplication*)application didRegisterUserNotificationSettings:(UIUserNotificationSettings*)notificationSettings
+{
+	[application registerForRemoteNotifications];
+}
+
+#endif
+
+
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
 	UnitySendDeviceToken( deviceToken );
@@ -172,7 +208,7 @@ void UnitySendLocalNotification( UILocalNotification* notification );
 	UnitySendMessage( "EtceteraManager", "remoteRegistrationDidSucceed", [deviceTokenString UTF8String] );
 
 	// If this is a user deregistering for notifications, dont proceed past this point
-	if( [[UIApplication sharedApplication] enabledRemoteNotificationTypes] == UIRemoteNotificationTypeNone )
+	if( [APPCONTROLLER_CLASS enabledRemoteNotificationTypes] == 0 )
 	{
 		NSLog( @"Notifications are disabled for this application. Not registering with Urban Airship" );
 		return;

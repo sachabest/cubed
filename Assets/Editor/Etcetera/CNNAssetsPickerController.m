@@ -1,19 +1,19 @@
 
 /*
  The MIT License (MIT)
- 
+
  Copyright (c) 2013 Clement CN Tsang
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,7 +21,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
- 
+
  */
 
 
@@ -120,17 +120,17 @@
 - (id)init
 {
     CNNAssetsGroupViewController *groupViewController = [[CNNAssetsGroupViewController alloc] init];
-    
+
     if( ( self = [super initWithRootViewController:groupViewController] ) )
     {
         self.maximumNumberOfSelection   = NSIntegerMax;
         self.assetsFilter               = [ALAssetsFilter allAssets];
         self.showsCancelButton          = YES;
-        
+
         if( [self respondsToSelector:@selector(setContentSizeForViewInPopover:)] )
             [self setContentSizeForViewInPopover:kPopoverContentSize];
     }
-    
+
     return self;
 }
 
@@ -158,7 +158,7 @@
         if( [self respondsToSelector:@selector(setContentSizeForViewInPopover:)] )
             [self setContentSizeForViewInPopover:kPopoverContentSize];
     }
-    
+
     return self;
 }
 
@@ -195,7 +195,7 @@
 - (void)setupButtons
 {
     CNNAssetsPickerController *picker = (CNNAssetsPickerController *)self.navigationController;
-    
+
     if (picker.showsCancelButton)
     {
         self.navigationItem.rightBarButtonItem =
@@ -217,38 +217,38 @@
 {
     if ( !self.assetsLibrary)
         self.assetsLibrary = [self.class defaultAssetsLibrary];
-    
+
     if (!self.groups)
         self.groups = [[NSMutableArray alloc] init];
     else
         [self.groups removeAllObjects];
-    
+
     CNNAssetsPickerController *picker = (CNNAssetsPickerController *)self.navigationController;
     ALAssetsFilter *assetsFilter = picker.assetsFilter;
-    
+
     ALAssetsLibraryGroupsEnumerationResultsBlock resultsBlock = ^(ALAssetsGroup *group, BOOL *stop) {
-        
+
         if (group)
         {
             [group setAssetsFilter:assetsFilter];
-            
+
             if (group.numberOfAssets > 0)
                 [self.groups addObject:group];
-            
+
         }
         else
         {
             [self reloadData];
         }
     };
-    
-    
+
+
     ALAssetsLibraryAccessFailureBlock failureBlock = ^(NSError *error) {
-        
+
         [self showNotAllowed];
 
     };
-    
+
     // Enumerate Camera roll first
     [self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
                                       usingBlock:resultsBlock
@@ -258,7 +258,7 @@
     NSUInteger type =
     ALAssetsGroupLibrary | ALAssetsGroupAlbum | ALAssetsGroupEvent |
     ALAssetsGroupFaces | ALAssetsGroupPhotoStream;
-    
+
     [self.assetsLibrary enumerateGroupsWithTypes:type
                                       usingBlock:resultsBlock
                                     failureBlock:failureBlock];
@@ -269,7 +269,7 @@
 {
     if (self.groups.count == 0)
         [self showNoAssets];
-    
+
     [self.tableView reloadData];
 }
 
@@ -293,46 +293,46 @@
 - (void)showNotAllowed
 {
     self.title              = nil;
-    
+
     UIView *lockedView      = [[UIView alloc] initWithFrame:self.view.bounds];
     UIImageView *locked     = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"AssetsPickerLocked"]];
-    
-    
+
+
     CGRect rect             = CGRectInset(self.view.bounds, 8, 8);
     UILabel *title          = [[UILabel alloc] initWithFrame:rect];
     UILabel *message        = [[UILabel alloc] initWithFrame:rect];
-    
+
     title.text              = NSLocalizedString(@"This app does not have access to your photos or videos.", nil);
     title.font              = [UIFont boldSystemFontOfSize:17.0];
     title.textColor         = [UIColor colorWithRed:129.0/255.0 green:136.0/255.0 blue:148.0/255.0 alpha:1];
     title.textAlignment     = NSTextAlignmentCenter;
     title.numberOfLines     = 5;
-    
+
     message.text            = NSLocalizedString(@"You can enable access in Privacy Settings.", nil);
     message.font            = [UIFont systemFontOfSize:14.0];
     message.textColor       = [UIColor colorWithRed:129.0/255.0 green:136.0/255.0 blue:148.0/255.0 alpha:1];
     message.textAlignment   = NSTextAlignmentCenter;
     message.numberOfLines   = 5;
-    
+
     [title sizeToFit];
     [message sizeToFit];
-    
+
     locked.center           = CGPointMake(lockedView.center.x, lockedView.center.y - 40);
     title.center            = locked.center;
     message.center          = locked.center;
-    
+
     rect                    = title.frame;
     rect.origin.y           = locked.frame.origin.y + locked.frame.size.height + 20;
     title.frame             = rect;
-    
+
     rect                    = message.frame;
     rect.origin.y           = title.frame.origin.y + title.frame.size.height + 10;
     message.frame           = rect;
-    
+
     [lockedView addSubview:locked];
     [lockedView addSubview:title];
     [lockedView addSubview:message];
-    
+
     self.tableView.tableHeaderView  = lockedView;
     self.tableView.scrollEnabled    = NO;
 }
@@ -344,28 +344,28 @@
     CGRect rect             = CGRectInset(self.view.bounds, 10, 10);
     UILabel *title          = [[UILabel alloc] initWithFrame:rect];
     UILabel *message        = [[UILabel alloc] initWithFrame:rect];
-    
+
     title.text              = NSLocalizedString(@"No Photos or Videos", nil);
     title.font              = [UIFont systemFontOfSize:26.0];
     title.textColor         = [UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1];
     title.textAlignment     = NSTextAlignmentCenter;
     title.numberOfLines     = 5;
-    
+
     message.text            = NSLocalizedString(@"You can sync photos and videos onto your iPhone using iTunes.", nil);
     message.font            = [UIFont systemFontOfSize:18.0];
     message.textColor       = [UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1];
     message.textAlignment   = NSTextAlignmentCenter;
     message.numberOfLines   = 5;
-    
+
     [title sizeToFit];
     [message sizeToFit];
-    
+
     title.center            = CGPointMake(noAssetsView.center.x, noAssetsView.center.y - 10 - title.frame.size.height / 2);
     message.center          = CGPointMake(noAssetsView.center.x, noAssetsView.center.y + 10 + message.frame.size.height / 2);
-    
+
     [noAssetsView addSubview:title];
     [noAssetsView addSubview:message];
-    
+
     self.tableView.tableHeaderView  = noAssetsView;
     self.tableView.scrollEnabled    = NO;
 }
@@ -387,15 +387,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    
+
     CTAssetsGroupViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
         cell = [[CTAssetsGroupViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    
+
     [cell bind:[self.groups objectAtIndex:indexPath.row]];
-    
+
     return cell;
 }
 
@@ -421,10 +421,10 @@
 - (void)dismiss:(id)sender
 {
     CNNAssetsPickerController *picker = (CNNAssetsPickerController *)self.navigationController;
-    
+
     if ([picker.delegate respondsToSelector:@selector(assetsPickerControllerDidCancel:)])
         [picker.delegate assetsPickerControllerDidCancel:picker];
-    
+
     [picker.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -440,11 +440,11 @@
 - (void)bind:(ALAssetsGroup *)assetsGroup
 {
     self.assetsGroup            = assetsGroup;
-    
+
     CGImageRef posterImage      = assetsGroup.posterImage;
     size_t height               = CGImageGetHeight(posterImage);
     float scale                 = height / kThumbnailLength;
-    
+
     self.imageView.image        = [UIImage imageWithCGImage:posterImage scale:scale orientation:UIImageOrientationUp];
     self.textLabel.text         = [assetsGroup valueForProperty:ALAssetsGroupPropertyName];
     self.detailTextLabel.text   = [NSString stringWithFormat:@"%d", [assetsGroup numberOfAssets]];
@@ -454,7 +454,7 @@
 - (NSString *)accessibilityLabel
 {
     NSString *label = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
-    
+
     return [label stringByAppendingFormat:NSLocalizedString(@"%d Photos", nil), [self.assetsGroup numberOfAssets]];
 }
 
@@ -478,25 +478,25 @@
     layout.minimumInteritemSpacing      = 2.0;
     layout.minimumLineSpacing           = 2.0;
     layout.footerReferenceSize          = CGSizeMake(0, 44.0);
-    
+
     if( ( self = [super initWithCollectionViewLayout:layout] ) )
     {
         self.collectionView.allowsMultipleSelection = YES;
-        
+
         [self.collectionView registerClass:[CTAssetsViewCell class]
                 forCellWithReuseIdentifier:kAssetsViewCellIdentifier];
-        
+
         [self.collectionView registerClass:[CTAssetsSupplementaryView class]
                 forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
                        withReuseIdentifier:kAssetsSupplementaryViewIdentifier];
-        
+
         if( [self respondsToSelector:@selector(setEdgesForExtendedLayout:)] )
             [self setEdgesForExtendedLayout:UIRectEdgeNone];
-        
+
         if( [self respondsToSelector:@selector(setContentSizeForViewInPopover:)] )
             [self setContentSizeForViewInPopover:kPopoverContentSize];
     }
-    
+
     return self;
 }
 
@@ -521,7 +521,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setupAssets];    
+    [self setupAssets];
 }
 
 
@@ -547,20 +547,20 @@
 - (void)setupAssets
 {
     self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
-    
+
     if( !self.assets )
         self.assets = [[NSMutableArray alloc] init];
     else
         [self.assets removeAllObjects];
-    
+
     ALAssetsGroupEnumerationResultsBlock resultsBlock = ^(ALAsset *asset, NSUInteger index, BOOL *stop) {
 
         if( asset )
         {
             [self.assets addObject:asset];
-            
+
             NSString *type = [asset valueForProperty:ALAssetPropertyType];
-            
+
             if( [type isEqual:ALAssetTypePhoto] )
                 self.numberOfPhotos ++;
             if( [type isEqual:ALAssetTypeVideo] )
@@ -574,7 +574,7 @@
                                                 animated:YES];
         }
     };
-    
+
     [self.assetsGroup enumerateAssetsUsingBlock:resultsBlock];
 }
 
@@ -597,11 +597,11 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = kAssetsViewCellIdentifier;
-    
+
     CTAssetsViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
 
     [cell bind:[self.assets objectAtIndex:indexPath.row]];
-    
+
     return cell;
 }
 
@@ -609,12 +609,12 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *viewIdentifiert = kAssetsSupplementaryViewIdentifier;
-    
+
     CTAssetsSupplementaryView *view =
     [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:viewIdentifiert forIndexPath:indexPath];
-    
+
     [view setNumberOfPhotos:self.numberOfPhotos numberOfVideos:self.numberOfVideos];
-    
+
     return view;
 }
 
@@ -625,7 +625,7 @@
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CNNAssetsPickerController *vc = (CNNAssetsPickerController *)self.navigationController;
-    
+
     return ([collectionView indexPathsForSelectedItems].count < vc.maximumNumberOfSelection);
 }
 
@@ -651,26 +651,26 @@
         self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
         return;
     }
-    
+
     BOOL photosSelected = NO;
     BOOL videoSelected  = NO;
-    
+
     for( NSIndexPath *indexPath in indexPaths )
     {
         ALAsset *asset = [self.assets objectAtIndex:indexPath.item];
-        
+
         if( [[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypePhoto] )
             photosSelected  = YES;
-        
+
         if( [[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo] )
             videoSelected   = YES;
-        
+
         if( photosSelected && videoSelected )
             break;
     }
-    
+
     NSString *format;
-    
+
     if( photosSelected && videoSelected )
         format = NSLocalizedString(@"%d Items Selected", nil);
     else if( photosSelected )
@@ -678,7 +678,7 @@
 
     else if( videoSelected )
         format = (indexPaths.count > 1) ? NSLocalizedString(@"%d Videos Selected", nil) : NSLocalizedString(@"%d Video Selected", nil);
-    
+
     self.title = [NSString stringWithFormat:format, indexPaths.count];
 }
 
@@ -689,15 +689,15 @@
 - (void)finishPickingAssets:(id)sender
 {
     NSMutableArray *assets = [[NSMutableArray alloc] init];
-    
+
     for( NSIndexPath *indexPath in self.collectionView.indexPathsForSelectedItems )
         [assets addObject:[self.assets objectAtIndex:indexPath.item]];
-    
+
     CNNAssetsPickerController *picker = (CNNAssetsPickerController *)self.navigationController;
-    
+
     if( [picker.delegate respondsToSelector:@selector(assetsPickerController:didFinishPickingAssets:)] )
         [picker.delegate assetsPickerController:picker didFinishPickingAssets:assets];
-    
+
     [picker.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -746,14 +746,14 @@ static UIColor *selectedColor;
 + (NSDateComponents*)componetsWithTimeInterval:(NSTimeInterval)timeInterval
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    
+
     NSDate *date1 = [[NSDate alloc] init];
     NSDate *date2 = [[NSDate alloc] initWithTimeInterval:timeInterval sinceDate:date1];
-    
+
     unsigned int unitFlags =
     NSSecondCalendarUnit | NSMinuteCalendarUnit | NSHourCalendarUnit |
     NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit;
-    
+
     return [calendar components:unitFlags
                        fromDate:date1
                          toDate:date2
@@ -764,7 +764,7 @@ static UIColor *selectedColor;
 + (NSString*)timeDescriptionOfTimeInterval:(NSTimeInterval)timeInterval
 {
     NSDateComponents *components = [CTAssetsViewCell componetsWithTimeInterval:timeInterval];
-    
+
     if( components.hour > 0 )
         return [NSString stringWithFormat:@"%d:%02d:%02d", components.hour, components.minute, components.second];
     else
@@ -780,7 +780,7 @@ static UIColor *selectedColor;
         self.isAccessibilityElement     = YES;
         self.accessibilityTraits        = UIAccessibilityTraitImage;
     }
-    
+
     return self;
 }
 
@@ -806,7 +806,7 @@ static UIColor *selectedColor;
 {
     // Image
     [self.image drawInRect:CGRectMake( 0, 0, kThumbnailLength, kThumbnailLength )];
-    
+
     // Video title
     if( [self.type isEqual:ALAssetTypeVideo] )
     {
@@ -816,21 +816,21 @@ static UIColor *selectedColor;
             0.0, 0.0, 0.0, 0.8,
             0.0, 0.0, 0.0, 1.0
         };
-        
+
         CGFloat locations [] = {0.0, 0.75, 1.0};
-        
+
         CGColorSpaceRef baseSpace   = CGColorSpaceCreateDeviceRGB();
         CGGradientRef gradient      = CGGradientCreateWithColorComponents(baseSpace, colors, locations, 2);
-        
+
         CGContextRef context    = UIGraphicsGetCurrentContext();
-        
+
         CGFloat height          = rect.size.height;
         CGPoint startPoint      = CGPointMake(CGRectGetMidX(rect), height - titleHeight);
         CGPoint endPoint        = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
-        
+
         CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, kCGGradientDrawsBeforeStartLocation);
 
-        
+
         CGSize titleSize        = [self.title sizeWithFont:titleFont];
         [titleColor set];
         [self.title drawAtPoint:CGPointMake(rect.size.width - titleSize.width - 2 , startPoint.y + (titleHeight - 12) / 2)
@@ -839,16 +839,16 @@ static UIColor *selectedColor;
                        fontSize:12
                   lineBreakMode:NSLineBreakByTruncatingTail
              baselineAdjustment:UIBaselineAdjustmentAlignCenters];
-        
+
         [videoIcon drawAtPoint:CGPointMake( 2, startPoint.y + (titleHeight - videoIcon.size.height) / 2 )];
     }
-    
+
     if( self.selected )
     {
         CGContextRef context    = UIGraphicsGetCurrentContext();
 		CGContextSetFillColorWithColor( context, selectedColor.CGColor );
 		CGContextFillRect( context, rect );
-        
+
         [checkedIcon drawAtPoint:CGPointMake( CGRectGetMaxX( rect ) - checkedIcon.size.width, CGRectGetMinY( rect ) )];
     }
 }
@@ -857,13 +857,13 @@ static UIColor *selectedColor;
 - (NSString *)accessibilityLabel
 {
     ALAssetRepresentation *representation = self.asset.defaultRepresentation;
-    
+
     NSMutableArray *labels          = [[NSMutableArray alloc] init];
     NSString *type                  = [self.asset valueForProperty:ALAssetPropertyType];
     NSDate *date                    = [self.asset valueForProperty:ALAssetPropertyDate];
     CGSize dimension                = representation.dimensions;
 
-    
+
     // Type
     if ([type isEqual:ALAssetTypeVideo])
         [labels addObject:NSLocalizedString(@"Video", nil)];
@@ -875,16 +875,16 @@ static UIColor *selectedColor;
         [labels addObject:NSLocalizedString(@"Portrait", nil)];
     else
         [labels addObject:NSLocalizedString(@"Landscape", nil)];
-    
+
     // Date
     NSDateFormatter *df             = [[NSDateFormatter alloc] init];
     df.locale                       = [NSLocale currentLocale];
     df.dateStyle                    = NSDateFormatterMediumStyle;
     df.timeStyle                    = NSDateFormatterShortStyle;
     df.doesRelativeDateFormatting   = YES;
-    
+
     [labels addObject:[df stringFromDate:date]];
-    
+
     return [labels componentsJoinedByString:@", "];
 }
 
@@ -905,10 +905,10 @@ static UIColor *selectedColor;
         _sectionLabel               = [[UILabel alloc] initWithFrame:CGRectInset(self.bounds, 8.0, 8.0)];
         _sectionLabel.font          = [UIFont systemFontOfSize:18.0];
         _sectionLabel.textAlignment = NSTextAlignmentCenter;
-        
+
         [self addSubview:_sectionLabel];
     }
-    
+
     return self;
 }
 
@@ -916,14 +916,14 @@ static UIColor *selectedColor;
 - (void)setNumberOfPhotos:(NSInteger)numberOfPhotos numberOfVideos:(NSInteger)numberOfVideos
 {
     NSString *title;
-    
+
     if (numberOfVideos == 0)
         title = [NSString stringWithFormat:NSLocalizedString(@"%d Photos", nil), numberOfPhotos];
     else if (numberOfPhotos == 0)
         title = [NSString stringWithFormat:NSLocalizedString(@"%d Videos", nil), numberOfVideos];
     else
         title = [NSString stringWithFormat:NSLocalizedString(@"%d Photos, %d Videos", nil), numberOfPhotos, numberOfVideos];
-    
+
     self.sectionLabel.text = title;
 }
 

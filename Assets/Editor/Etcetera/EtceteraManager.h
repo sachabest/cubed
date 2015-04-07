@@ -12,6 +12,8 @@
 #import "CNNAssetsPickerController.h"
 
 
+#define SYSTEM_VERSION_LESS_THAN( v )  ( [[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending )
+
 typedef enum
 {
 	PhotoTypeCamera,
@@ -20,12 +22,10 @@ typedef enum
 } PhotoType;
 
 
-@interface EtceteraManager : NSObject <UIAlertViewDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,
+@interface EtceteraManager : NSObject <UIAlertViewDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UIPopoverControllerDelegate,
 										UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, CNNAssetsPickerControllerDelegate>
 {
 @private
-	id _popoverViewController;
-	
 	float _hoursBetweenPrompts;
 }
 @property (nonatomic, retain) NSString *urbanAirshipAppKey;
@@ -33,16 +33,18 @@ typedef enum
 @property (nonatomic, retain) NSString *urbanAirshipAlias;
 @property (nonatomic, retain) NSString *iTunesUrl;
 @property (nonatomic, assign) float scaledImageSize;
+@property (nonatomic, assign) int maxPhotoPickerImageWidthOrHeight;
 @property (nonatomic, assign) CGRect popoverRect;
 @property (nonatomic, assign) BOOL pickerAllowsEditing;
 @property (nonatomic, assign) float JPEGCompression;
-@property (nonatomic, retain) id popoverViewController;
+@property (nonatomic, retain) UIPopoverController *popoverViewController;
 
 @property (nonatomic, retain) UIView *keyboardView;
 @property (nonatomic, retain) UIColor *borderColor;
 @property (nonatomic, retain) UIColor *gradientStopOne;
 @property (nonatomic, retain) UIColor *gradientStopTwo;
 @property (nonatomic, retain) UIWebView *inlineWebView;
+@property (nonatomic, assign) BOOL handledActionSheetCallback;
 
 
 + (EtceteraManager*)sharedManager;
@@ -92,6 +94,8 @@ typedef enum
 - (void)askForReviewWithLaunchCount:(int)launchCount hoursBetweenPrompts:(float)hoursBetweenPrompts title:(NSString*)title message:(NSString*)message iTunesAppId:(NSString*)iTunesAppId;
 
 - (void)askForReviewWithTitle:(NSString*)title message:(NSString*)message iTunesAppId:(NSString*)iTunesAppId;
+
+- (void)openAppStoreReviewPageWithiTunesAppId:(NSString*)iTunesAppId;
 
 
 // Photo and Photo Library

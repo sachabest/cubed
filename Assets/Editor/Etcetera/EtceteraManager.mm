@@ -16,7 +16,11 @@
 #import <CommonCrypto/CommonDigest.h>
 
 
+#if UNITY_VERSION < 500
 void UnityPause( bool pause );
+#else
+void UnityPause( int pause );
+#endif
 
 void UnitySendMessage( const char * className, const char * methodName, const char * param );
 
@@ -51,10 +55,10 @@ UIColor * ColorFromHex( int hexcolor )
 
 @implementation EtceteraManager
 
-@synthesize urbanAirshipAppKey = _urbanAirshipAppKey, urbanAirshipAppSecret = _urbanAirshipAppSecret, iTunesUrl = _iTunesUrl, scaledImageSize = _scaledImageSize,
-			borderColor = _borderColor, gradientStopOne = _gradientStopOne, gradientStopTwo = _gradientStopTwo,
-			popoverRect, pickerAllowsEditing = _pickerAllowsEditing, popoverViewController = _popoverViewController, urbanAirshipAlias,
-			inlineWebView;
+@synthesize urbanAirshipAppKey = _urbanAirshipAppKey, urbanAirshipAppSecret, iTunesUrl, scaledImageSize,
+			borderColor, gradientStopOne, gradientStopTwo,
+			popoverRect, pickerAllowsEditing, popoverViewController, urbanAirshipAlias,
+			inlineWebView, maxPhotoPickerImageWidthOrHeight, handledActionSheetCallback;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Class Methods
@@ -63,7 +67,7 @@ UIColor * ColorFromHex( int hexcolor )
 {
     // Create a new UUID
     CFUUIDRef uuidObj = CFUUIDCreate( nil );
-    
+
     // Get the string representation of the UUID
     NSString *newUUID = (NSString*)CFUUIDCreateString( nil, uuidObj );
     CFRelease( uuidObj );
@@ -130,9 +134,10 @@ UIColor * ColorFromHex( int hexcolor )
 	if( ( self = [super init] ) )
 	{
 		_JPEGCompression = 0.8;
-		_pickerAllowsEditing = NO;
-		_scaledImageSize = 1.0f;
-		popoverRect = CGRectMake( 20, 15, 10, 0 );
+		self.pickerAllowsEditing = NO;
+		self.scaledImageSize = 1.0f;
+		self.popoverRect = CGRectMake( 20, 15, 10, 0 );
+		self.maxPhotoPickerImageWidthOrHeight = 4096;
 	}
 	return self;
 }
@@ -140,6 +145,35 @@ UIColor * ColorFromHex( int hexcolor )
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Private
+
+- (UIImage*)constrainImageToMaxSize:(UIImage*)image
+{
+	// reset the scaledImageSize since we will be messing with the image size anyway
+	self.scaledImageSize = 1.0;
+	float scale = 1.0;
+	
+	// figure out our scale. it could be based on width or height so check both
+	if( image.size.width > self.maxPhotoPickerImageWidthOrHeight )
+		scale = self.maxPhotoPickerImageWidthOrHeight / image.size.width;
+	else
+		scale = self.maxPhotoPickerImageWidthOrHeight / image.size.height;
+	
+	return [self scaleImage:image toSize:CGSizeMake( image.size.width * scale, image.size.height * scale )];
+}
+
+
+- (UIImage*)scaleImage:(UIImage*)image toSize:(CGSize)size
+{
+	UIGraphicsBeginImageContext( size );
+	[image drawInRect:CGRectMake( 0, 0, size.width, size.height )];
+	UIImage *targetImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	image = targetImage;
+	
+	return image;
+}
+
 
 - (void)showViewControllerModallyInWrapper:(UIViewController*)viewController
 {
@@ -183,9 +217,9 @@ UIColor * ColorFromHex( int hexcolor )
 - (void)removeAndReleaseViewControllerWrapper
 {
 	// iPad might have a popover
-	if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && _popoverViewController )
+	if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && self.popoverViewController )
 	{
-		[_popoverViewController dismissPopoverAnimated:YES];
+		[self.popoverViewController dismissPopoverAnimated:YES];
 		self.popoverViewController = nil;
 	}
 }
@@ -245,7 +279,7 @@ UIColor * ColorFromHex( int hexcolor )
 {
 	UnityPause( true );
 	
-	// we can use the fancy new Alertview if we are on iOS 5+
+	// we will use the fancy new style Alertview
 	UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:NSLocalizedString( @"Cancel", nil ) otherButtonTitles:NSLocalizedString( @"OK", nil ), nil] autorelease];
 	alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
 	alertView.tag = kSingleFieldAlertTag;
@@ -255,6 +289,8 @@ UIColor * ColorFromHex( int hexcolor )
 	tf.placeholder = placeHolder;
 	if( !autocorrect )
 		tf.autocorrectionType = UITextAutocorrectionTypeNo;
+	else
+		tf.autocorrectionType = UITextAutocorrectionTypeDefault;
 	
 	[alertView show];
 }
@@ -281,6 +317,11 @@ UIColor * ColorFromHex( int hexcolor )
 	{
 		[alertView textFieldAtIndex:0].autocorrectionType = UITextAutocorrectionTypeNo;
 		[alertView textFieldAtIndex:1].autocorrectionType = UITextAutocorrectionTypeNo;
+	}
+	else
+	{
+		[alertView textFieldAtIndex:0].autocorrectionType = UITextAutocorrectionTypeDefault;
+		[alertView textFieldAtIndex:1].autocorrectionType = UITextAutocorrectionTypeDefault;
 	}
 	
 	// If the second placeHolder has 'password' in it, make it a password field
@@ -491,34 +532,35 @@ UIColor * ColorFromHex( int hexcolor )
 }
 
 
+- (void)openAppStoreReviewPageWithiTunesAppId:(NSString*)iTunesAppId
+{
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self iTunesUrlForAppId:iTunesAppId]]];
+}
+
+
 // Photo Library and Camera
 - (void)showPicker:(UIImagePickerControllerSourceType)type
 {
 	UIImagePickerController *picker = [[[UIImagePickerController alloc] init] autorelease];
 	picker.delegate = self;
 	picker.sourceType = type;
-	picker.allowsEditing = _pickerAllowsEditing;
+	picker.allowsEditing = self.pickerAllowsEditing;
 	
-	// We need to display this in a popover on iPad
-	if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+	
+	if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && SYSTEM_VERSION_LESS_THAN( @"7.0" ) )
 	{
-		Class popoverClass = NSClassFromString( @"UIPopoverController" );
-		if( !popoverClass )
-			return;
-		
-		_popoverViewController = [[popoverClass alloc] initWithContentViewController:picker];
-		[_popoverViewController setDelegate:self];
+		self.popoverViewController = [[UIPopoverController alloc] initWithContentViewController:picker];
+		self.popoverViewController.delegate = self;
 		//picker.modalInPopover = YES;
 		
 		// Display the popover
-		[_popoverViewController presentPopoverFromRect:popoverRect
+		[self.popoverViewController presentPopoverFromRect:popoverRect
 												inView:UnityGetGLViewController().view
 							  permittedArrowDirections:UIPopoverArrowDirectionAny
 											  animated:YES];
 	}
 	else
 	{
-		// wrap and show the modal
 		[self showViewControllerModallyInWrapper:picker];
 	}
 }
@@ -572,6 +614,7 @@ UIColor * ColorFromHex( int hexcolor )
 											  cancelButtonTitle:NSLocalizedString( @"Cancel", nil )
 										 destructiveButtonTitle:nil
 											  otherButtonTitles:NSLocalizedString( @"Take Photo", nil ), NSLocalizedString( @"Choose Existing Photo", nil ), nil];
+	self.handledActionSheetCallback = NO;
 	
 	if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
 		[sheet showFromRect:popoverRect inView:UnityGetGLViewController().view animated:YES];
@@ -620,8 +663,14 @@ UIColor * ColorFromHex( int hexcolor )
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark UIActionSheetDelegate
 
-- (void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)actionSheet:(UIActionSheet*)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+	// guard against iOS calling didDismiss two times
+	if( self.handledActionSheetCallback )
+		return;
+
+	self.handledActionSheetCallback = YES;
+
 	if( buttonIndex == 0 )
 	{
 		[self showPicker:UIImagePickerControllerSourceTypeCamera];
@@ -647,18 +696,18 @@ UIColor * ColorFromHex( int hexcolor )
 	// Grab the image and write it to disk
 	UIImage *image;
 	
-	if( _pickerAllowsEditing )
+	if( self.pickerAllowsEditing )
 		image = [info objectForKey:UIImagePickerControllerEditedImage];
 	else
 		image = [info objectForKey:UIImagePickerControllerOriginalImage];
 	
 	NSLog( @"picker got image with orientation: %i", image.imageOrientation );
 
-	// Do the save and resize on a background thread if we are on iOS 4 > (UIKit is threadsafe there)
-	if( NULL != &UIGraphicsBeginImageContextWithOptions )
-		[self performSelectorInBackground:@selector(processImageFromImagePicker:) withObject:image];
-	else
-		[self performSelector:@selector(processImageFromImagePicker:) withObject:image];
+	// Do the save and resize on a background thread
+	dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0 ),
+	^{
+		[self processImageFromImagePicker:image];
+	});
 
 	// Dimiss the pickerController
 	[self dismissWrappedController];
@@ -669,37 +718,36 @@ UIColor * ColorFromHex( int hexcolor )
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
+	
+	// here we constrain to the maxPhotoPickerImageWidthOrHeight
+	if( image.size.width > self.maxPhotoPickerImageWidthOrHeight || image.size.height > self.maxPhotoPickerImageWidthOrHeight )
+		image = [self constrainImageToMaxSize:image];
+	
+	
+	
 	// Get a filepath pointing to the docs directory
 	NSArray *dirs = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES );
 	NSString *filename = [NSString stringWithFormat:@"%@.jpg", [EtceteraManager stringWithNewUUID]];
 	NSString *filePath = [[dirs objectAtIndex:0] stringByAppendingPathComponent:filename];
 	
+	
+	
 	// Shrink the monster image down
-	if( _scaledImageSize != 1.0f )
+	if( self.scaledImageSize != 1.0f )
 	{
-		float width = image.size.width * _scaledImageSize;
-		float height = image.size.height * _scaledImageSize;
-		CGSize targetSize = CGSizeMake( width, height );
-		UIGraphicsBeginImageContext( targetSize );
-		[image drawInRect:CGRectMake( 0, 0, targetSize.width, targetSize.height )];
-		UIImage *targetImage = UIGraphicsGetImageFromCurrentImageContext();
-		UIGraphicsEndImageContext();
-		
-		image = targetImage;
+		float width = image.size.width * self.scaledImageSize;
+		float height = image.size.height * self.scaledImageSize;
+		image = [self scaleImage:image toSize:CGSizeMake( width, height )];
 	}
 
 	[UIImageJPEGRepresentation( [image imageWithImageDataMatchingOrientation], _JPEGCompression ) writeToFile:filePath atomically:NO];
 	
-	[self performSelectorOnMainThread:@selector(notifyUnityOfSavedImageAtPath:) withObject:filePath waitUntilDone:NO];
+	dispatch_async( dispatch_get_main_queue(),
+	^{
+		UnitySendMessage( "EtceteraManager", "imageSavedToDocuments", filePath.UTF8String );
+	});
 	
 	[pool release];
-}
-
-
-- (void)notifyUnityOfSavedImageAtPath:(NSString*)filePath
-{
-	// Message back to Unity
-	UnitySendMessage( "EtceteraManager", "imageSavedToDocuments", [filePath UTF8String] );	
 }
 
 
@@ -772,7 +820,7 @@ UIColor * ColorFromHex( int hexcolor )
 		}
 	}
 }
-						   
+						
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -852,7 +900,7 @@ UIColor * ColorFromHex( int hexcolor )
 	if( assets.count == 0 )
 	{
 		NSLog( @"no images chosen" );
-		return;
+		UnitySendMessage( "EtceteraManager", "imagePickerDidCancel", "" );
 	}
 	
 	NSArray *dirs = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES );
@@ -861,7 +909,7 @@ UIColor * ColorFromHex( int hexcolor )
 		// prep the image
 		ALAssetRepresentation *representation = asset.defaultRepresentation;
 		UIImage *image = [UIImage imageWithCGImage:representation.fullResolutionImage
-															scale:_scaledImageSize
+															scale:self.scaledImageSize
 														orientation:(UIImageOrientation)representation.orientation];
 		
 		// save to disk
@@ -869,7 +917,7 @@ UIColor * ColorFromHex( int hexcolor )
 		NSString *filePath = [[dirs objectAtIndex:0] stringByAppendingPathComponent:filename];
 		
 		[UIImageJPEGRepresentation( [image imageWithImageDataMatchingOrientation], _JPEGCompression ) writeToFile:filePath atomically:NO];
-		[self notifyUnityOfSavedImageAtPath:filePath];
+		UnitySendMessage( "EtceteraManager", "imageSavedToDocuments", filePath.UTF8String );
 	}
 	
 	UnityPause( false );
@@ -960,8 +1008,8 @@ UIColor * ColorFromHex( int hexcolor )
     // And now we just create a new UIImage from the drawing context
     CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
     UIImage *img = [UIImage imageWithCGImage:cgimg];
-    CGContextRelease(ctx);
-    CGImageRelease(cgimg);
+    CGContextRelease( ctx );
+    CGImageRelease( cgimg );
 	
     return img;
 }

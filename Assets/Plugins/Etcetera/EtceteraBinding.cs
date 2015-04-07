@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
 using Prime31;
@@ -81,6 +82,44 @@ public class EtceteraBinding
     }
 
 
+	#region Pasteboard
+
+	[DllImport("__Internal")]
+	private static extern string _etceteraGetPasteboardString();
+
+	// Gets the current pasteboard string data. Returns NULL if there is none.
+	public static string getPasteboardString()
+	{
+		if( Application.platform == RuntimePlatform.IPhonePlayer )
+			return _etceteraGetPasteboardString();
+		return string.Empty;
+	}
+
+
+	[DllImport("__Internal")]
+	private static extern void _etceteraSetPasteboardString( string str );
+
+	// Sets the pasteboard string data
+	public static void setPasteboardString( string str )
+	{
+		if( Application.platform == RuntimePlatform.IPhonePlayer )
+			_etceteraSetPasteboardString( str );
+	}
+
+
+	[DllImport("__Internal")]
+	private static extern void _etceteraSetPasteboardImage( byte[] bytes, int length );
+
+	// Sets the pasteboard image data. The imageBytes data should be the raw data from a valid image file.
+	public static void setPasteboardImage( byte[] imageBytes )
+	{
+		if( Application.platform == RuntimePlatform.IPhonePlayer )
+			_etceteraSetPasteboardImage( imageBytes, imageBytes.Length );
+	}
+
+	#endregion
+
+
 	#region Language
 
     [DllImport("__Internal")]
@@ -125,7 +164,7 @@ public class EtceteraBinding
 	#region UIAlertView and P31AlertView
 
 	// Shows a standard Apple alert with the given title, message and buttonTitle
-	[System.Obsolete( "Use the _etceteraShowAlertWithTitleMessageAndButtons. This method will be removed." )]
+	[System.Obsolete( "Use the showAlertWithTitleMessageAndButtons. This method will be removed." )]
     public static void showAlertWithTitleMessageAndButton( string title, string message, string buttonTitle )
     {
         if( Application.platform == RuntimePlatform.IPhonePlayer )
@@ -361,6 +400,17 @@ public class EtceteraBinding
     }
 
 
+	[DllImport("__Internal")]
+    private static extern void _etceteraOpenAppStoreReviewPage( string iTunesAppId );
+
+	// Opens App Store to the specified appId
+    public static void openAppStoreReviewPage( string iTunesAppId )
+    {
+        if( Application.platform == RuntimePlatform.IPhonePlayer )
+			_etceteraOpenAppStoreReviewPage( iTunesAppId );
+    }
+
+
     [DllImport("__Internal")]
     private static extern void _etceteraSetPopoverPoint( float xPos, float yPos );
 
@@ -396,8 +446,8 @@ public class EtceteraBinding
         if( Application.platform == RuntimePlatform.IPhonePlayer )
 			_etceteraPromptForPhoto( scaledToSize, (int)promptType, jpegCompression, allowsEditing );
     }
-	
-	
+
+
     [DllImport("__Internal")]
     private static extern void _etceteraPromptForMultiplePhotos( int maxNumberOfPhotos, float scaledToSize, float jpegCompression );
 
@@ -490,6 +540,42 @@ public class EtceteraBinding
         if( Application.platform == RuntimePlatform.IPhonePlayer )
 			_etceteraRegisterForRemoteNotifications( (int)types );
     }
+
+
+	// Registers the deviceToken with GameThrive. Note that a GameThrive app ID is required to use GameThrive.
+	public static IEnumerator registerDeviceWithGameThrive( string gameThriveAppId, string deviceToken, Dictionary<string,string> additionalParameters = null, Action<WWW> completionHandler = null )
+	{
+		var url = string.Format( "https://gamethrive.com/api/v1/players" );
+
+		var parameters = new Dictionary<string,string>();
+		parameters.Add( "device_type", "0" );
+		parameters.Add( "app_id", gameThriveAppId );
+		parameters.Add( "identifier", deviceToken );
+
+		if( additionalParameters != null )
+		{
+			foreach( var key in additionalParameters.Keys )
+				parameters.Add( key, additionalParameters[key] );
+		}
+
+		var json = Json.encode( parameters );
+		var bytes = System.Text.Encoding.UTF8.GetBytes( json );
+
+#if UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_5_0 || UNITY_5_1
+		var headers = new Dictionary<string,string>();
+#else
+		var headers = new Hashtable();
+#endif
+		headers.Add( "Content-Type", "application/json" );
+
+		using( var www = new WWW( url, bytes, headers ) )
+		{
+			yield return www;
+
+			if( completionHandler != null )
+				completionHandler( www );
+		}
+	}
 
 
     [DllImport("__Internal")]
@@ -588,5 +674,28 @@ public class EtceteraBinding
 
 	#endregion
 
+
+    [DllImport("__Internal")]
+    private static extern string _etceteraGetContacts( int startIndex, long count );
+
+    public static List<Contact> getContacts( int startIndex, long count )
+    {
+        if( Application.platform == RuntimePlatform.IPhonePlayer )
+		{
+			var json = _etceteraGetContacts( startIndex, count );
+			return Json.decode<List<Contact>>( json );
+		}
+		return new List<Contact>();
+    }
+
+}
+
+
+
+public class Contact
+{
+	public string name;
+	public List<string> emails;
+	public List<string> phoneNumbers;
 }
 #endif
