@@ -1,0 +1,155 @@
+fileFormatVersion: 2
+guid: 7ef0e8cb4bebb974487464bc78013940
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: bramble
+    100002: bramble 1
+    100004: bramble 2
+    100006: group1
+    100008: group10
+    100010: group2
+    100012: group3
+    100014: group6
+    100016: group7
+    100018: group8
+    100020: group9
+    100022: head
+    100024: //RootNode
+    100026: plant
+    100028: pPlane1
+    100030: StrangeFlower:bramble
+    100032: StrangeFlower:StrangeFlower_MESH
+    400000: bramble
+    400002: bramble 1
+    400004: bramble 2
+    400006: group1
+    400008: group10
+    400010: group2
+    400012: group3
+    400014: group6
+    400016: group7
+    400018: group8
+    400020: group9
+    400022: head
+    400024: //RootNode
+    400026: plant
+    400028: pPlane1
+    400030: StrangeFlower:bramble
+    400032: StrangeFlower:StrangeFlower_MESH
+    2300000: bramble
+    2300002: bramble 1
+    2300004: bramble 2
+    2300006: pPlane1
+    2300008: StrangeFlower:bramble
+    2300010: StrangeFlower:StrangeFlower_MESH
+    3300000: bramble
+    3300002: bramble 1
+    3300004: bramble 2
+    3300006: pPlane1
+    3300008: StrangeFlower:bramble
+    3300010: StrangeFlower:StrangeFlower_MESH
+    4300000: pPlane1
+    4300002: StrangeFlower:StrangeFlower_MESH
+    4300004: bramble
+    4300006: bramble
+    4300008: StrangeFlower:bramble
+    4300010: bramble
+    7400000: Start
+    7400002: Idle
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations:
+    - name: Start
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 230
+      wrapMode: 1
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      keepAdditionalBonesAnimation: 1
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      skeletonMaskElements: []
+    - name: Idle
+      takeName: Take 001
+      firstFrame: 230
+      lastFrame: 330
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      keepAdditionalBonesAnimation: 1
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      skeletonMaskElements: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 1
+  userData: 

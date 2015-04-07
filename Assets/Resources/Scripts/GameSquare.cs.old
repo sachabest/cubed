@@ -1,0 +1,73 @@
+using UnityEngine;
+using System.Collections;
+//[SerializeAll]
+public class GameSquare : MonoBehaviour 
+{
+	private GameManager manager;
+	public int xval;
+	public int yval;
+	public int _tier, _player;
+	
+	private GameObject piece;
+	private Material material;
+
+	// Use this for initialization
+	void Start () 
+	{
+		material = (Material)Resources.Load("Materials/transparent");
+		piece = null;
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	}
+	public void SetManager(GameManager mgr) {
+		this.manager = mgr;
+	}
+	public void setMaterial(Material mat)
+	{
+		material = mat;
+		this.renderer.material = material;
+	}
+	public bool hasPiece()
+	{
+		return piece!=null;
+	}
+	public void DestroyPiece()
+	{
+		Destroy(piece);
+	}
+	public void OnMouseEnter()
+	{
+		if (!manager.mouseUI)
+			this.renderer.material = (Material)Resources.Load("Materials/highlight");
+	}
+	public void OnMouseExit()
+	{
+		this.renderer.material = material;
+	}
+	public void OnMouseDown()
+	{
+		if (!manager.mouseUI)
+			manager.HandleClick(xval, yval);
+	}
+	public void SetColor(int player, int tier)
+	{
+		Debug.Log ("Set Color "+xval+", "+yval+" to tier "+tier);
+		_tier = tier;
+		_player = player;
+		material = (Material)Resources.Load("Materials/transparent");
+		this.renderer.material = material;
+		piece = manager.pieceManager.GetPiece(player-1, tier);
+		piece.SetActive(true);
+		piece.transform.position = this.transform.position;
+		if (piece.audio != null)
+			piece.audio.Play();
+		if(tier==3&&player==1){return;}
+		if (piece.animation != null) {
+			piece.animation.PlayQueued("Start",QueueMode.PlayNow);
+			piece.animation.PlayQueued("Idle");
+			piece.animation["Idle"].wrapMode = WrapMode.Loop;
+		}
+	}
+}

@@ -1,0 +1,440 @@
+fileFormatVersion: 2
+guid: a713b2942e9c6c34bb3fccb3e7c70f2f
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: group3
+    100002: //RootNode
+    100004: Life9_2013:grassClump2MeshGroup
+    100006: Life9_2013:grassClump2MeshGroup 1
+    100008: Life9_2013:grassClump2MeshGroup 10
+    100010: Life9_2013:grassClump2MeshGroup 11
+    100012: Life9_2013:grassClump2MeshGroup 12
+    100014: Life9_2013:grassClump2MeshGroup 13
+    100016: Life9_2013:grassClump2MeshGroup 14
+    100018: Life9_2013:grassClump2MeshGroup 15
+    100020: Life9_2013:grassClump2MeshGroup 16
+    100022: Life9_2013:grassClump2MeshGroup 17
+    100024: Life9_2013:grassClump2MeshGroup 2
+    100026: Life9_2013:grassClump2MeshGroup 3
+    100028: Life9_2013:grassClump2MeshGroup 4
+    100030: Life9_2013:grassClump2MeshGroup 5
+    100032: Life9_2013:grassClump2MeshGroup 6
+    100034: Life9_2013:grassClump2MeshGroup 7
+    100036: Life9_2013:grassClump2MeshGroup 8
+    100038: Life9_2013:grassClump2MeshGroup 9
+    100040: Life9_2013:grassClump3MeshGroup
+    100042: Life9_2013:grassClump3MeshGroup 1
+    100044: Life9_2013:grassClump3MeshGroup 10
+    100046: Life9_2013:grassClump3MeshGroup 11
+    100048: Life9_2013:grassClump3MeshGroup 12
+    100050: Life9_2013:grassClump3MeshGroup 13
+    100052: Life9_2013:grassClump3MeshGroup 14
+    100054: Life9_2013:grassClump3MeshGroup 15
+    100056: Life9_2013:grassClump3MeshGroup 16
+    100058: Life9_2013:grassClump3MeshGroup 17
+    100060: Life9_2013:grassClump3MeshGroup 2
+    100062: Life9_2013:grassClump3MeshGroup 3
+    100064: Life9_2013:grassClump3MeshGroup 4
+    100066: Life9_2013:grassClump3MeshGroup 5
+    100068: Life9_2013:grassClump3MeshGroup 6
+    100070: Life9_2013:grassClump3MeshGroup 7
+    100072: Life9_2013:grassClump3MeshGroup 8
+    100074: Life9_2013:grassClump3MeshGroup 9
+    100076: Life9_2013:grassClump4MeshGroup
+    100078: Life9_2013:grassClump4MeshGroup 1
+    100080: Life9_2013:grassClump4MeshGroup 10
+    100082: Life9_2013:grassClump4MeshGroup 11
+    100084: Life9_2013:grassClump4MeshGroup 12
+    100086: Life9_2013:grassClump4MeshGroup 13
+    100088: Life9_2013:grassClump4MeshGroup 14
+    100090: Life9_2013:grassClump4MeshGroup 15
+    100092: Life9_2013:grassClump4MeshGroup 16
+    100094: Life9_2013:grassClump4MeshGroup 17
+    100096: Life9_2013:grassClump4MeshGroup 2
+    100098: Life9_2013:grassClump4MeshGroup 3
+    100100: Life9_2013:grassClump4MeshGroup 4
+    100102: Life9_2013:grassClump4MeshGroup 5
+    100104: Life9_2013:grassClump4MeshGroup 6
+    100106: Life9_2013:grassClump4MeshGroup 7
+    100108: Life9_2013:grassClump4MeshGroup 8
+    100110: Life9_2013:grassClump4MeshGroup 9
+    100112: Life9_2013:GrassMesh
+    100114: Life9_2013:group10
+    100116: Life9_2013:group11
+    100118: Life9_2013:group12
+    100120: Life9_2013:group13
+    100122: Life9_2013:group14
+    100124: Life9_2013:group15
+    100126: Life9_2013:group16
+    100128: Life9_2013:group17
+    100130: Life9_2013:group18
+    100132: Life9_2013:group19
+    100134: Life9_2013:group2
+    100136: Life9_2013:group3
+    100138: Life9_2013:group4
+    100140: Life9_2013:group5
+    100142: Life9_2013:group6
+    100144: Life9_2013:group7
+    100146: Life9_2013:group8
+    100148: Life9_2013:group9
+    100150: Mesh
+    100152: Mesh1
+    100154: Mesh2
+    100156: nurbsToPoly20
+    100158: nurbsToPoly21
+    100160: nurbsToPoly22
+    100162: nurbsToPoly23
+    100164: nurbsToPoly24
+    100166: nurbsToPoly25
+    100168: nurbsToPoly26
+    100170: nurbsToPoly27
+    100172: nurbsToPoly28
+    100174: nurbsToPoly29
+    100176: nurbsToPoly30
+    100178: nurbsToPoly31
+    100180: nurbsToPoly32
+    100182: nurbsToPoly33
+    100184: nurbsToPoly34
+    100186: nurbsToPoly35
+    100188: nurbsToPoly36
+    100190: nurbsToPoly37
+    100192: nurbsToPoly56
+    100194: nurbsToPoly57
+    100196: nurbsToPoly58
+    100198: nurbsToPoly59
+    100200: nurbsToPoly60
+    100202: nurbsToPoly61
+    100204: nurbsToPoly62
+    100206: nurbsToPoly63
+    100208: nurbsToPoly64
+    100210: nurbsToPoly65
+    100212: nurbsToPoly66
+    100214: nurbsToPoly67
+    100216: nurbsToPoly68
+    100218: nurbsToPoly69
+    100220: nurbsToPoly70
+    100222: nurbsToPoly71
+    100224: nurbsToPoly72
+    100226: nurbsToPoly73
+    100228: Petals_and_Plane
+    100230: pPlane2
+    100232: pSphere2
+    100234: pSphere3
+    100236: SunflowerFInal
+    100238: SunflowerLife6
+    100240: SunflowerwithLeaf
+    100242: group4
+    100244: group5
+    100246: Mesh3
+    100248: Mesh4
+    100250: Stems___Leaves
+    400000: group3
+    400002: //RootNode
+    400004: Life9_2013:grassClump2MeshGroup
+    400006: Life9_2013:grassClump2MeshGroup 1
+    400008: Life9_2013:grassClump2MeshGroup 10
+    400010: Life9_2013:grassClump2MeshGroup 11
+    400012: Life9_2013:grassClump2MeshGroup 12
+    400014: Life9_2013:grassClump2MeshGroup 13
+    400016: Life9_2013:grassClump2MeshGroup 14
+    400018: Life9_2013:grassClump2MeshGroup 15
+    400020: Life9_2013:grassClump2MeshGroup 16
+    400022: Life9_2013:grassClump2MeshGroup 17
+    400024: Life9_2013:grassClump2MeshGroup 2
+    400026: Life9_2013:grassClump2MeshGroup 3
+    400028: Life9_2013:grassClump2MeshGroup 4
+    400030: Life9_2013:grassClump2MeshGroup 5
+    400032: Life9_2013:grassClump2MeshGroup 6
+    400034: Life9_2013:grassClump2MeshGroup 7
+    400036: Life9_2013:grassClump2MeshGroup 8
+    400038: Life9_2013:grassClump2MeshGroup 9
+    400040: Life9_2013:grassClump3MeshGroup
+    400042: Life9_2013:grassClump3MeshGroup 1
+    400044: Life9_2013:grassClump3MeshGroup 10
+    400046: Life9_2013:grassClump3MeshGroup 11
+    400048: Life9_2013:grassClump3MeshGroup 12
+    400050: Life9_2013:grassClump3MeshGroup 13
+    400052: Life9_2013:grassClump3MeshGroup 14
+    400054: Life9_2013:grassClump3MeshGroup 15
+    400056: Life9_2013:grassClump3MeshGroup 16
+    400058: Life9_2013:grassClump3MeshGroup 17
+    400060: Life9_2013:grassClump3MeshGroup 2
+    400062: Life9_2013:grassClump3MeshGroup 3
+    400064: Life9_2013:grassClump3MeshGroup 4
+    400066: Life9_2013:grassClump3MeshGroup 5
+    400068: Life9_2013:grassClump3MeshGroup 6
+    400070: Life9_2013:grassClump3MeshGroup 7
+    400072: Life9_2013:grassClump3MeshGroup 8
+    400074: Life9_2013:grassClump3MeshGroup 9
+    400076: Life9_2013:grassClump4MeshGroup
+    400078: Life9_2013:grassClump4MeshGroup 1
+    400080: Life9_2013:grassClump4MeshGroup 10
+    400082: Life9_2013:grassClump4MeshGroup 11
+    400084: Life9_2013:grassClump4MeshGroup 12
+    400086: Life9_2013:grassClump4MeshGroup 13
+    400088: Life9_2013:grassClump4MeshGroup 14
+    400090: Life9_2013:grassClump4MeshGroup 15
+    400092: Life9_2013:grassClump4MeshGroup 16
+    400094: Life9_2013:grassClump4MeshGroup 17
+    400096: Life9_2013:grassClump4MeshGroup 2
+    400098: Life9_2013:grassClump4MeshGroup 3
+    400100: Life9_2013:grassClump4MeshGroup 4
+    400102: Life9_2013:grassClump4MeshGroup 5
+    400104: Life9_2013:grassClump4MeshGroup 6
+    400106: Life9_2013:grassClump4MeshGroup 7
+    400108: Life9_2013:grassClump4MeshGroup 8
+    400110: Life9_2013:grassClump4MeshGroup 9
+    400112: Life9_2013:GrassMesh
+    400114: Life9_2013:group10
+    400116: Life9_2013:group11
+    400118: Life9_2013:group12
+    400120: Life9_2013:group13
+    400122: Life9_2013:group14
+    400124: Life9_2013:group15
+    400126: Life9_2013:group16
+    400128: Life9_2013:group17
+    400130: Life9_2013:group18
+    400132: Life9_2013:group19
+    400134: Life9_2013:group2
+    400136: Life9_2013:group3
+    400138: Life9_2013:group4
+    400140: Life9_2013:group5
+    400142: Life9_2013:group6
+    400144: Life9_2013:group7
+    400146: Life9_2013:group8
+    400148: Life9_2013:group9
+    400150: Mesh
+    400152: Mesh1
+    400154: Mesh2
+    400156: nurbsToPoly20
+    400158: nurbsToPoly21
+    400160: nurbsToPoly22
+    400162: nurbsToPoly23
+    400164: nurbsToPoly24
+    400166: nurbsToPoly25
+    400168: nurbsToPoly26
+    400170: nurbsToPoly27
+    400172: nurbsToPoly28
+    400174: nurbsToPoly29
+    400176: nurbsToPoly30
+    400178: nurbsToPoly31
+    400180: nurbsToPoly32
+    400182: nurbsToPoly33
+    400184: nurbsToPoly34
+    400186: nurbsToPoly35
+    400188: nurbsToPoly36
+    400190: nurbsToPoly37
+    400192: nurbsToPoly56
+    400194: nurbsToPoly57
+    400196: nurbsToPoly58
+    400198: nurbsToPoly59
+    400200: nurbsToPoly60
+    400202: nurbsToPoly61
+    400204: nurbsToPoly62
+    400206: nurbsToPoly63
+    400208: nurbsToPoly64
+    400210: nurbsToPoly65
+    400212: nurbsToPoly66
+    400214: nurbsToPoly67
+    400216: nurbsToPoly68
+    400218: nurbsToPoly69
+    400220: nurbsToPoly70
+    400222: nurbsToPoly71
+    400224: nurbsToPoly72
+    400226: nurbsToPoly73
+    400228: Petals_and_Plane
+    400230: pPlane2
+    400232: pSphere2
+    400234: pSphere3
+    400236: SunflowerFInal
+    400238: SunflowerLife6
+    400240: SunflowerwithLeaf
+    400242: group4
+    400244: group5
+    400246: Mesh3
+    400248: Mesh4
+    400250: Stems___Leaves
+    2300000: Mesh
+    2300002: Mesh1
+    2300004: Mesh2
+    2300006: nurbsToPoly20
+    2300008: nurbsToPoly21
+    2300010: nurbsToPoly22
+    2300012: nurbsToPoly23
+    2300014: nurbsToPoly24
+    2300016: nurbsToPoly25
+    2300018: nurbsToPoly26
+    2300020: nurbsToPoly27
+    2300022: nurbsToPoly28
+    2300024: nurbsToPoly29
+    2300026: nurbsToPoly30
+    2300028: nurbsToPoly31
+    2300030: nurbsToPoly32
+    2300032: nurbsToPoly33
+    2300034: nurbsToPoly34
+    2300036: nurbsToPoly35
+    2300038: nurbsToPoly36
+    2300040: nurbsToPoly37
+    2300042: nurbsToPoly56
+    2300044: nurbsToPoly57
+    2300046: nurbsToPoly58
+    2300048: nurbsToPoly59
+    2300050: nurbsToPoly60
+    2300052: nurbsToPoly61
+    2300054: nurbsToPoly62
+    2300056: nurbsToPoly63
+    2300058: nurbsToPoly64
+    2300060: nurbsToPoly65
+    2300062: nurbsToPoly66
+    2300064: nurbsToPoly67
+    2300066: nurbsToPoly68
+    2300068: nurbsToPoly69
+    2300070: nurbsToPoly70
+    2300072: nurbsToPoly71
+    2300074: nurbsToPoly72
+    2300076: nurbsToPoly73
+    2300078: pPlane2
+    2300080: pSphere2
+    2300082: pSphere3
+    2300084: Mesh3
+    2300086: Mesh4
+    3300000: Mesh
+    3300002: Mesh1
+    3300004: Mesh2
+    3300006: nurbsToPoly20
+    3300008: nurbsToPoly21
+    3300010: nurbsToPoly22
+    3300012: nurbsToPoly23
+    3300014: nurbsToPoly24
+    3300016: nurbsToPoly25
+    3300018: nurbsToPoly26
+    3300020: nurbsToPoly27
+    3300022: nurbsToPoly28
+    3300024: nurbsToPoly29
+    3300026: nurbsToPoly30
+    3300028: nurbsToPoly31
+    3300030: nurbsToPoly32
+    3300032: nurbsToPoly33
+    3300034: nurbsToPoly34
+    3300036: nurbsToPoly35
+    3300038: nurbsToPoly36
+    3300040: nurbsToPoly37
+    3300042: nurbsToPoly56
+    3300044: nurbsToPoly57
+    3300046: nurbsToPoly58
+    3300048: nurbsToPoly59
+    3300050: nurbsToPoly60
+    3300052: nurbsToPoly61
+    3300054: nurbsToPoly62
+    3300056: nurbsToPoly63
+    3300058: nurbsToPoly64
+    3300060: nurbsToPoly65
+    3300062: nurbsToPoly66
+    3300064: nurbsToPoly67
+    3300066: nurbsToPoly68
+    3300068: nurbsToPoly69
+    3300070: nurbsToPoly70
+    3300072: nurbsToPoly71
+    3300074: nurbsToPoly72
+    3300076: nurbsToPoly73
+    3300078: pPlane2
+    3300080: pSphere2
+    3300082: pSphere3
+    3300084: Mesh3
+    3300086: Mesh4
+    4300000: Mesh
+    4300002: pSphere2
+    4300004: pSphere3
+    4300006: Mesh2
+    4300008: Mesh1
+    4300010: nurbsToPoly20
+    4300012: nurbsToPoly21
+    4300014: nurbsToPoly22
+    4300016: nurbsToPoly23
+    4300018: nurbsToPoly24
+    4300020: nurbsToPoly25
+    4300022: nurbsToPoly26
+    4300024: nurbsToPoly27
+    4300026: nurbsToPoly28
+    4300028: nurbsToPoly29
+    4300030: nurbsToPoly30
+    4300032: nurbsToPoly31
+    4300034: nurbsToPoly32
+    4300036: nurbsToPoly33
+    4300038: nurbsToPoly34
+    4300040: nurbsToPoly35
+    4300042: nurbsToPoly36
+    4300044: nurbsToPoly37
+    4300046: nurbsToPoly56
+    4300048: nurbsToPoly57
+    4300050: nurbsToPoly58
+    4300052: nurbsToPoly59
+    4300054: nurbsToPoly60
+    4300056: nurbsToPoly61
+    4300058: nurbsToPoly62
+    4300060: nurbsToPoly63
+    4300062: nurbsToPoly64
+    4300064: nurbsToPoly65
+    4300066: nurbsToPoly66
+    4300068: nurbsToPoly67
+    4300070: nurbsToPoly68
+    4300072: nurbsToPoly69
+    4300074: nurbsToPoly70
+    4300076: nurbsToPoly71
+    4300078: nurbsToPoly72
+    4300080: nurbsToPoly73
+    4300082: pPlane2
+    4300084: Mesh3
+    4300086: Mesh4
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 2
+  userData: 

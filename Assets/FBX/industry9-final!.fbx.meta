@@ -1,0 +1,728 @@
+fileFormatVersion: 2
+guid: 7ef8d565b64695a43883aec48e7a7729
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: BallBigger2
+    100002: Boob_Building2
+    100004: Boob_Building3
+    100006: Boob_Building4
+    100008: Boob_Building5
+    100010: Boob_Building5 1
+    100012: Building_1
+    100014: BuildingMain3
+    100016: Doorframe1
+    100018: Doorframe:pCube1
+    100020: Doorframe:pCube2
+    100022: Doorframe:pCube3
+    100024: Doorframe:pCylinder1
+    100026: Doorframe:pPlane1
+    100028: Factory_Final
+    100030: Factory_Final 1
+    100032: group12
+    100034: group12 1
+    100036: group13
+    100038: group13 1
+    100040: group14
+    100042: group15
+    100044: group16
+    100046: group19
+    100048: group2
+    100050: group2 1
+    100052: group2 2
+    100054: group2 3
+    100056: group2 4
+    100058: group20
+    100060: group21
+    100062: group22
+    100064: group23
+    100066: group24
+    100068: group25
+    100070: group26
+    100072: heliceTraz
+    100074: House1
+    100076: //RootNode
+    100078: lightring1:group12
+    100080: lightring2
+    100082: lightring3
+    100084: lightring4
+    100086: Nurbs
+    100088: nurbsToPoly7
+    100090: nurbsToPoly8
+    100092: pCube1
+    100094: pCube10
+    100096: pCube11
+    100098: pCube12
+    100100: pCube13
+    100102: pCube15
+    100104: pCube22
+    100106: pCube23
+    100108: pCube25
+    100110: pCube26
+    100112: pCube27
+    100114: pCube28
+    100116: pCube29
+    100118: pCube30
+    100120: pCube31
+    100122: pCube32
+    100124: pCube33
+    100126: pCube34
+    100128: pCube35
+    100130: pCube36
+    100132: pCube37
+    100134: pCube38
+    100136: pCube39
+    100138: pCube4
+    100140: pCube40
+    100142: pCube41
+    100144: pCube42
+    100146: pCube43
+    100148: pCube44
+    100150: pCube45
+    100152: pCube46
+    100154: pCube5
+    100156: pCube6
+    100158: pCube7
+    100160: pCube8
+    100162: pCube9
+    100164: pCylinder1
+    100166: pCylinder1 1
+    100168: polySurface3
+    100170: polySurface4
+    100172: polySurface5
+    100174: polySurface6
+    100176: PowerPlant1
+    100178: pPlane2
+    100180: pSphere10
+    100182: pSphere10 1
+    100184: pSphere11
+    100186: pSphere11 1
+    100188: pSphere12
+    100190: pSphere12 1
+    100192: pSphere13
+    100194: pSphere13 1
+    100196: pSphere14
+    100198: pSphere14 1
+    100200: pSphere15
+    100202: pSphere15 1
+    100204: pSphere16
+    100206: pSphere16 1
+    100208: pSphere17
+    100210: pSphere17 1
+    100212: pSphere18
+    100214: pSphere18 1
+    100216: pSphere19
+    100218: pSphere19 1
+    100220: pSphere20
+    100222: pSphere20 1
+    100224: pSphere21
+    100226: pSphere21 1
+    100228: pSphere22
+    100230: pSphere22 1
+    100232: pSphere3
+    100234: pSphere3 1
+    100236: pSphere34
+    100238: pSphere35
+    100240: pSphere36
+    100242: pSphere37
+    100244: pSphere4
+    100246: pSphere4 1
+    100248: pSphere40
+    100250: pSphere41
+    100252: pSphere42
+    100254: pSphere43
+    100256: pSphere5
+    100258: pSphere5 1
+    100260: pSphere6
+    100262: pSphere6 1
+    100264: pSphere7
+    100266: pSphere7 1
+    100268: pSphere8
+    100270: pSphere8 1
+    100272: pSphere9
+    100274: pSphere9 1
+    100276: Satillite2
+    100278: Set1Final
+    100280: Set2
+    100282: Set2Final
+    100284: SetBuilding
+    100286: Vent1
+    100288: Vent2
+    100290: Window1
+    100292: Window10
+    100294: Window5
+    100296: Window6
+    100298: Window7
+    100300: Window8
+    100302: Window9
+    400000: BallBigger2
+    400002: Boob_Building2
+    400004: Boob_Building3
+    400006: Boob_Building4
+    400008: Boob_Building5
+    400010: Boob_Building5 1
+    400012: Building_1
+    400014: BuildingMain3
+    400016: Doorframe1
+    400018: Doorframe:pCube1
+    400020: Doorframe:pCube2
+    400022: Doorframe:pCube3
+    400024: Doorframe:pCylinder1
+    400026: Doorframe:pPlane1
+    400028: Factory_Final
+    400030: Factory_Final 1
+    400032: group12
+    400034: group12 1
+    400036: group13
+    400038: group13 1
+    400040: group14
+    400042: group15
+    400044: group16
+    400046: group19
+    400048: group2
+    400050: group2 1
+    400052: group2 2
+    400054: group2 3
+    400056: group2 4
+    400058: group20
+    400060: group21
+    400062: group22
+    400064: group23
+    400066: group24
+    400068: group25
+    400070: group26
+    400072: heliceTraz
+    400074: House1
+    400076: //RootNode
+    400078: lightring1:group12
+    400080: lightring2
+    400082: lightring3
+    400084: lightring4
+    400086: Nurbs
+    400088: nurbsToPoly7
+    400090: nurbsToPoly8
+    400092: pCube1
+    400094: pCube10
+    400096: pCube11
+    400098: pCube12
+    400100: pCube13
+    400102: pCube15
+    400104: pCube22
+    400106: pCube23
+    400108: pCube25
+    400110: pCube26
+    400112: pCube27
+    400114: pCube28
+    400116: pCube29
+    400118: pCube30
+    400120: pCube31
+    400122: pCube32
+    400124: pCube33
+    400126: pCube34
+    400128: pCube35
+    400130: pCube36
+    400132: pCube37
+    400134: pCube38
+    400136: pCube39
+    400138: pCube4
+    400140: pCube40
+    400142: pCube41
+    400144: pCube42
+    400146: pCube43
+    400148: pCube44
+    400150: pCube45
+    400152: pCube46
+    400154: pCube5
+    400156: pCube6
+    400158: pCube7
+    400160: pCube8
+    400162: pCube9
+    400164: pCylinder1
+    400166: pCylinder1 1
+    400168: polySurface3
+    400170: polySurface4
+    400172: polySurface5
+    400174: polySurface6
+    400176: PowerPlant1
+    400178: pPlane2
+    400180: pSphere10
+    400182: pSphere10 1
+    400184: pSphere11
+    400186: pSphere11 1
+    400188: pSphere12
+    400190: pSphere12 1
+    400192: pSphere13
+    400194: pSphere13 1
+    400196: pSphere14
+    400198: pSphere14 1
+    400200: pSphere15
+    400202: pSphere15 1
+    400204: pSphere16
+    400206: pSphere16 1
+    400208: pSphere17
+    400210: pSphere17 1
+    400212: pSphere18
+    400214: pSphere18 1
+    400216: pSphere19
+    400218: pSphere19 1
+    400220: pSphere20
+    400222: pSphere20 1
+    400224: pSphere21
+    400226: pSphere21 1
+    400228: pSphere22
+    400230: pSphere22 1
+    400232: pSphere3
+    400234: pSphere3 1
+    400236: pSphere34
+    400238: pSphere35
+    400240: pSphere36
+    400242: pSphere37
+    400244: pSphere4
+    400246: pSphere4 1
+    400248: pSphere40
+    400250: pSphere41
+    400252: pSphere42
+    400254: pSphere43
+    400256: pSphere5
+    400258: pSphere5 1
+    400260: pSphere6
+    400262: pSphere6 1
+    400264: pSphere7
+    400266: pSphere7 1
+    400268: pSphere8
+    400270: pSphere8 1
+    400272: pSphere9
+    400274: pSphere9 1
+    400276: Satillite2
+    400278: Set1Final
+    400280: Set2
+    400282: Set2Final
+    400284: SetBuilding
+    400286: Vent1
+    400288: Vent2
+    400290: Window1
+    400292: Window10
+    400294: Window5
+    400296: Window6
+    400298: Window7
+    400300: Window8
+    400302: Window9
+    2300000: BuildingMain3
+    2300002: Doorframe:pCube1
+    2300004: Doorframe:pCube2
+    2300006: Doorframe:pCube3
+    2300008: Doorframe:pCylinder1
+    2300010: Doorframe:pPlane1
+    2300012: heliceTraz
+    2300014: nurbsToPoly7
+    2300016: nurbsToPoly8
+    2300018: pCube1
+    2300020: pCube10
+    2300022: pCube11
+    2300024: pCube12
+    2300026: pCube13
+    2300028: pCube15
+    2300030: pCube22
+    2300032: pCube23
+    2300034: pCube25
+    2300036: pCube26
+    2300038: pCube27
+    2300040: pCube28
+    2300042: pCube29
+    2300044: pCube30
+    2300046: pCube31
+    2300048: pCube32
+    2300050: pCube33
+    2300052: pCube34
+    2300054: pCube35
+    2300056: pCube36
+    2300058: pCube37
+    2300060: pCube38
+    2300062: pCube39
+    2300064: pCube4
+    2300066: pCube40
+    2300068: pCube41
+    2300070: pCube42
+    2300072: pCube43
+    2300074: pCube44
+    2300076: pCube45
+    2300078: pCube46
+    2300080: pCube5
+    2300082: pCube6
+    2300084: pCube7
+    2300086: pCube8
+    2300088: pCube9
+    2300090: pCylinder1
+    2300092: pCylinder1 1
+    2300094: polySurface3
+    2300096: polySurface4
+    2300098: polySurface5
+    2300100: polySurface6
+    2300102: pPlane2
+    2300104: pSphere10
+    2300106: pSphere10 1
+    2300108: pSphere11
+    2300110: pSphere11 1
+    2300112: pSphere12
+    2300114: pSphere12 1
+    2300116: pSphere13
+    2300118: pSphere13 1
+    2300120: pSphere14
+    2300122: pSphere14 1
+    2300124: pSphere15
+    2300126: pSphere15 1
+    2300128: pSphere16
+    2300130: pSphere16 1
+    2300132: pSphere17
+    2300134: pSphere17 1
+    2300136: pSphere18
+    2300138: pSphere18 1
+    2300140: pSphere19
+    2300142: pSphere19 1
+    2300144: pSphere20
+    2300146: pSphere20 1
+    2300148: pSphere21
+    2300150: pSphere21 1
+    2300152: pSphere22
+    2300154: pSphere22 1
+    2300156: pSphere3
+    2300158: pSphere3 1
+    2300160: pSphere34
+    2300162: pSphere35
+    2300164: pSphere36
+    2300166: pSphere37
+    2300168: pSphere4
+    2300170: pSphere4 1
+    2300172: pSphere40
+    2300174: pSphere41
+    2300176: pSphere42
+    2300178: pSphere43
+    2300180: pSphere5
+    2300182: pSphere5 1
+    2300184: pSphere6
+    2300186: pSphere6 1
+    2300188: pSphere7
+    2300190: pSphere7 1
+    2300192: pSphere8
+    2300194: pSphere8 1
+    2300196: pSphere9
+    2300198: pSphere9 1
+    2300200: Window1
+    2300202: Window10
+    2300204: Window5
+    2300206: Window6
+    2300208: Window7
+    2300210: Window8
+    2300212: Window9
+    3300000: BuildingMain3
+    3300002: Doorframe:pCube1
+    3300004: Doorframe:pCube2
+    3300006: Doorframe:pCube3
+    3300008: Doorframe:pCylinder1
+    3300010: Doorframe:pPlane1
+    3300012: heliceTraz
+    3300014: nurbsToPoly7
+    3300016: nurbsToPoly8
+    3300018: pCube1
+    3300020: pCube10
+    3300022: pCube11
+    3300024: pCube12
+    3300026: pCube13
+    3300028: pCube15
+    3300030: pCube22
+    3300032: pCube23
+    3300034: pCube25
+    3300036: pCube26
+    3300038: pCube27
+    3300040: pCube28
+    3300042: pCube29
+    3300044: pCube30
+    3300046: pCube31
+    3300048: pCube32
+    3300050: pCube33
+    3300052: pCube34
+    3300054: pCube35
+    3300056: pCube36
+    3300058: pCube37
+    3300060: pCube38
+    3300062: pCube39
+    3300064: pCube4
+    3300066: pCube40
+    3300068: pCube41
+    3300070: pCube42
+    3300072: pCube43
+    3300074: pCube44
+    3300076: pCube45
+    3300078: pCube46
+    3300080: pCube5
+    3300082: pCube6
+    3300084: pCube7
+    3300086: pCube8
+    3300088: pCube9
+    3300090: pCylinder1
+    3300092: pCylinder1 1
+    3300094: polySurface3
+    3300096: polySurface4
+    3300098: polySurface5
+    3300100: polySurface6
+    3300102: pPlane2
+    3300104: pSphere10
+    3300106: pSphere10 1
+    3300108: pSphere11
+    3300110: pSphere11 1
+    3300112: pSphere12
+    3300114: pSphere12 1
+    3300116: pSphere13
+    3300118: pSphere13 1
+    3300120: pSphere14
+    3300122: pSphere14 1
+    3300124: pSphere15
+    3300126: pSphere15 1
+    3300128: pSphere16
+    3300130: pSphere16 1
+    3300132: pSphere17
+    3300134: pSphere17 1
+    3300136: pSphere18
+    3300138: pSphere18 1
+    3300140: pSphere19
+    3300142: pSphere19 1
+    3300144: pSphere20
+    3300146: pSphere20 1
+    3300148: pSphere21
+    3300150: pSphere21 1
+    3300152: pSphere22
+    3300154: pSphere22 1
+    3300156: pSphere3
+    3300158: pSphere3 1
+    3300160: pSphere34
+    3300162: pSphere35
+    3300164: pSphere36
+    3300166: pSphere37
+    3300168: pSphere4
+    3300170: pSphere4 1
+    3300172: pSphere40
+    3300174: pSphere41
+    3300176: pSphere42
+    3300178: pSphere43
+    3300180: pSphere5
+    3300182: pSphere5 1
+    3300184: pSphere6
+    3300186: pSphere6 1
+    3300188: pSphere7
+    3300190: pSphere7 1
+    3300192: pSphere8
+    3300194: pSphere8 1
+    3300196: pSphere9
+    3300198: pSphere9 1
+    3300200: Window1
+    3300202: Window10
+    3300204: Window5
+    3300206: Window6
+    3300208: Window7
+    3300210: Window8
+    3300212: Window9
+    4300000: BuildingMain3
+    4300002: pSphere34
+    4300004: pSphere35
+    4300006: pSphere36
+    4300008: pSphere37
+    4300010: pCube4
+    4300012: pCube5
+    4300014: pCube40
+    4300016: pCube41
+    4300018: pCube42
+    4300020: pCube43
+    4300022: pCube44
+    4300024: pCube45
+    4300026: pCube46
+    4300028: pCube13
+    4300030: pCube27
+    4300032: pCube28
+    4300034: pCube29
+    4300036: pCube30
+    4300038: pCube31
+    4300040: pCube32
+    4300042: pCube33
+    4300044: pCube34
+    4300046: pCube35
+    4300048: pCube36
+    4300050: pCube37
+    4300052: pCube38
+    4300054: pCube39
+    4300056: pCube1
+    4300058: Doorframe:pCube1
+    4300060: Doorframe:pCube2
+    4300062: Doorframe:pCube3
+    4300064: Doorframe:pPlane1
+    4300066: Doorframe:pCylinder1
+    4300068: pCylinder1
+    4300070: Window1
+    4300072: Window5
+    4300074: Window6
+    4300076: Window7
+    4300078: Window8
+    4300080: Window9
+    4300082: Window10
+    4300084: pSphere4
+    4300086: pSphere3
+    4300088: pSphere5
+    4300090: pSphere6
+    4300092: pSphere7
+    4300094: pSphere8
+    4300096: pSphere9
+    4300098: pSphere10
+    4300100: pSphere11
+    4300102: pSphere12
+    4300104: pSphere13
+    4300106: pSphere14
+    4300108: pSphere15
+    4300110: pSphere16
+    4300112: pSphere17
+    4300114: pSphere18
+    4300116: pSphere19
+    4300118: pSphere20
+    4300120: pSphere21
+    4300122: pSphere22
+    4300124: nurbsToPoly8
+    4300126: pSphere4
+    4300128: pSphere3
+    4300130: pSphere5
+    4300132: pSphere6
+    4300134: pSphere7
+    4300136: pSphere8
+    4300138: pSphere9
+    4300140: pSphere10
+    4300142: pSphere11
+    4300144: pSphere12
+    4300146: pSphere13
+    4300148: pSphere14
+    4300150: pSphere15
+    4300152: pSphere16
+    4300154: pSphere17
+    4300156: pSphere18
+    4300158: pSphere19
+    4300160: pSphere20
+    4300162: pSphere21
+    4300164: pSphere22
+    4300166: nurbsToPoly7
+    4300168: pCube11
+    4300170: polySurface5
+    4300172: pCube7
+    4300174: pCube8
+    4300176: pCube9
+    4300178: pCube10
+    4300180: pCube12
+    4300182: polySurface3
+    4300184: pCube23
+    4300186: pCube22
+    4300188: pCube26
+    4300190: pCube25
+    4300192: pCube15
+    4300194: pCube6
+    4300196: polySurface4
+    4300198: polySurface6
+    4300200: pCylinder1
+    4300202: heliceTraz
+    4300204: pSphere42
+    4300206: pSphere43
+    4300208: pSphere40
+    4300210: pSphere41
+    4300212: pPlane2
+    7400000: Start
+    7400002: Idle
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations:
+    - name: Start
+      takeName: Take 001
+      firstFrame: 3000
+      lastFrame: 3100
+      wrapMode: 1
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      keepAdditionalBonesAnimation: 1
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      skeletonMaskElements: []
+    - name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 3000
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      keepAdditionalBonesAnimation: 1
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      skeletonMaskElements: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 1
+  userData: 
