@@ -1,2 +1,0 @@
-# cubed
-Cubed iOS
