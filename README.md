@@ -1,6 +1,4 @@
-# cubed
-Cubed iOS
-------------
+# Cubed iOS
 
 ## Notes on Installing
 
