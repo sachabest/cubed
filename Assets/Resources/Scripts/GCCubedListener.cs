@@ -18,15 +18,18 @@ public class GCCubedListener : MonoBehaviour
 		DontDestroyOnLoad(this.gameObject);
 	}
 	void Start() {
-		Debug.Log("Listener working");
-		Debug.Log("GameCenter working");
 		GameCenterBinding.authenticateLocalPlayer();
-		// LoadEvents();
-		eventsLoaded = true;
-		gcInUse = true;
-		Handheld.SetActivityIndicatorStyle(iOSActivityIndicatorStyle.Gray);
-	//	else
+		if (GameCenterTurnBasedBinding.isTurnBasedMultiplayerAvailable()) {
+			Debug.Log("Listener working");
+			Debug.Log("GameCenter working");
+			// LoadEvents();
+			eventsLoaded = true;
+			gcInUse = true;
+			Handheld.SetActivityIndicatorStyle(iOSActivityIndicatorStyle.Gray);
+		}
+		else {
 			//Debug.Log("Fuck Game Center");
+		}
 	}
 	public bool myTurn() {
 		return GameCenterTurnBasedBinding.isCurrentPlayersTurn();

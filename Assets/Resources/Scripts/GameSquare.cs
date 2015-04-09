@@ -3,6 +3,11 @@ using System.Collections;
 //[SerializeAll]
 public class GameSquare : MonoBehaviour 
 {
+	public enum Player {
+		Computer,
+		Human,
+		GameCenter
+	}
 	private GameManager manager;
 	public int xval;
 	public int yval;
@@ -40,6 +45,7 @@ public class GameSquare : MonoBehaviour
 		_tier = 0;
 		_player = 0;
 	}
+	/*
 	public void OnMouseEnter()
 	{
 		if (!manager.mouseUI)
@@ -49,9 +55,15 @@ public class GameSquare : MonoBehaviour
 	{
 		this.renderer.material = material;
 	}
+	*/
 	public void OnMouseDown()
 	{
-		manager.HandleClick(xval, yval);
+		//manager.HandleClick(xval, yval);
+	}
+	void OnTap(TapGesture gesture) { 
+		if (!manager.mouseUI) {
+			manager.HandleClick(xval, yval);
+		}
 	}
 	public void SetColor(int player, int tier) //THIS METHOD IS CALLED WITH THE *GAMEMANAGER* DEFINITION FOR PLAYER: 1 -> INDUSTRY
 	{																											//   2 -> LIFE

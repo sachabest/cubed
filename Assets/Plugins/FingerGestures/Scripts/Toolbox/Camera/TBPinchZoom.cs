@@ -20,13 +20,15 @@ public class TBPinchZoom : MonoBehaviour
     }
 
     public ZoomMethod zoomMethod = ZoomMethod.Position;
-    public float zoomSpeed;
-    public float minZoomAmount;
-    public float maxZoomAmount;
+    public float zoomSpeed = 5.0f;
+    public float minZoomAmount = 0;
+    public float maxZoomAmount = 50;
+    public float SmoothSpeed = 4.0f;
 
     Vector3 defaultPos = Vector3.zero;
     float defaultFov = 0;
     float defaultOrthoSize = 0;
+    float idealZoomAmount = 0;
     float zoomAmount = 0;
 
     public Vector3 DefaultPos
@@ -47,6 +49,12 @@ public class TBPinchZoom : MonoBehaviour
         set { defaultOrthoSize = value; }
     }
 
+    public float IdealZoomAmount
+    {
+        get { return idealZoomAmount; }
+        set { idealZoomAmount = Mathf.Clamp( value, minZoomAmount, maxZoomAmount ); }
+    }
+
     public float ZoomAmount
     {
         get { return zoomAmount; }
@@ -62,12 +70,27 @@ public class TBPinchZoom : MonoBehaviour
 
                 case ZoomMethod.FOV:
                     if( camera.orthographic )
+                    {
                         camera.orthographicSize = Mathf.Max( defaultOrthoSize - zoomAmount, 0.1f );
+                    }
                     else
-                        camera.fov = Mathf.Max( defaultFov - zoomAmount, 0.1f );
+                    {
+                        CameraFov = Mathf.Max( defaultFov - zoomAmount, 0.1f );
+                    }
                     break;
             }
         }
+    }
+
+    float CameraFov
+    {
+#if UNITY_3_5
+        get { return camera.fov; }
+        set { camera.fov = value; }
+#else
+        get { return camera.fieldOfView; }
+        set { camera.fieldOfView = value; }
+#endif
     }
 
     public float ZoomPercent
@@ -86,16 +109,21 @@ public class TBPinchZoom : MonoBehaviour
         SetDefaults();
     }
 
+    void Update()
+    {
+        ZoomAmount = Mathf.Lerp( ZoomAmount, IdealZoomAmount, Time.deltaTime * SmoothSpeed );
+    }
+
     public void SetDefaults()
     {
         DefaultPos = transform.position;
-        DefaultFov = camera.fov;
+        DefaultFov = CameraFov;
         DefaultOrthoSize = camera.orthographicSize;
     }
 
     // Handle the pinch event
     void OnPinch( PinchGesture gesture )
     {
-        ZoomAmount += zoomSpeed * gesture.Delta;
+        IdealZoomAmount += zoomSpeed * gesture.Delta.Centimeters();
     }
 }
