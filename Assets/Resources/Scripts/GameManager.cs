@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -17,7 +18,6 @@ public class GameManager : MonoBehaviour
 	public String[] PlayerFactions;
 	private int[] playerScores;
 	private Stack moves;
-	public UILabel player1score, player2score;
 	public PieceManager pieceManager;
 	public GCCubedListener gameCenter;
 	public SaveLoadManager saveLoad;
@@ -40,10 +40,13 @@ public class GameManager : MonoBehaviour
 	private AudioSource[] audioClips;
 	public AudioSource industry, life;
 	private int audioIndex;
-	
+
+	public static GameManager instance;
+
 	// Use this for initialization
 	void Awake () 
 	{
+		instance = this;
 		territoriesScoringPointsForCurrentFaction = new List<int>();
 		promotedTerritoryFormerTierValues = new int[12,12]; //faction *10 + tier value
 		winningScore = 100; //temp
@@ -95,8 +98,6 @@ public class GameManager : MonoBehaviour
 			if (opponent != null && opponent != "")
 				player2score.text = opponent; */
 		}
-		player1score.text = "0" + "/" + winningScore;
-		player2score.text = "0" + "/" + winningScore;
 		//create pieces offscreen
 	}
 	// This prevents the game from misintrepreting drag motions as clicks on the board
@@ -197,7 +198,7 @@ public class GameManager : MonoBehaviour
 				board.Reserve(square.xval, square.yval);
 				square._tier = 0;
 				roll += 3*tier;
-				rollDisplay.text = roll.ToString();
+				ButtonManager.instance.rollDisplay.text = roll.ToString();
 				Debug.Log("Remove Successful");
 				Debug.Log("Undo TRUE");
 				return true;
@@ -242,7 +243,7 @@ public class GameManager : MonoBehaviour
 			PromoteNewPieces(player);                              
 			myBoardSphere.GetComponent<CameraSphere>().zoomToSquare(square);
 		}
-		rollDisplay.text = roll.ToString();
+		ButtonManager.instance.rollDisplay.text = roll.ToString();
 	}
 	private void updateRemoveModels(int row, int col, int removedTier)
 	{
@@ -258,9 +259,9 @@ public class GameManager : MonoBehaviour
 		int newOpponentScore = totalCount (gridCopy,opponent,0,0,new List<int>(30));
 		PromoteNewPieces (opponent);
 		if (opponent == 1)
-			player1score.text = "" + newOpponentScore;
+			ButtonManager.instance.lifeScore.text = "" + newOpponentScore;
 		else
-			player2score.text = "" + newOpponentScore;
+			ButtonManager.instance.industryScore.text = "" + newOpponentScore;
 	}
 	public void NextTurn()
 	{
@@ -307,7 +308,7 @@ public class GameManager : MonoBehaviour
 			//Debug.Log("Changing AI roll to not 2");
 			roll = (UnityEngine.Random.Range(2, 7)+UnityEngine.Random.Range(1,7));
 		}
-		rollDisplay.text = roll.ToString();
+		ButtonManager.instance.rollDisplay.text = roll.ToString();
 		if(roll == 2)
 		{
 			rolledATwo = true;
@@ -448,8 +449,8 @@ public class GameManager : MonoBehaviour
 		{
 			Win();
 		}
-		player1score.text = getPlayerScore(1).ToString() + "/" + winningScore;
-		player2score.text = getPlayerScore(2).ToString() + "/" + winningScore;
+		ButtonManager.instance.lifeScore.text = getPlayerScore(1).ToString() + "/" + winningScore;
+		ButtonManager.instance.industryScore.text = getPlayerScore(2).ToString() + "/" + winningScore;
 		return output;
 	}
 	public void SetTier(int newTier)
@@ -993,9 +994,9 @@ public class GameManager : MonoBehaviour
 		int newScore2 = totalCount(boardcopy, 2, 0, 0, new List<int>(30));
 		Debug.Log ("Score: " + newScore);
 		playerScores[2] = newScore;
-		
-		player1score.text = getPlayerScore(1).ToString() + "/" + winningScore;
-		player2score.text = getPlayerScore(2).ToString() + "/" + winningScore;
+
+		ButtonManager.instance.lifeScore.text = getPlayerScore(1).ToString() + "/" + winningScore;
+		ButtonManager.instance.industryScore.text = getPlayerScore(2).ToString() + "/" + winningScore;
 		this.player = lastPlayer;
 		return true;
 	}

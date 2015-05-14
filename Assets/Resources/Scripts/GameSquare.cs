@@ -61,9 +61,7 @@ public class GameSquare : MonoBehaviour
 		//manager.HandleClick(xval, yval);
 	}
 	void OnTap(TapGesture gesture) { 
-		if (!manager.mouseUI) {
-			manager.HandleClick(xval, yval);
-		}
+		manager.HandleClick(xval, yval);
 	}
 	public void SetColor(int player, int tier) //THIS METHOD IS CALLED WITH THE *GAMEMANAGER* DEFINITION FOR PLAYER: 1 -> INDUSTRY
 	{																											//   2 -> LIFE
