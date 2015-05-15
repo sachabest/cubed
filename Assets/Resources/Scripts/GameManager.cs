@@ -35,9 +35,8 @@ public class GameManager : MonoBehaviour
 	public Light winCameraLight;
 	public float lifeWinsIntensity = 0.5f, industryWinsIntensity = 0.7f;
 	
-	private AudioSource[] audioClips;
 	public AudioSource industry, life;
-	private int audioIndex;
+
 	public PlayerManager.Faction currentFaction;
 
 	public static GameManager instance;
@@ -45,31 +44,44 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Awake () 
 	{
+		// set for singleton pattern
 		instance = this;
+
 		territoriesScoringPointsForCurrentFaction = new List<int>();
+
+		// for undo capability
 		promotedTerritoryFormerTierValues = new int[12,12]; //faction *10 + tier value
-		winningScore = 100; //temp
+
+		// disable the win camera at start
 		WinCamera.camera.enabled = false;
-		roll = 0;
+
 		SetTier(1);
+
+		// create array to hold player scores
 		playerScores = new int[3];
-		mouseUI = false;
+
+		// to hold moves for undo, sserialize, etc.
 		moves = new Stack();
-		var temp = GameObject.Find("GameCenter");
+
 		gameInfo = GameObject.Find ("GameInfo").GetComponent<GameInfo>();
 		singleplayer = gameInfo.getSinglePlayer();
 		winningScore = gameInfo.getWinCondition();
 		humanFactionChoice = gameInfo.getHumanFactionChoice();
-		AI = new AI(winningScore);
-		audioIndex = (int) currentFaction;
-		Debug.Log("Audio index: " + audioIndex);
-		audioClips = new AudioSource[2];
-		audioClips[0] = industry;
-		audioClips[1] = life;
-		audioClips[audioIndex].Play();
 
-		GameIsOver = false;
-		escapeAttempt = false;
+		// log human faction for testing
+		Debug.Log (humanFactionChoice);
+
+		// if there is an AI playing, make it
+		if (singleplayer) {
+			AI = new AI(winningScore);
+
+			// set the current player to the human
+			currentFaction = humanFactionChoice;
+		}
+
+		playAudio (currentFaction);
+
+		GameObject temp = GameObject.Find("GameCenter");
 		if (temp != null) {
 			gameCenter = temp.GetComponentInChildren<GCCubedListener>();
 			saveLoad = temp.GetComponentInChildren<SaveLoadManager>();
@@ -84,6 +96,12 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
+	}
+	void playAudio(PlayerManager.Faction faction) {
+		if (faction == PlayerManager.Faction.Life) 
+			life.Play ();
+		else if (faction == PlayerManager.Faction.Industry)
+			industry.Play ();
 	}
 	// This prevents the game from misintrepreting drag motions as clicks on the board
 	void OnDrag(DragGesture gesture) { 
@@ -250,11 +268,11 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log ("Next Turn Clicked");
 		Debug.Log ("CurrentPlayer: " + currentFaction + ". Has moved? " + hasMovedThisTurn + ". Has Rolled? " + hasRolled);
-		if(GameIsOver) //disables the button when the game is over
-		{
+		if (GameIsOver)
 			return;
-		}
-		//pushes empty move to the stack to signify the end of a turn - player references the player that just played
+
+		// pushes empty move to the stack to signify the end of a turn - player references the player that just played
+		// This is the case of GameCenter Multiplayer
 		if (gameCenter != null  && !singleplayer && !loadingMoves) {
 			if (!GameCenterTurnBasedBinding.isCurrentPlayersTurn()) {
 				gameCenter.LoadLevel("MainMenuV2");
@@ -277,24 +295,30 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
+
 		hasRolled = true;
-		roll = (UnityEngine.Random.Range(1, 7)+UnityEngine.Random.Range(1,7));
-		if(singleplayer && currentFaction != humanFactionChoice)
-		{
-			//Debug.Log("Changing AI roll to not 2");
+		roll = (UnityEngine.Random.Range(1, 7) + UnityEngine.Random.Range(1,7));
+
+		// handle AI roll
+		if (singleplayer && currentFaction != humanFactionChoice) {
 			roll = (UnityEngine.Random.Range(2, 7)+UnityEngine.Random.Range(1,7));
 		}
+
+		// show a roll on the screen
 		ButtonManager.instance.rollDisplay.text = roll.ToString();
-		if(roll == 2)
-		{
+
+		if (roll == 2)
 			rolledATwo = true;
-		}
 		else
-		{
 			rolledATwo = false;
-		}
+
+		// reset current tier selection
 		tier = 1;
+
+		// change turns
 		currentFaction = PlayerManager.SwitchFaction (currentFaction);
+
+		// let the AI play if it should
 		if(singleplayer && currentFaction != humanFactionChoice)
 		{
 			int[][] grid = new int[board.Board.GetLength(0)][];
@@ -327,7 +351,7 @@ public class GameManager : MonoBehaviour
 		if(roll < 0 || !board.GetPlayable(x, y, currentFaction))
 		{
 			roll += (3*tier);
-			Debug.Log ("Nope");
+			//Debug.Log ("Nope");
 			return false;
 		}
 		if(board.GetPlayable(x, y, currentFaction))

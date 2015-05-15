@@ -43,7 +43,7 @@ public class MenuGestures : MonoBehaviour {
 		}
 	}
 	void OnDrag(DragGesture gesture) {
-		Debug.Log (gesture);
+		//Debug.Log (gesture);
 		if (gesture.Fingers.Count != 1)
 			return;
 		if (gesture.Phase == ContinuousGesturePhase.Started)
