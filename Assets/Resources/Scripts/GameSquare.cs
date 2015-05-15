@@ -3,15 +3,11 @@ using System.Collections;
 //[SerializeAll]
 public class GameSquare : MonoBehaviour 
 {
-	public enum Player {
-		Computer,
-		Human,
-		GameCenter
-	}
 	private GameManager manager;
 	public int xval;
 	public int yval;
-	public int _tier, _player;
+	public int _tier;
+	public PlayerManager.Faction faction;
 	
 	private GameObject piece;
 	private Material material;
@@ -40,10 +36,10 @@ public class GameSquare : MonoBehaviour
 	{	
 		if (piece == null)
 			return;                                                  
-		manager.pieceManager.ReturnPiece(piece, _player, _tier);
+		manager.pieceManager.ReturnPiece(piece, faction, _tier);
 		piece = null;
 		_tier = 0;
-		_player = 0;
+		faction = 0;
 	}
 	/*
 	public void OnMouseEnter()
@@ -61,27 +57,27 @@ public class GameSquare : MonoBehaviour
 		//manager.HandleClick(xval, yval);
 	}
 	void OnTap(TapGesture gesture) { 
-		manager.HandleClick(xval, yval);
+		GameManager.instance.HandleClick(xval, yval);
 	}
-	public void SetColor(int player, int tier) //THIS METHOD IS CALLED WITH THE *GAMEMANAGER* DEFINITION FOR PLAYER: 1 -> INDUSTRY
+	public void SetColor(PlayerManager.Faction faction, int tier) //THIS METHOD IS CALLED WITH THE *GAMEMANAGER* DEFINITION FOR PLAYER: 1 -> INDUSTRY
 	{																											//   2 -> LIFE
 		_tier = tier;
-		_player = player;
+		faction = faction;
 		material = (Material)Resources.Load("Materials/transparent");
 		this.renderer.material = material;
 		//piece = manager.pieceManager.GetPiece(player-1, tier);   //DUDE!!  WE HAVE TO BE CAREFUL ABOUT HOW WE REFER TO THINGS!!!  WHY ARE WE SUBTRACTING 1 HERE?!?!?
-		piece = manager.pieceManager.GetPiece(player, tier);
+		piece = manager.pieceManager.GetPiece(faction, tier);
 		piece.SetActive(true);
 		piece.transform.position = this.transform.position;
 		
-		if (player == 1 && tier == 1)
+		if (faction == PlayerManager.Faction.Life && tier == 1)
 		{	
 			piece.GetComponent<TranslateMessedUpPieceAtStart>().adjust();  //Debug.Log ("Made the adjustment."); 
 		}
 		
 		if (piece.audio != null)
 			piece.audio.Play();
-		if(tier==3&&player==2){return;}                   //CHANGED PLAYER TO A 2 ON MAY 28TH
+		if(tier==3 && faction == PlayerManager.Faction.Industry) {return;}                   //CHANGED PLAYER TO A 2 ON MAY 28TH
 		if (piece.animation != null) {
 			piece.animation.PlayQueued("Start",QueueMode.PlayNow);
 			piece.animation.PlayQueued("Idle");

@@ -5,7 +5,7 @@ public class GameInfo : MonoBehaviour
 {
 	private bool singleplayer;
 	private int winCondition;
-	private int humanFactionChoice = 1;
+	private PlayerManager.Faction humanFactionChoice = PlayerManager.Faction.Life;
 	// Use this for initialization
 	void Start () {
 	
@@ -40,11 +40,11 @@ public class GameInfo : MonoBehaviour
 	public void setHumanFactionChoice(int inputChoice)
 	{
 		if (inputChoice == 1)
-			humanFactionChoice = 1;
+			humanFactionChoice = PlayerManager.Faction.Life;
 		if (inputChoice == 2)
-			humanFactionChoice = 2;
+			humanFactionChoice = PlayerManager.Faction.Industry;
 	}
-	public int getHumanFactionChoice()
+	public PlayerManager.Faction getHumanFactionChoice()
 	{
 		return humanFactionChoice;
 	}

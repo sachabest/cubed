@@ -3,32 +3,32 @@ using System.Collections;
 
 public class Move 
 {
-	private int player;
+	private PlayerManager.Faction faction;
 	private int row;
 	private int col;
 	private int tier;
 	private int removedTier;
 	
-	public Move (int player, int row, int col,int tier)
+	public Move (PlayerManager.Faction faction, int row, int col,int tier)
 	{
-		this.player = player;
+		this.faction = faction;
 		this.row = row;
 		this.col = col;
 		this.tier = tier;
 		this.removedTier = 0;
 	}	
-	public Move (int player, int row, int col, int tier,int removedTier)
+	public Move (PlayerManager.Faction faction, int row, int col, int tier,int removedTier)
 	{
-		this.player = player;
+		this.faction = faction;
 		this.row = row;
 		this.col = col;
 		this.tier = tier;
 		this.removedTier = removedTier;
 	}
 	
-	public int getPlayer()
+	public PlayerManager.Faction getFaction()
 	{
-		return player;
+		return faction;
 	}
 	public int getRow()
 	{

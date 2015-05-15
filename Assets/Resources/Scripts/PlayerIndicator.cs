@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerIndicator : MonoBehaviour 
 {
-	public int player;
+	public PlayerManager.Faction faction;
 	private Vector3 Player1pos;
 	private Vector3 Player2pos;
 	private Material p1Material;
@@ -22,16 +22,9 @@ public class PlayerIndicator : MonoBehaviour
 	{
 	
 	}
-	public void Set(int p)
+	public void Set(PlayerManager.Faction p)
 	{
-		player = p;
-		if(p==1)
-		{
-			this.renderer.material = (Material)Resources.Load ("Materials/"+m.getPlayerFaction(1)+"Reserve");
-		}
-		else if(p==2)
-		{
-			this.renderer.material = (Material)Resources.Load ("Materials/"+m.getPlayerFaction(2)+"Reserve");
-		}
+		faction = p;
+		this.renderer.material = (Material)Resources.Load ("Materials/"+(int) faction+"Reserve");
 	}
 }

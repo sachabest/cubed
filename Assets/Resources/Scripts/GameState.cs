@@ -5,7 +5,7 @@ public class GameState {
 	
 	public Stack moves;
 	public int player1score, player2score, winningScore;
-	
+
 	// Use this for initialization
 	public GameState(int winningScore) {
 		moves = new Stack();

@@ -7,9 +7,9 @@ public class PlayerSystem : MonoBehaviour {
 	private int[] playerScores;
 	private int numPlayers, winningScore;
 	
-	public delegate void ScoreChangeEventHandler(GameObject sender, int player, int newScore);
+	public delegate void ScoreChangeEventHandler(GameObject sender, PlayerManager.Faction faction, int newScore);
 	public event ScoreChangeEventHandler ScoreIncremented;
-	public delegate void GameWonEventHandler(int player);
+	public delegate void GameWonEventHandler(PlayerManager.Faction faction);
 	public event GameWonEventHandler GameWon;
 	// Use this for initialization
 	void Start () {
@@ -31,17 +31,17 @@ public class PlayerSystem : MonoBehaviour {
 		this.playerScores = new int[2];
 		this.winningScore = winningScore;
 	}
-	public void IncrementeScore(GameObject self, int player, int increment) {
+	public void IncrementeScore(GameObject self, PlayerManager.Faction faction, int increment) {
 		try {
-			playerScores[player] += increment;
+			playerScores[(int) faction] += increment;
 		}
 		catch (UnityException e) {
 			Debug.Log("That player has not been created yet or the value was entered incorrectly");
 			throw e;
 		}
-		ScoreIncremented(self, player, playerScores[player]);
-		if (playerScores[player] > winningScore)
-			GameWon(player);
+		ScoreIncremented(self, faction, playerScores[(int) faction]);
+		if (playerScores[(int) faction] > winningScore)
+			GameWon(faction);
 	}
 	// Update is called once per frame
 	void Update () {

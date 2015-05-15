@@ -20,7 +20,7 @@ public class SaveLoadManager : MonoBehaviour {
 		StringBuilder json = new StringBuilder("{\"moves\": [", stringLength);
 		foreach (Move move in moves) {
 			json.Append("{");
-			json.Append(move.getPlayer().ToString());
+			json.Append(move.getFaction().ToString());
 			json.Append(",");
 			json.Append(move.getRow().ToString());
 			json.Append(",");
@@ -46,7 +46,7 @@ public class SaveLoadManager : MonoBehaviour {
 		foreach (string str in moves)
 		{
 			string[] temp = str.Split(',');
-			Move move = new Move(int.Parse(temp[0]),int.Parse(temp[1]),int.Parse(temp[2]),int.Parse(temp[3]),int.Parse(temp[4]));
+			Move move = new Move((PlayerManager.Faction) int.Parse(temp[0]),int.Parse(temp[1]),int.Parse(temp[2]),int.Parse(temp[3]),int.Parse(temp[4]));
 			stk.Push(move);
 		}
 		return stk;
