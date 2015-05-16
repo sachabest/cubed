@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
 			AI = new AI(winningScore);
 
 			// set the current player to the human
-			currentFaction = humanFactionChoice;
+			currentFaction = PlayerManager.Faction.Uninitialized;
 		}
 
 		playAudio (currentFaction);
@@ -271,6 +271,15 @@ public class GameManager : MonoBehaviour
 		if (GameIsOver)
 			return;
 
+		// first turn
+		if (currentFaction == PlayerManager.Faction.Uninitialized) {
+			hasRolled = true;
+			roll = (UnityEngine.Random.Range(1, 7) + UnityEngine.Random.Range(1,7));
+			currentFaction = humanFactionChoice;
+			Debug.Log("Returning, first turn - adding roll");
+			ButtonManager.instance.rollDisplay.text = roll.ToString();
+			return;
+		}
 		// pushes empty move to the stack to signify the end of a turn - player references the player that just played
 		// This is the case of GameCenter Multiplayer
 		if (gameCenter != null  && !singleplayer && !loadingMoves) {
@@ -351,7 +360,7 @@ public class GameManager : MonoBehaviour
 		if(roll < 0 || !board.GetPlayable(x, y, currentFaction))
 		{
 			roll += (3*tier);
-			//Debug.Log ("Nope");
+			Debug.Log ("Nope");
 			return false;
 		}
 		if(board.GetPlayable(x, y, currentFaction))

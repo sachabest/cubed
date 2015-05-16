@@ -18,7 +18,30 @@ public class GameSquare : MonoBehaviour
 		material = (Material)Resources.Load("Materials/transparent");
 		piece = null;
 	}
-	
+//	void Update() {
+//		if (Input.touchCount == 1 || Input.GetMouseButtonDown(0)) {
+//			Debug.Log("touch");
+//			Vector3 position = Vector3.zero;
+//			if (Application.platform == RuntimePlatform.OSXEditor) {
+//				position = Input.mousePosition;
+//			}
+//			else {
+//				Touch t = Input.touches[0];
+//				if (t.phase == TouchPhase.Ended) {
+//					position = t.position;
+//				}
+//			}
+//			if (position != Vector3.zero) {
+//				Ray cameraRay = Camera.main.ScreenPointToRay(position);
+//				RaycastHit[] hits = Physics.RaycastAll(cameraRay);
+//				if (hits != null) {
+//					foreach (RaycastHit hit in hits) {
+//						Debug.Log (hit.collider);
+//					}
+//				}
+//			}
+//		}
+//	}
 	// Update is called once per frame
 	public void SetManager(GameManager mgr) {
 		this.manager = mgr;
@@ -54,10 +77,11 @@ public class GameSquare : MonoBehaviour
 	*/
 	public void OnMouseDown()
 	{
-		//manager.HandleClick(xval, yval);
-	}
-	void OnTap(TapGesture gesture) { 
-		GameManager.instance.HandleClick(xval, yval);
+		if (!GameManager.instance.mouseUI && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
+			manager.HandleClick(xval, yval);
+		} else {
+			Debug.Log("Over UI or dragging");
+		}
 	}
 	public void SetColor(PlayerManager.Faction faction, int tier) //THIS METHOD IS CALLED WITH THE *GAMEMANAGER* DEFINITION FOR PLAYER: 1 -> INDUSTRY
 	{																											//   2 -> LIFE

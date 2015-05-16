@@ -8,8 +8,9 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour {
 
 	public enum Faction {
+		Uninitialized = -1,
 		Life = 1,
-		Industry = 2
+		Industry = 2,
 	}
 
 	public class Player {
