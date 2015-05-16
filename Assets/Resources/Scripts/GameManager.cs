@@ -240,7 +240,8 @@ public class GameManager : MonoBehaviour
 		{
 			square.SetColor(currentFaction, tier);                                                   
 			Move move = new Move(currentFaction, xval, yval, tier);
-			moves.Push(move);                                 
+			moves.Push(move);
+			Debug.Log("Promoting for " + currentFaction);
 			PromoteNewPieces(currentFaction);                              
 			myBoardSphere.GetComponent<CameraSphere>().zoomToSquare(square);
 		}
@@ -258,6 +259,7 @@ public class GameManager : MonoBehaviour
 				gridCopy[i,j] = (int) board.Board[i,j];
 		PlayerManager.Faction opponent = PlayerManager.SwitchFaction (currentFaction);
 		int newOpponentScore = totalCount ( gridCopy, (int) opponent,0,0,new List<int>(30));
+		Debug.Log ("promoting for opponent");
 		PromoteNewPieces (opponent);
 		if (opponent == PlayerManager.Faction.Life)
 			ButtonManager.instance.lifeScore.text = "" + newOpponentScore;
@@ -304,11 +306,9 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
-		// change turns
-		currentFaction = PlayerManager.SwitchFaction (currentFaction);
 
 		// handle AI roll (cannot remove)
-		if (singleplayer && currentFaction != humanFactionChoice) {
+		if (singleplayer && currentFaction == humanFactionChoice) {
 			roll = (UnityEngine.Random.Range(2, 7) + UnityEngine.Random.Range(1,7));
 		} else {
 			roll = (UnityEngine.Random.Range(1, 7) + UnityEngine.Random.Range(1,7));
@@ -327,10 +327,14 @@ public class GameManager : MonoBehaviour
 		// reset current tier selection
 		tier = 1;
 
+		// change turns
+		currentFaction = PlayerManager.SwitchFaction (currentFaction);
+
 		// let the AI play if it should
 		if (singleplayer && currentFaction != humanFactionChoice) {
 			AI.Play(currentFaction, board, roll);
 		}
+
 	}
 
 	public bool PurchasePiece(int x, int y)
@@ -345,7 +349,7 @@ public class GameManager : MonoBehaviour
 		}
 		if(board.GetPlayable(x, y, currentFaction))
 		{
-			board.Set(x, y, tier);
+			board.Set(x, y, (int) currentFaction);
 			output = true;
 		}
 		if(tier==2)
@@ -431,7 +435,7 @@ public class GameManager : MonoBehaviour
 		Array.Copy(board.Board, boardcopy, 144);
 		//Debug.Log ("Score" + totalCount(boardcopy, player, 0, 0));
 		
-		int newScore = totalCount(boardcopy, (int)  currentFaction, 0, 0, new List<int>(30));
+		int newScore = totalCount(boardcopy, (int) currentFaction, 0, 0, new List<int>(30));
 		Debug.Log ("Score: " + newScore);
 		playerScores[(int) currentFaction] = newScore;
 		if(newScore >= winningScore)
@@ -444,7 +448,7 @@ public class GameManager : MonoBehaviour
 	}
 	public void SetTier(int newTier)
 	{
-			this.tier = newTier;
+		this.tier = newTier;
 	}
 	public bool Remove(int x, int y, int _tier)
 	{
@@ -986,6 +990,7 @@ public class GameManager : MonoBehaviour
 		}
 	}
 	public void Promote(GameSquare square, PlayerManager.Faction faction) {
+		Debug.Log ("Promoting (" + square.xval + ", " + square.yval + ") for " + faction);
 		square.DestroyPiece();
 		square.SetColor(faction, 4);
 	}

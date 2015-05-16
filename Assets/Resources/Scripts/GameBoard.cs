@@ -99,7 +99,7 @@ public class GameBoard : MonoBehaviour
 	}
 	public bool GetPlayable(int x, int y, PlayerManager.Faction faction)
 	{
-		return (PlayableArea[x,y,(int) faction - 1] >= PlayableArea[x,y,(int) PlayerManager.SwitchFaction(faction) - 1])&&Board[x,y]==0;
+		return (PlayableArea[x,y,(int) faction - 1] >= PlayableArea[x,y,(int) PlayerManager.SwitchFaction(faction) - 1]) && Board[x,y] == 0;
 	}
 	public bool[][] PlayableToBoolArray(PlayerManager.Faction faction)
 	{
