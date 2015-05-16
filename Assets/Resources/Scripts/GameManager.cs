@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
 			return false;
 		}
 		int tier = move.getTier();
-		if (faction == this.currentFaction && tier == 0) // tier == 0, thus I need to undo a remover -> replace
+		if (faction == currentFaction && tier == 0) // tier == 0, thus I need to undo a remover -> replace
 		{
 			int row = move.getRow();
 			int col = move.getCol();
@@ -304,14 +304,17 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
+		// change turns
+		currentFaction = PlayerManager.SwitchFaction (currentFaction);
+
+		// handle AI roll (cannot remove)
+		if (singleplayer && currentFaction != humanFactionChoice) {
+			roll = (UnityEngine.Random.Range(2, 7) + UnityEngine.Random.Range(1,7));
+		} else {
+			roll = (UnityEngine.Random.Range(1, 7) + UnityEngine.Random.Range(1,7));
+		}
 
 		hasRolled = true;
-		roll = (UnityEngine.Random.Range(1, 7) + UnityEngine.Random.Range(1,7));
-
-		// handle AI roll
-		if (singleplayer && currentFaction != humanFactionChoice) {
-			roll = (UnityEngine.Random.Range(2, 7)+UnityEngine.Random.Range(1,7));
-		}
 
 		// show a roll on the screen
 		ButtonManager.instance.rollDisplay.text = roll.ToString();
@@ -324,35 +327,12 @@ public class GameManager : MonoBehaviour
 		// reset current tier selection
 		tier = 1;
 
-		// change turns
-		currentFaction = PlayerManager.SwitchFaction (currentFaction);
-
 		// let the AI play if it should
-		if(singleplayer && currentFaction != humanFactionChoice)
-		{
-			int[][] grid = new int[board.Board.GetLength(0)][];
-			for(int i = 0; i < board.Board.GetLength(0); i++)
-			{
-				grid[i] = new int[board.Board.GetLength(1)];
-				for(int j = 0; j < board.Board.GetLength(1); j++)
-				{
-					grid[i][j] = (int) board.Board[i,j];
-				}
-			}
-			
-			bool[][] check = board.PlayableToBoolArray(currentFaction);
-			List<GameStat> ListOfMove = AI.makeMove(grid, check, (int) currentFaction, roll);
-			foreach(GameStat gs in ListOfMove)
-			{
-				SetTier (gs.getTier());
-				Debug.Log ("AI moves at " + gs.getMaxX() + ", " + gs.getMaxY());
-				HandleClick(gs.getMaxX(), gs.getMaxY());
-			}
-			if (playerScores[1] < winningScore && playerScores[2] < winningScore) {
-				NextTurn();
-			}
+		if (singleplayer && currentFaction != humanFactionChoice) {
+			AI.Play(currentFaction, board, roll);
 		}
 	}
+
 	public bool PurchasePiece(int x, int y)
 	{
 		bool output = false;
