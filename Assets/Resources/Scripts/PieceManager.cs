@@ -67,9 +67,9 @@ public class PieceManager : MonoBehaviour {
 	}
 	
 	
-	public GameObject GetPiece(int faction, int tier) {
+	public GameObject GetPiece(PlayerManager.Faction faction, int tier) {
 		GameObject returned = null;
-		if (faction == 1) { //Life is one!!!
+		if (faction == PlayerManager.Faction.Life) { //Life is one!!!
 			if (tier == 1)
 				returned = (GameObject) life3.Pop();
 			else if (tier == 2)
@@ -79,7 +79,7 @@ public class PieceManager : MonoBehaviour {
 			else
 				returned = (GameObject) lifeSuper.Pop();
 		}
-		else if (faction == 2) {  //Industry is 2!!!
+		else if (faction == PlayerManager.Faction.Industry) {  //Industry is 2!!!
 			if (tier == 1)
 				returned = (GameObject) industry3.Pop();
 			else if (tier == 2)
@@ -91,12 +91,12 @@ public class PieceManager : MonoBehaviour {
 		}
 		return returned;
 	}
-	public void ReturnPiece(GameObject piece, int faction, int tier) {
+	public void ReturnPiece(GameObject piece, PlayerManager.Faction faction, int tier) {
 		if (piece == null)
 			return;
 		piece.SetActive (false);
 		piece.transform.position = new Vector3(-1000,-1000,-1000);
-		if (faction == 1) {  //Life is one!!!
+		if (faction == PlayerManager.Faction.Life) {  //Life is one!!!
 			if (tier == 1)
 				life3.Push (piece);
 			else if (tier == 2)
@@ -106,7 +106,7 @@ public class PieceManager : MonoBehaviour {
 			else if (tier == 4)
 				lifeSuper.Push(piece);
 		}
-		else if (faction == 2) { //Industry is two!!!!
+		else if (faction == PlayerManager.Faction.Industry) { //Industry is two!!!!
 			if (tier == 1)
 				industry3.Push (piece);
 			else if (tier == 2)

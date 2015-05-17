@@ -5,7 +5,7 @@ using System;
 public class GameBoard : MonoBehaviour 
 {
 	public int[,] Board;
-	private int[,,] PlayableArea;
+	private PlayerManager.Faction[,,] PlayableArea;
 	public GameSquare[,] GSArray;
 	public GameSquare sqr;
 	
@@ -15,7 +15,7 @@ public class GameBoard : MonoBehaviour
 	void Start () 
 	{
 		Board = new int[12,12];
-		PlayableArea = new int[12,12,2];
+		PlayableArea = new PlayerManager.Faction[12,12,2];
 		GSArray = new GameSquare[12,12];
 		for(int x = 0; x < 12; x++)
 		{
@@ -41,9 +41,9 @@ public class GameBoard : MonoBehaviour
 	{
 		Board[x,y] = value;
 	}
-	public bool Remove(int x, int y, int _tier, int playerRemovingPiece)
+	public bool Remove(int x, int y, int _tier, PlayerManager.Faction factionRemovingPiece)
 	{
-		int player = (playerRemovingPiece == 1)?2:1;     
+		PlayerManager.Faction faction = PlayerManager.SwitchFaction (factionRemovingPiece);  
 		if(Board[x,y] != 0)
 		{
 			Board[x,y] = 0;
@@ -51,13 +51,13 @@ public class GameBoard : MonoBehaviour
 			{
 				try
 				{
-					UnsetPlayable(x+1, y, player);
+					UnsetPlayable(x+1, y, faction);
 					Reserve(x+1, y);                 //just sets the *image* based on the data in PlayableArea
-					UnsetPlayable(x-1, y, player);
+					UnsetPlayable(x-1, y, faction);
 					Reserve(x-1, y);
-					UnsetPlayable(x, y+1, player);
+					UnsetPlayable(x, y+1, faction);
 					Reserve(x, y+1);
-					UnsetPlayable(x, y-1, player);
+					UnsetPlayable(x, y-1, faction);
 					Reserve(x, y-1);
 				}
 				#pragma warning disable
@@ -73,7 +73,7 @@ public class GameBoard : MonoBehaviour
 					{
 						try
 						{
-							UnsetPlayable(i,j,player);
+							UnsetPlayable(i,j,faction);
 							Reserve(i, j);             //just sets the *image* based on the data in PlayableArea
 						}
 						catch(Exception e)
@@ -89,19 +89,19 @@ public class GameBoard : MonoBehaviour
 		Debug.Log ("Board.Remove FALSE");
 			return false;
 	}
-	public void SetPlayable(int x, int y, int player)
+	public void SetPlayable(int x, int y, PlayerManager.Faction faction)
 	{
-		PlayableArea[x,y,player-1]++;
+		PlayableArea[x,y,(int) faction-1]++;
 	}
-	public void UnsetPlayable(int x, int y, int player)
+	public void UnsetPlayable(int x, int y, PlayerManager.Faction faction)
 	{
-		PlayableArea[x,y,player-1]--;
+		PlayableArea[x,y,(int) faction-1]--;
 	}
-	public bool GetPlayable(int x, int y, int player)
+	public bool GetPlayable(int x, int y, PlayerManager.Faction faction)
 	{
-		return (PlayableArea[x,y,player-1] >= PlayableArea[x,y,(player==1)?1:0])&&Board[x,y]==0;
+		return (PlayableArea[x,y,(int) faction - 1] >= PlayableArea[x,y,(int) PlayerManager.SwitchFaction(faction) - 1]) && Board[x,y] == 0;
 	}
-	public bool[][] PlayableToBoolArray(int player)
+	public bool[][] PlayableToBoolArray(PlayerManager.Faction faction)
 	{
 		bool[][] output = new bool[PlayableArea.GetLength(0)][];
 		for(int i = 0; i < PlayableArea.GetLength(0); i++)
@@ -112,7 +112,7 @@ public class GameBoard : MonoBehaviour
 		{
 			for(int y = 0; y < PlayableArea.GetLength(1); y++)
 			{
-				output[x][y] = GetPlayable(x, y, player);
+				output[x][y] = GetPlayable(x, y, faction);
 			}
 		}
 		return output;
@@ -125,11 +125,11 @@ public class GameBoard : MonoBehaviour
 		{
 			if(PlayableArea[x,y,0] > PlayableArea[x,y,1])
 			{
-				GSArray[x,y].setMaterial((Material)Resources.Load ("Materials/"+m.getPlayerFaction(1)+"Reserve"));
+				GSArray[x,y].setMaterial((Material)Resources.Load ("Materials/"+ PlayerManager.Faction.Life +"Reserve"));
 			}
 			else if(PlayableArea[x,y,0] < PlayableArea[x,y,1])
 			{
-				GSArray[x,y].setMaterial((Material)Resources.Load ("Materials/"+m.getPlayerFaction(2)+"Reserve"));
+				GSArray[x,y].setMaterial((Material)Resources.Load ("Materials/"+ PlayerManager.Faction.Industry +"Reserve"));
 			}
 			else
 			{

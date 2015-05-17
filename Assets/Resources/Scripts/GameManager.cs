@@ -11,19 +11,17 @@ public class GameManager : MonoBehaviour
 	public GameObject myBoardSphere;
 	public UILabel rollDisplay;
 	public bool rolledATwo, mouseUI;
-	public int player, tier, roll, winningScore;
+	public int tier, roll, winningScore;
 	public bool singleplayer = true;
-	private int humanFactionChoice;
+	private PlayerManager.Faction humanFactionChoice;
 	public AI AI;
-	public String[] PlayerFactions;
 	private int[] playerScores;
-	private Stack moves;
+	private Stack<Move> moves;
 	public PieceManager pieceManager;
 	public GCCubedListener gameCenter;
 	public SaveLoadManager saveLoad;
 	private bool loadingMoves, previousTurnEnded, hasMovedThisTurn, hasRolled;
 	private Move topOfStack;
-	private int lastPlayer;
 	private bool escapeAttempt = false;
 	private float gameTimer = 0.0f;
 	private string tempEscapeText = "";
@@ -37,68 +35,81 @@ public class GameManager : MonoBehaviour
 	public Light winCameraLight;
 	public float lifeWinsIntensity = 0.5f, industryWinsIntensity = 0.7f;
 	
-	private AudioSource[] audioClips;
 	public AudioSource industry, life;
-	private int audioIndex;
+
+	public PlayerManager.Faction currentFaction;
 
 	public static GameManager instance;
 
 	// Use this for initialization
 	void Awake () 
 	{
+		// set for singleton pattern
 		instance = this;
+
 		territoriesScoringPointsForCurrentFaction = new List<int>();
+
+		// for undo capability
 		promotedTerritoryFormerTierValues = new int[12,12]; //faction *10 + tier value
-		winningScore = 100; //temp
+
+		// disable the win camera at start
 		WinCamera.camera.enabled = false;
-		player = 9;
-		roll = 0;
+
 		SetTier(1);
+
+		// create array to hold player scores
 		playerScores = new int[3];
-		PlayerFactions = new String[2];
-		setPlayerFaction(1, "Life");
-		setPlayerFaction(2, "Industry");
-		mouseUI = false;
-		moves = new Stack();
-		//RollDistribution = new int[36] {2,3,3,4,4,4,5,5,5,5,6,6,6,6,6,7,7,7,7,7,7,8,8,8,8,8,9,9,9,9,10,10,10,11,11,12};
-		var temp = GameObject.Find("GameCenter");
-		gameInfo = GameObject.Find ("GameInfo").GetComponent<GameInfo>();
+
+		// to hold moves for undo, sserialize, etc.
+		moves = new Stack<Move>();
+
+		gameInfo = GameInfo.instance;
 		singleplayer = gameInfo.getSinglePlayer();
 		winningScore = gameInfo.getWinCondition();
 		humanFactionChoice = gameInfo.getHumanFactionChoice();
-		AI = new AI(winningScore);
-		Debug.Log("HumanF faction choice from GameInfo: " + humanFactionChoice);
-		Debug.Log("Final player variable: " + player);
-		audioIndex = player == 1 ? 0:1;
-		Debug.Log("Audio index: " + audioIndex);
-		audioClips = new AudioSource[2];
-		audioClips[0] = industry;
-		audioClips[1] = life;
-		audioClips[audioIndex].Play();
 
-		GameIsOver = false;
-		escapeAttempt = false;
-		// in case GameCenter is not working for some reason
+		// log human faction for testing
+		Debug.Log (humanFactionChoice);
+
+		// if there is an AI playing, make it
+		if (singleplayer) {
+			AI = new AI(winningScore);
+
+			// set the current player to the human
+			currentFaction = PlayerManager.Faction.Uninitialized;
+		}
+
+		ButtonManager.instance.lifeName.text = gameInfo.lifeUser;
+		ButtonManager.instance.industryName.text = gameInfo.industryUser;
+
+		playAudio (currentFaction);
+
+		GameObject temp = GameObject.Find("GameCenter");
 		if (temp != null) {
 			gameCenter = temp.GetComponentInChildren<GCCubedListener>();
 			saveLoad = temp.GetComponentInChildren<SaveLoadManager>();
-		//	singleplayer = gameCenter.singleplayer;
 			if (!singleplayer) {
 				moves = saveLoad.ParseJSONGameStateString(gameCenter.currentMatchData);
+				ButtonManager.instance.lifeName.text = GameInfo.instance.lifeUser;
+				ButtonManager.instance.industryName.text = GameInfo.instance.industryUser;
 				if (moves != null && moves.Count > 0) {
 					topOfStack = (Move) moves.Peek();
 					previousTurnEnded = (topOfStack.getCol() == -1) && (topOfStack.getRow() == -1) && (topOfStack.getTier() == -1);
-					lastPlayer = topOfStack.getPlayer();
 					hasMovedThisTurn = false;
 					hasRolled = false;
-					Debug.Log("Faction that last ended turn (Life/Industry) (1/2): " + lastPlayer);
+					Debug.Log("Faction that last ended turn (Life/Industry) (1/2): " + (int) PlayerManager.SwitchFaction(currentFaction));
+				}
+				else { // first turn
+
 				}
 			}
-		/*	string opponent = gameCenter.GetOpponent();
-			if (opponent != null && opponent != "")
-				player2score.text = opponent; */
 		}
-		//create pieces offscreen
+	}
+	void playAudio(PlayerManager.Faction faction) {
+		if (faction == PlayerManager.Faction.Life) 
+			life.Play ();
+		else if (faction == PlayerManager.Faction.Industry)
+			industry.Play ();
 	}
 	// This prevents the game from misintrepreting drag motions as clicks on the board
 	void OnDrag(DragGesture gesture) { 
@@ -108,7 +119,7 @@ public class GameManager : MonoBehaviour
 			mouseUI = false;
 		Debug.Log(mouseUI);
 	}
-	public Stack GetMoves() {
+	public Stack<Move> GetMoves() {
 		return moves;
 	}
 	
@@ -119,13 +130,13 @@ public class GameManager : MonoBehaviour
 			gameTimer += Time.deltaTime;
 			if (gameTimer > 3.0f)
 			{
-				if(playerScores[1] > winningScore)
+				if(playerScores[(int) PlayerManager.Faction.Life] > winningScore)
 				{
 					winCameraLight.intensity = lifeWinsIntensity;
 					WinScreenCube.renderer.material = (Material)Resources.Load ("Materials/LifeWIN");
 
 				}
-				else if(playerScores[2] > winningScore)
+				else if(playerScores[(int) PlayerManager.Faction.Industry] > winningScore)
 				{
 					winCameraLight.intensity = industryWinsIntensity;
 					WinScreenCube.renderer.material = (Material)Resources.Load ("Materials/IndustryWIN");	
@@ -154,15 +165,15 @@ public class GameManager : MonoBehaviour
 			return false;
 		}
 		Move move = (Move)moves.Pop();
-		int player = move.getPlayer();
-		if(player != this.player)
+		PlayerManager.Faction faction = move.getFaction();
+		if(faction != currentFaction)
 		{
 			moves.Push(move);
 			Debug.Log ("Not your move to undo BITCH");
 			return false;
 		}
 		int tier = move.getTier();
-		if (player == this.player && tier ==0)// tier == 0, thus I need to undo a remover -> replace
+		if (faction == currentFaction && tier == 0) // tier == 0, thus I need to undo a remover -> replace
 		{
 			int row = move.getRow();
 			int col = move.getCol();
@@ -170,27 +181,25 @@ public class GameManager : MonoBehaviour
 			
 			//GameSquare square = board.GSArray[row,col];
 			
-			this.player = (this.player == 1)?2:1;
+			this.currentFaction = PlayerManager.SwitchFaction(this.currentFaction);
 			roll += removedTier*3;
 			this.tier = removedTier;
 			HandleClick(row, col);
 			this.tier = 0;
 			rolledATwo = true;
-			this.player = (this.player == 1)?2:1;
-			
-			
+			this.currentFaction = PlayerManager.SwitchFaction(this.currentFaction);
 			
 			Debug.Log("Undo TRUE");
 			return true;
 		}
-		else if (player == this.player && tier !=0) 
+		else if (faction == currentFaction && tier !=0) 
 		{
 			int row = move.getRow();
 			int col = move.getCol();
 			GameSquare square = board.GSArray[row,col]; 
 			
 			
-			if(board.Remove (row, col, tier,(player == 1)?2:1))
+			if(board.Remove (row, col, tier,PlayerManager.SwitchFaction(faction)))
 			{	
 				
 				square.DestroyPiece();
@@ -216,7 +225,7 @@ public class GameManager : MonoBehaviour
 	}
 	public void HandleClick(int xval, int yval)
 	{
-		if(GameIsOver)
+		if (GameIsOver)
 		{
 			return;
 		}
@@ -224,7 +233,7 @@ public class GameManager : MonoBehaviour
 		//gamecenter
 		hasMovedThisTurn = true;
 		
-		if(tier == 0 || (rolledATwo && square._player != player))
+		if(tier == 0 || (rolledATwo && square.faction != currentFaction))
 		{
 			if(Remove(xval, yval, square._tier))
 			{
@@ -237,10 +246,11 @@ public class GameManager : MonoBehaviour
 		}
 		else if(PurchasePiece(xval, yval))    
 		{
-			square.SetColor(player, tier);                                                   
-			Move move = new Move(player, xval, yval, tier);
-			moves.Push(move);                                 
-			PromoteNewPieces(player);                              
+			square.SetColor(currentFaction, tier);                                                   
+			Move move = new Move(currentFaction, xval, yval, tier);
+			moves.Push(move);
+			Debug.Log("Promoting for " + currentFaction);
+			PromoteNewPieces(currentFaction);                              
 			myBoardSphere.GetComponent<CameraSphere>().zoomToSquare(square);
 		}
 		ButtonManager.instance.rollDisplay.text = roll.ToString();
@@ -254,11 +264,12 @@ public class GameManager : MonoBehaviour
 		int[,] gridCopy = new int[board.Board.GetLength(0),board.Board.GetLength(1)];
 		for(int i = 0; i < board.Board.GetLength(0); i++)
 			for(int j = 0; j < board.Board.GetLength(1); j++)
-				gridCopy[i,j] = board.Board[i,j];
-		int opponent = player == 1 ? 2:1;
-		int newOpponentScore = totalCount (gridCopy,opponent,0,0,new List<int>(30));
+				gridCopy[i,j] = (int) board.Board[i,j];
+		PlayerManager.Faction opponent = PlayerManager.SwitchFaction (currentFaction);
+		int newOpponentScore = totalCount ( gridCopy, (int) opponent,0,0,new List<int>(30));
+		Debug.Log ("promoting for opponent");
 		PromoteNewPieces (opponent);
-		if (opponent == 1)
+		if (opponent == PlayerManager.Faction.Life)
 			ButtonManager.instance.lifeScore.text = "" + newOpponentScore;
 		else
 			ButtonManager.instance.industryScore.text = "" + newOpponentScore;
@@ -266,19 +277,21 @@ public class GameManager : MonoBehaviour
 	public void NextTurn()
 	{
 		Debug.Log ("Next Turn Clicked");
-		Debug.Log ("CurrentPlayer: " + player + ". Has moved? " + hasMovedThisTurn + ". Has Rolled? " + hasRolled);
-		if (player == 9 && singleplayer) { //this is the case on the first roll
-			Debug.Log("First turn detected");
-			if (humanFactionChoice == 1)
-				player = 2;
-			else
-				player = 1;
-		}
-		if(GameIsOver) //disables the button when the game is over
-		{
+		Debug.Log ("CurrentPlayer: " + currentFaction + ". Has moved? " + hasMovedThisTurn + ". Has Rolled? " + hasRolled);
+		if (GameIsOver)
+			return;
+
+		// first turn
+		if (currentFaction == PlayerManager.Faction.Uninitialized) {
+			hasRolled = true;
+			roll = (UnityEngine.Random.Range(1, 7) + UnityEngine.Random.Range(1,7));
+			currentFaction = humanFactionChoice;
+			Debug.Log("Returning, first turn - adding roll");
+			ButtonManager.instance.rollDisplay.text = roll.ToString();
 			return;
 		}
-		//pushes empty move to the stack to signify the end of a turn - player references the player that just played
+		// pushes empty move to the stack to signify the end of a turn - player references the player that just played
+		// This is the case of GameCenter Multiplayer
 		if (gameCenter != null  && !singleplayer && !loadingMoves) {
 			if (!GameCenterTurnBasedBinding.isCurrentPlayersTurn()) {
 				gameCenter.LoadLevel("MainMenuV2");
@@ -286,7 +299,7 @@ public class GameManager : MonoBehaviour
 			}
 			else if (hasRolled) {
 				if (hasMovedThisTurn) {
-					moves.Push(new Move(player, -1, -1, -1));
+					moves.Push(new Move(currentFaction, -1, -1, -1));
 					Debug.Log("GameCenter " + gameCenter);
 					Debug.Log("SaveLoad " + saveLoad);
 					hasMovedThisTurn = false;
@@ -301,62 +314,50 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
+
+		// handle AI roll (cannot remove)
+		if (singleplayer && currentFaction == humanFactionChoice) {
+			roll = (UnityEngine.Random.Range(2, 7) + UnityEngine.Random.Range(1,7));
+		} else {
+			roll = (UnityEngine.Random.Range(1, 7) + UnityEngine.Random.Range(1,7));
+		}
+
 		hasRolled = true;
-		roll = (UnityEngine.Random.Range(1, 7)+UnityEngine.Random.Range(1,7));
-		if(singleplayer && player != humanFactionChoice)
-		{
-			//Debug.Log("Changing AI roll to not 2");
-			roll = (UnityEngine.Random.Range(2, 7)+UnityEngine.Random.Range(1,7));
-		}
+
+		// show a roll on the screen
 		ButtonManager.instance.rollDisplay.text = roll.ToString();
-		if(roll == 2)
-		{
+
+		if (roll == 2)
 			rolledATwo = true;
-		}
 		else
-		{
 			rolledATwo = false;
-		}
+
+		// reset current tier selection
 		tier = 1;
-		player = (player==1)?2:1;
-		if(singleplayer && player != humanFactionChoice)
-		{
-			int[][] grid = new int[board.Board.GetLength(0)][];
-			for(int i = 0; i < board.Board.GetLength(0); i++)
-			{
-				grid[i] = new int[board.Board.GetLength(1)];
-				for(int j = 0; j < board.Board.GetLength(1); j++)
-				{
-					grid[i][j] = board.Board[i,j];
-				}
-			}
-			
-			bool[][] check = board.PlayableToBoolArray(player);
-			List<GameStat> ListOfMove = AI.makeMove(grid, check, player, roll);
-			foreach(GameStat gs in ListOfMove)
-			{
-				SetTier (gs.getTier());
-				Debug.Log ("AI moves at " + gs.getMaxX() + ", " + gs.getMaxY());
-				HandleClick(gs.getMaxX(), gs.getMaxY());
-			}
-			if (playerScores[1] < winningScore && playerScores[2] < winningScore) {
-				NextTurn();
-			}
+
+		// change turns
+		currentFaction = PlayerManager.SwitchFaction (currentFaction);
+
+		// let the AI play if it should
+		if (singleplayer && currentFaction != humanFactionChoice) {
+			AI.Play(currentFaction, board, roll);
 		}
+
 	}
+
 	public bool PurchasePiece(int x, int y)
 	{
 		bool output = false;
 		roll -= (3*tier);
-		if(roll < 0 || !board.GetPlayable(x, y, player))
+		if(roll < 0 || !board.GetPlayable(x, y, currentFaction))
 		{
 			roll += (3*tier);
 			Debug.Log ("Nope");
 			return false;
 		}
-		if(board.GetPlayable(x, y, player))
+		if(board.GetPlayable(x, y, currentFaction))
 		{
-			board.Set(x, y, player);
+			board.Set(x, y, (int) currentFaction);
 			output = true;
 		}
 		if(tier==2)
@@ -378,7 +379,7 @@ public class GameManager : MonoBehaviour
 			#pragma warning disable
 			try
 			{
-				board.SetPlayable(x+1, y, player);
+				board.SetPlayable(x+1, y, currentFaction);
 			}
 			catch(Exception e){}
 			try
@@ -388,7 +389,7 @@ public class GameManager : MonoBehaviour
 			catch(Exception e){}
 			try
 			{
-				board.SetPlayable(x-1, y, player);
+				board.SetPlayable(x-1, y, currentFaction);
 			}
 			catch(Exception e){}
 			try
@@ -398,7 +399,7 @@ public class GameManager : MonoBehaviour
 			catch(Exception e){}
 			try
 			{
-				board.SetPlayable(x, y+1, player);
+				board.SetPlayable(x, y+1, currentFaction);
 			}
 			catch(Exception e){}
 			try
@@ -408,7 +409,7 @@ public class GameManager : MonoBehaviour
 			catch(Exception e){}
 			try
 			{
-				board.SetPlayable(x, y-1, player);
+				board.SetPlayable(x, y-1, currentFaction);
 			}
 			catch(Exception e){}
 			try
@@ -426,7 +427,7 @@ public class GameManager : MonoBehaviour
 				{
 					try
 					{
-						board.SetPlayable(i,j,player);
+						board.SetPlayable(i,j,currentFaction);
 						board.Reserve (i, j);
 					}
 					catch(Exception e)
@@ -436,34 +437,26 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
-		Debug.Log("Can purchase piece: tier " +tier+", player "+player+": "+output);
+		Debug.Log("Can purchase piece: tier " +tier+", player "+currentFaction+": "+output);
 		
 		int[,] boardcopy = new int[12,12];
 		Array.Copy(board.Board, boardcopy, 144);
 		//Debug.Log ("Score" + totalCount(boardcopy, player, 0, 0));
 		
-		int newScore = totalCount(boardcopy, player, 0, 0, new List<int>(30));
+		int newScore = totalCount(boardcopy, (int) currentFaction, 0, 0, new List<int>(30));
 		Debug.Log ("Score: " + newScore);
-		playerScores[player] = newScore;
+		playerScores[(int) currentFaction] = newScore;
 		if(newScore >= winningScore)
 		{
 			Win();
 		}
-		ButtonManager.instance.lifeScore.text = getPlayerScore(1).ToString() + "/" + winningScore;
-		ButtonManager.instance.industryScore.text = getPlayerScore(2).ToString() + "/" + winningScore;
+		ButtonManager.instance.lifeScore.text =  playerScores[(int)PlayerManager.Faction.Life].ToString() + "/" + winningScore;
+		ButtonManager.instance.industryScore.text =  playerScores[(int)PlayerManager.Faction.Industry].ToString() + "/" + winningScore;
 		return output;
 	}
 	public void SetTier(int newTier)
 	{
-			this.tier = newTier;
-	}
-	public String getPlayerFaction(int playernumber)
-	{
-		return PlayerFactions[playernumber - 1];
-	}
-	public void setPlayerFaction(int p, String faction)
-	{
-		PlayerFactions[p-1] = faction;
+		this.tier = newTier;
 	}
 	public bool Remove(int x, int y, int _tier)
 	{
@@ -472,8 +465,8 @@ public class GameManager : MonoBehaviour
 		{
 			if (_tier == 4)
 			{
-				int opponent = player == 1 ? 2:1;
-				board.Remove (x,y,_tier,player); //pass in the player who is removing the piece
+				PlayerManager.Faction opponent = PlayerManager.SwitchFaction(currentFaction);
+				board.Remove (x,y,_tier,currentFaction); //pass in the player who is removing the piece
 				board.GSArray[x,y].DestroyPiece();
 				_tier = promotedTerritoryFormerTierValues[x,y]%10;
 				promotedTerritoryFormerTierValues[x,y] = 0;
@@ -481,10 +474,10 @@ public class GameManager : MonoBehaviour
 				board.GSArray[x,y].SetColor(opponent, _tier);
 			}
 	
-			if(board.Remove (x, y, _tier, player))
+			if(board.Remove (x, y, _tier, currentFaction))
 			{
 				rolledATwo = false;
-				Move move = new Move(player, x, y, 0, _tier);
+				Move move = new Move(currentFaction, x, y, 0, _tier);
 				moves.Push (move);
 
 				return true;
@@ -492,9 +485,9 @@ public class GameManager : MonoBehaviour
 		}
 		return false;
 	}
-	public int getPlayerScore(int playerToGet)
+	public int getPlayerScore(PlayerManager.Faction factionToGet)
 	{
-		return playerScores[playerToGet];
+		return playerScores[(int) factionToGet];
 	}
 	public void Win()
 	{
@@ -802,10 +795,10 @@ public class GameManager : MonoBehaviour
 	}
 	public void ReLoadMove(Move move) {
 		tier = move.getTier();
-		player = move.getPlayer();
+		currentFaction = move.getFaction();
 		PurchasePiece(move.getRow(), move.getCol());
 	}
-	public void redo(int player, int x, int y, int tier)
+	public void redo(PlayerManager.Faction faction, int x, int y, int tier)
 	{
 		Debug.Log("Redo at " + x + ", " + y);
 		GameSquare square = board.GSArray[x, y];
@@ -813,7 +806,7 @@ public class GameManager : MonoBehaviour
 		if(tier == 0)
 		{
 			//Debug.Log("attempting a remove...");
-			if(board.Remove(x, y, square._tier, player))
+			if(board.Remove(x, y, square._tier, faction))
 			{
 				square.DestroyPiece();
 
@@ -823,7 +816,7 @@ public class GameManager : MonoBehaviour
 			}
 			
 		}
-		board.Set(x, y, player);
+		board.Set(x, y, tier);
 		if(tier==2)
 		{
 			/*
@@ -843,7 +836,7 @@ public class GameManager : MonoBehaviour
 			#pragma warning disable
 			try
 			{
-				board.SetPlayable(x+1, y, player);
+				board.SetPlayable(x+1, y, faction);
 			}
 			catch(Exception e){}
 			try
@@ -853,7 +846,7 @@ public class GameManager : MonoBehaviour
 			catch(Exception e){}
 			try
 			{
-				board.SetPlayable(x-1, y, player);
+				board.SetPlayable(x-1, y, faction);
 			}
 			catch(Exception e){}
 			try
@@ -863,7 +856,7 @@ public class GameManager : MonoBehaviour
 			catch(Exception e){}
 			try
 			{
-				board.SetPlayable(x, y+1, player);
+				board.SetPlayable(x, y+1, faction);
 			}
 			catch(Exception e){}
 			try
@@ -873,7 +866,7 @@ public class GameManager : MonoBehaviour
 			catch(Exception e){}
 			try
 			{
-				board.SetPlayable(x, y-1, player);
+				board.SetPlayable(x, y-1, faction);
 			}
 			catch(Exception e){}
 			try
@@ -891,7 +884,7 @@ public class GameManager : MonoBehaviour
 				{
 					try
 					{
-						board.SetPlayable(i,j,player);
+						board.SetPlayable(i,j,faction);
 						board.Reserve (i, j);
 					}
 					catch(Exception e)
@@ -901,8 +894,8 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
-		Debug.Log ("Setting color for player " + player);
-		square.SetColor(player, tier);
+		Debug.Log ("Setting color for player " + faction);
+		square.SetColor(faction, tier);
 		
 	}
 	public bool BrandonReloadMoves(Stack moves) 
@@ -915,22 +908,22 @@ public class GameManager : MonoBehaviour
 		object[] movesArray = moves.ToArray();
 		Array.Reverse(movesArray);
 		Move firstMove = (Move) movesArray[0];
-		if (firstMove.getPlayer() == 2)
-			this.player = 2;
+		if (firstMove.getFaction () == PlayerManager.Faction.Industry)
+			currentFaction = PlayerManager.Faction.Industry;
 		for (int count = 0; count < movesArray.Length; count++)
 		{
 			Move currentMove = (Move) movesArray[count];
-			int player = currentMove.getPlayer();
+			PlayerManager.Faction faction = currentMove.getFaction();
 			int tier = currentMove.getTier();
 			int row = currentMove.getRow();
 			int col = currentMove.getCol();
 			if (tier == -1 && row == -1 && col == -1) {
-				Debug.Log("TURN CHANGE. " + player + " ended turn.");
+				Debug.Log("TURN CHANGE. " + faction + " ended turn.");
 				tier = 1;
-				this.player = (this.player==1)?2:1;
+				currentFaction = PlayerManager.SwitchFaction(currentFaction);
 			}
 			else
-				redo (player, row, col, tier);
+				redo (faction, row, col, tier);
 			/*if (tier ==0)
 			{
 				int row = move.getRow();
@@ -982,22 +975,21 @@ public class GameManager : MonoBehaviour
 		}
 		return false;*/
 		}
-		this.player = lastPlayer;
+		currentFaction = PlayerManager.SwitchFaction (((Move) movesArray[movesArray.Length - 1]).getFaction ());
 		loadingMoves = false;
 		int[,] boardcopy = new int[12,12];
 		Array.Copy(board.Board, boardcopy, 144);
 		//Debug.Log ("Score" + totalCount(boardcopy, player, 0, 0));
 		
-		int newScore = totalCount(boardcopy, 1, 0, 0, new List<int>(30));
+		int newScore = totalCount(boardcopy, (int) PlayerManager.Faction.Life, 0, 0, new List<int>(30));
 		Debug.Log ("Score: " + newScore);
 		playerScores[1] = newScore;
-		int newScore2 = totalCount(boardcopy, 2, 0, 0, new List<int>(30));
+		int newScore2 = totalCount(boardcopy, (int) PlayerManager.Faction.Industry, 0, 0, new List<int>(30));
 		Debug.Log ("Score: " + newScore);
 		playerScores[2] = newScore;
 
-		ButtonManager.instance.lifeScore.text = getPlayerScore(1).ToString() + "/" + winningScore;
-		ButtonManager.instance.industryScore.text = getPlayerScore(2).ToString() + "/" + winningScore;
-		this.player = lastPlayer;
+		ButtonManager.instance.lifeScore.text = playerScores[(int) PlayerManager.Faction.Life].ToString() + "/" + winningScore;
+		ButtonManager.instance.industryScore.text =  playerScores[(int) PlayerManager.Faction.Industry].ToString() + "/" + winningScore;
 		return true;
 	}
 	public void LoadMoves(Stack moves) {
@@ -1005,11 +997,12 @@ public class GameManager : MonoBehaviour
 			ReLoadMove((Move) moves.Pop());
 		}
 	}
-	public void Promote(GameSquare square, int player) {
+	public void Promote(GameSquare square, PlayerManager.Faction faction) {
+		Debug.Log ("Promoting (" + square.xval + ", " + square.yval + ") for " + faction);
 		square.DestroyPiece();
-		square.SetColor(player, 4);
+		square.SetColor(faction, 4);
 	}
-	private void PromoteNewPieces(int playerToPromoteFor)
+	private void PromoteNewPieces(PlayerManager.Faction factionToPromoteFor)
 	{
 		int row = 0;
 		int col = 0;
@@ -1028,8 +1021,8 @@ public class GameManager : MonoBehaviour
 					pointSpots[r*12+c] = true;
 					if (board.GSArray[r,c]._tier != 4)
 					{
-						promotedTerritoryFormerTierValues[r,c] = 10*playerToPromoteFor + board.GSArray[r,c]._tier;
-						Promote (board.GSArray[r,c], playerToPromoteFor); 
+						promotedTerritoryFormerTierValues[r,c] = 10*(int)factionToPromoteFor + board.GSArray[r,c]._tier;
+						Promote (board.GSArray[r,c], factionToPromoteFor); 
 				    }
 				}
 			}
@@ -1041,10 +1034,10 @@ public class GameManager : MonoBehaviour
 		{
 			for (int c = 0; c < 12; c++)
 			{
-				if (board.GSArray[r,c]._tier == 4 && !pointSpots[r*12+c] && board.GSArray[r,c]._player == playerToPromoteFor)
+				if (board.GSArray[r,c]._tier == 4 && !pointSpots[r*12+c] && board.GSArray[r,c].faction == factionToPromoteFor)
 				{
 					board.GSArray[r,c].DestroyPiece();
-					board.GSArray[r,c].SetColor (playerToPromoteFor,promotedTerritoryFormerTierValues[r,c]%10 );
+					board.GSArray[r,c].SetColor( factionToPromoteFor,promotedTerritoryFormerTierValues[r,c]%10 );
 					promotedTerritoryFormerTierValues[r,c] = 0;
 				}
 			}

@@ -42,6 +42,27 @@ public class AI
 	public AI() {
 		this.winningScore = 100;
 	}
+	public void Play(PlayerManager.Faction faction, GameBoard board, int roll) {
+		int[][] grid = new int[board.Board.GetLength(0)][];
+		for(int i = 0; i < board.Board.GetLength(0); i++)
+		{
+			grid[i] = new int[board.Board.GetLength(1)];
+			for(int j = 0; j < board.Board.GetLength(1); j++)
+			{
+				grid[i][j] = (int) board.Board[i,j];
+			}
+		}
+		
+		bool[][] check = board.PlayableToBoolArray(faction);
+		List<GameStat> ListOfMove = this.makeMove(grid, check, (int) faction, roll);
+		foreach(GameStat gs in ListOfMove)
+		{
+			GameManager.instance.SetTier (gs.getTier());
+			Debug.Log ("AI moves at " + gs.getMaxX() + ", " + gs.getMaxY());
+			GameManager.instance.HandleClick(gs.getMaxX(), gs.getMaxY());
+		}
+
+	}
 	//MakeMove method picks greatest NET move for 1 roll of the dice.
 	//Compares best offensive move to best defensive move for any single roll of the dice.
 	public List<GameStat> makeMove(int[][]grid,bool[][] check,int movingTeam, int roll)
