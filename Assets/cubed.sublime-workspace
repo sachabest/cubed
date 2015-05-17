@@ -1,0 +1,857 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"permu",
+				"permutation_files_late"
+			],
+			[
+				"permut",
+				"permutation_files_early"
+			],
+			[
+				"subje",
+				"subject_files_late"
+			],
+			[
+				"subject_al",
+				"subject_all_early"
+			],
+			[
+				"subject_all",
+				"subject_all_late"
+			],
+			[
+				"p_val",
+				"perm_values_late"
+			],
+			[
+				"subj",
+				"subj_mat"
+			],
+			[
+				"fp",
+				"fprintf"
+			],
+			[
+				"p_",
+				"p_thresh"
+			],
+			[
+				"subjec",
+				"subject_all"
+			],
+			[
+				"num",
+				"num_freqs"
+			],
+			[
+				"conv",
+				"convolution"
+			],
+			[
+				"subj_perm_M",
+				"subj_perm_MTL_rbar"
+			],
+			[
+				"subj_data_MTL",
+				"subj_data_MTL_rbar"
+			],
+			[
+				"conv_MTL",
+				"conv_MTL_max_val"
+			],
+			[
+				"conv_OC",
+				"conv_OCP"
+			],
+			[
+				"conv_OCP_M",
+				"conv_OCP_max_val"
+			],
+			[
+				"MTL_rbar",
+				"MTL_rbar_max"
+			],
+			[
+				"p_valu",
+				"p_values_MTL_rbar"
+			],
+			[
+				"subject_files",
+				"subject_files_OCP"
+			],
+			[
+				"subject",
+				"subject_files_MTL"
+			],
+			[
+				"subj_files",
+				"subject_files_OCP_perm_rbar"
+			],
+			[
+				"subj_perm_MTL",
+				"subj_perm_MTL_rbar"
+			],
+			[
+				"permutat",
+				"permutation_input"
+			],
+			[
+				"shu",
+				"shuff_nrec"
+			],
+			[
+				"sh",
+				"shuff_rec"
+			],
+			[
+				"res",
+				"res_disp"
+			],
+			[
+				"MTL_",
+				"MTL_total_disp"
+			],
+			[
+				"sub",
+				"subj_OCP"
+			],
+			[
+				"disp",
+				"dispersion"
+			],
+			[
+				"MTL",
+				"MTL_total_disp"
+			],
+			[
+				"ray",
+				"rayleigh_p_func"
+			],
+			[
+				"anova",
+				"anova_p_func"
+			],
+			[
+				"OCP",
+				"OCP_total"
+			],
+			[
+				"file",
+				"files_permuted_MTL"
+			],
+			[
+				"fil",
+				"file"
+			],
+			[
+				"num_",
+				"num_perm_tests"
+			],
+			[
+				"shuff",
+				"shuff_total"
+			],
+			[
+				"perm",
+				"perm_i"
+			],
+			[
+				"even",
+				"event_i"
+			],
+			[
+				"p_ob",
+				"p_obs_MTL"
+			],
+			[
+				"da",
+				"data_dist"
+			],
+			[
+				"p_th",
+				"p_thresh_MTL"
+			],
+			[
+				"su",
+				"subj"
+			],
+			[
+				"per",
+				"permuatation_MTL"
+			],
+			[
+				"di",
+				"distribution"
+			],
+			[
+				"nan",
+				"nanmean"
+			],
+			[
+				"anov",
+				"anova_final"
+			],
+			[
+				"IEE",
+				"IEEG_DISPERSION"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"no",
+				"node2"
+			],
+			[
+				"node",
+				"nodeprop"
+			],
+			[
+				"json",
+				"json_str"
+			],
+			[
+				"state",
+				"state_int"
+			],
+			[
+				"twi",
+				"twitterAPI"
+			],
+			[
+				"pem",
+				"perm_test"
+			],
+			[
+				"avg_MTL_tota",
+				"avg_MTL_total_c"
+			],
+			[
+				"p_MTL",
+				"p_MTL_1"
+			],
+			[
+				"ttest",
+				"ttest_vals"
+			],
+			[
+				"avg_ear",
+				"avg_late_PRC"
+			],
+			[
+				"avg_late",
+				"avg_late_MTL"
+			],
+			[
+				"avg_la",
+				"avg_late_MTL"
+			],
+			[
+				"PFCD",
+				"PFCData_early"
+			],
+			[
+				"PRC",
+				"PRCData_early"
+			],
+			[
+				"MTLDa",
+				"MTLData_late"
+			],
+			[
+				"avg",
+				"avg_PFC_total_c"
+			],
+			[
+				"avg_p",
+				"avg_PFC_total"
+			],
+			[
+				"p_PF",
+				"p_PFC_c"
+			],
+			[
+				"Correl",
+				"Correlation"
+			],
+			[
+				"MTL_M",
+				"MTL_max"
+			],
+			[
+				"MTL_m",
+				"MTL_min"
+			],
+			[
+				"PC",
+				"PFC_total"
+			],
+			[
+				"PF",
+				"PFC_index"
+			],
+			[
+				"size",
+				"size_i"
+			],
+			[
+				"files",
+				"files_MTL"
+			],
+			[
+				"add_mem",
+				"add_member_url"
+			],
+			[
+				"add_me",
+				"add_member_url"
+			],
+			[
+				"team_n",
+				"team_number"
+			],
+			[
+				"csv",
+				"csv_filename"
+			],
+			[
+				"pow_r",
+				"pow_r_colorplot"
+			],
+			[
+				"color",
+				"colorplot"
+			],
+			[
+				"pow_ma",
+				"pow_mat_r"
+			],
+			[
+				"pow_m",
+				"pow_mat_r"
+			],
+			[
+				"events_",
+				"events_avg_n"
+			],
+			[
+				"pow_d",
+				"pow_diff"
+			],
+			[
+				"urll",
+				"urllib"
+			],
+			[
+				"post",
+				"post_data"
+			],
+			[
+				"org",
+				"org_name"
+			],
+			[
+				"jso",
+				"json_str"
+			],
+			[
+				"recall",
+				"recall_6_n_LAS"
+			],
+			[
+				"wave",
+				"wave_number"
+			],
+			[
+				"ds",
+				"dsampled_conversion_factor"
+			],
+			[
+				"filter",
+				"filterStruct"
+			],
+			[
+				"orig",
+				"originalSpeed"
+			],
+			[
+				"Star",
+				"StartCoroutine"
+			],
+			[
+				"Coll",
+				"CollectableType"
+			],
+			[
+				"scrol",
+				"scrollSpeed"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 47.0,
+		"last_filter": "set syntax matl",
+		"selected_items":
+		[
+			[
+				"set syntax matl",
+				"Set Syntax: MATLAB"
+			],
+			[
+				":",
+				"File: Revert"
+			],
+			[
+				"set syntax ma",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"set s",
+				"Set Syntax: XSL"
+			],
+			[
+				"",
+				"About"
+			],
+			[
+				"set syntax mat",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"set syntax matla",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"set syntax ja",
+				"Set Syntax: Java"
+			],
+			[
+				"s",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"set ",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"set",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"se",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"set syntax matlab",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"set syntax text",
+				"Set Syntax: Plain Text"
+			],
+			[
+				"Se",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"Set Syntax Matla",
+				"Set Syntax: MATLAB"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/sachabest/Documents/cubed/Assets"
+	],
+	"file_history":
+	[
+		"/Users/sachabest/Desktop/temp.matlab",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project5/functions/GetPhasePowAll.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project5/Main.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/GetPowAll.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project5/functions/ISPC_time_grapher.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/GetPowAll.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project2/Grapher.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project2/functions/ChannelGraph.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/MASKED_PLOT.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project5/functions/ISPC_trial_grapher.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project5/functions/ISPC_phase.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project5/functions/ISPC_phase_perm.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/Main.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/perm_test.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/mattar/Project5/part1.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/assignment5/._Project5_ExampleCode.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/assignment5/Project5_ExampleCode.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project5/functions/SuperCD.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project5/functions/Parallel.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/IEEG_TF.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/AVG_DISPERSION.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/AVG_TF.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/mattar/Project4/part1.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/assignment3/iEEGMultivar_example.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/bipolar_ROI.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/topoplot_ex.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/eeg_toolbox/tf_plot.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/merge_anova_rbar.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/IEEG_DISPERSION.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/anova_p_func.m",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw4/yamir.txt",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/func_perm.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/rayleigh_p_func.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/Parallel.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/nfallen/project4/part_1_perms.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/nfallen/project4/part_3_dispersion.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/nfallen/project4/part_2.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/nfallen/project4/part_2_perms.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/PERM_TF.m",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/shrindi.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/jovalle.txt",
+		"/Users/sachabest/Documents/nets312/aggregator.py",
+		"/Users/sachabest/Documents/nets312/datavis/views/index.jade",
+		"/Users/sachabest/Documents/nets312/datavis/main.css",
+		"/Users/sachabest/Documents/nets312/datavis/app.js",
+		"/Users/sachabest/Documents/nets312/datavis/main.js",
+		"/Users/sachabest/Documents/nets312/geolocator.py",
+		"/Users/sachabest/Documents/nets312/spreadingModel.py",
+		"/Users/sachabest/Documents/nets312/datavis/sigma/plugins/sigma.plugins.animate.min.js",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project4/functions/SuperCD.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/AVG_TF.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/AVG_PS.m",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/elianam.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/yoni.txt",
+		"/Users/sachabest/Downloads/ARYVIR 2/implementor.java",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/Rubric.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/kevinmy.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/kamill.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/kloo.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/jasonmaz.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/kmocollow.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/anubahvm.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/annam.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw3/matyjekc.txt",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/AVG_SVM.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/Main.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/IEEG_PS.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/IEEG_SVM.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/GetPowSplit.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project1/functions/erp_avg_split.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project1/functions/erp_avg.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/assignment3/fisherstrans.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/fisherstrans.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/IEEG_TF.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project1/scripts/hw1q3.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project1/scripts/hw1q2.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project1/scripts/hw1q1_avg.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project1/scripts/hw1q1.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/#erp_example.m#",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/erp_example.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/ERPArtifactDemo.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/Parallel.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/test_logreg.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/logRegFun.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/functions/SuperCD.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project2/functions/PowAvg.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/healeym/project2_key/distrib_job.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project3/Notes.txt",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw1/lukechen",
+		"/Users/sachabest/Downloads/-.js",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/assignment3/logRegFun.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/assignment3/test_logreg.m",
+		"/Users/sachabest/remote_mount/mnt/nas/data/example_course_code/assignment3/bipolar_ROI.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project2/Main.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project2/Averager.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project2/functions/Loader.m",
+		"/Users/sachabest/remote_mount/mnt/nas/home/sachab/project2/functions/ChannelAvg.m",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/RUBRIC",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/nmelo",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/kmcollow",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/margaretli",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/scl",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/jasimelee",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/amyle",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/nlatwis",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/lukesp",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/akozlu",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/pakochar",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/khentana",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/chriskao",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/shsu",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/jaylung",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/dankanoff",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/jugut",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/lakshaya",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/gagang",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/liamg",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/gaoj",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/gandhit",
+		"/Users/sachabest/Dropbox/College/NETS 150/hw2/LAKSHAYA",
+		"/Users/sachabest/Documents/github-org-grabber/github-groupadder.py"
+	],
+	"find":
+	{
+		"height": 29.0
+	},
+	"find_in_files":
+	{
+		"height": 105.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"total_MTL",
+			"title(['",
+			"title([name",
+			"set",
+			"OCP",
+			"MTL",
+			"rbar",
+			"MTL",
+			"rbar",
+			"MTL",
+			"rbar",
+			"MTL",
+			"start",
+			"func_perm",
+			"rayleigh_res",
+			"    ",
+			"recInd",
+			"downsa",
+			"tf_plot",
+			"conso",
+			"PFC",
+			"PowMat",
+			"project3",
+			"act_inf",
+			"fishertrans",
+			"Subjec",
+			"    ",
+			"early",
+			"ear",
+			"freqs_to_get",
+			"data.PFC",
+			"data.MTL",
+			"freqs_to_get",
+			"freqs_to_getfreq",
+			"params.paths.locks.part1)",
+			"Sub",
+			"recall",
+			"events",
+			"PowSaveDir",
+			"norecall",
+			"begin_index",
+			"15",
+			"2",
+			"disp",
+			"pow_mat",
+			"strcm",
+			"url",
+			"json",
+			"simplejson",
+			"dsampled",
+			"clear",
+			"   ",
+			"    ",
+			"        ",
+			"		",
+			"			 ",
+			"end_inde",
+			"sessEv",
+			"pow_mat",
+			"res",
+			"n_chans",
+			"erp",
+			"filterFreq",
+			"filterStruct",
+			"notch",
+			"                    ",
+			"getMealsFo",
+			"smoothA",
+			"cameraFollower",
+			"JumpPo",
+			"JumpP",
+			"Jump",
+			"cameraFollower",
+			"jumpP",
+			"JumpP",
+			"Rotate",
+			"RotateAround",
+			"Animation",
+			"JumpP",
+			"SpeedPower",
+			"Jump",
+			"cllid",
+			"Debug",
+			"Debu",
+			"Dub",
+			"//",
+			"SpawnObstacles",
+			"music.",
+			"pause"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"t = title(['",
+			"t = title([name",
+			"MTL",
+			"OCP",
+			"disp",
+			"OCP",
+			"disp",
+			"OCP",
+			"disp",
+			"OCP",
+			"res",
+			"	",
+			"OCP",
+			"PhaseMat",
+			"project4",
+			"fisherstrans",
+			"	",
+			"freqs",
+			"PFC",
+			"MTL",
+			"lockDir",
+			"6b",
+			"15",
+			"",
+			"	",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 29.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "cubed.sublime-project",
+	"replace":
+	{
+		"height": 54.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 422.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 181.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
