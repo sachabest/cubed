@@ -78,9 +78,6 @@ public class GameManager : MonoBehaviour
 			currentFaction = PlayerManager.Faction.Uninitialized;
 		}
 
-		ButtonManager.instance.lifeName.text = gameInfo.lifeUser;
-		ButtonManager.instance.industryName.text = gameInfo.industryUser;
-
 		playAudio (currentFaction);
 
 		GameObject temp = GameObject.Find("GameCenter");
@@ -104,6 +101,12 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
+	}
+	void Start() {
+		// this needs to be here or the buttons won't have been created yet
+		Debug.Log(gameInfo.lifeUser);
+		ButtonManager.instance.lifeName.text = gameInfo.lifeUser;
+		ButtonManager.instance.industryName.text = gameInfo.industryUser;
 	}
 	void playAudio(PlayerManager.Faction faction) {
 		if (faction == PlayerManager.Faction.Life) 
@@ -288,6 +291,7 @@ public class GameManager : MonoBehaviour
 			currentFaction = humanFactionChoice;
 			Debug.Log("Returning, first turn - adding roll");
 			ButtonManager.instance.rollDisplay.text = roll.ToString();
+			ButtonManager.instance.rollButtonText.text = "Lock";
 			return;
 		}
 		// pushes empty move to the stack to signify the end of a turn - player references the player that just played
@@ -341,6 +345,10 @@ public class GameManager : MonoBehaviour
 		// let the AI play if it should
 		if (singleplayer && currentFaction != humanFactionChoice) {
 			AI.Play(currentFaction, board, roll);
+			ButtonManager.instance.rollButtonText.text = "Roll";
+		} else if (singleplayer) {
+			ButtonManager.instance.rollButtonText.text = "Lock";
+
 		}
 
 	}

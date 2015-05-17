@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour {
 
-	public Text lifeName, lifeScore, industryName, industryScore, rollDisplay;
+	public Text lifeName, lifeScore, industryName, industryScore, rollDisplay, rollButtonText;
 	public static ButtonManager instance;
-
+	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		instance = this;
 		lifeScore.text = "0" + "/" + GameManager.instance.winningScore;
 		industryScore.text = "0" + "/" + GameManager.instance.winningScore;

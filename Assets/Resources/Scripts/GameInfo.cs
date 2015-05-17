@@ -12,7 +12,9 @@ public class GameInfo : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-
+		lifeUser = "Local Player";
+		industryUser = "Chong's AI";
+		Debug.Log("GameInfo start");
 	}
 	
 	// Update is called once per frame
