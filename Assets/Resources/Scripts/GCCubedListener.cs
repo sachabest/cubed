@@ -13,9 +13,12 @@ public class GCCubedListener : MonoBehaviour
 	public GKTurnBasedMatch currentMatch;
 	public bool singleplayer;
 	public string currentMatchData;
-	
+
+	public static GCCubedListener instance;
+
 	void Awake() {
 		DontDestroyOnLoad(this.gameObject);
+		instance = this;
 	}
 	void Start() {
 		GameCenterBinding.authenticateLocalPlayer();
@@ -30,6 +33,9 @@ public class GCCubedListener : MonoBehaviour
 		else {
 			//Debug.Log("Fuck Game Center");
 		}
+	}
+	public bool loggedIn() {
+		return GameCenterBinding.isPlayerAuthenticated ();
 	}
 	public bool myTurn() {
 		return GameCenterTurnBasedBinding.isCurrentPlayersTurn();

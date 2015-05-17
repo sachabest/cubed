@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 		// to hold moves for undo, sserialize, etc.
 		moves = new Stack();
 
-		gameInfo = GameObject.Find ("GameInfo").GetComponent<GameInfo>();
+		gameInfo = GameInfo.instance;
 		singleplayer = gameInfo.getSinglePlayer();
 		winningScore = gameInfo.getWinCondition();
 		humanFactionChoice = gameInfo.getHumanFactionChoice();
@@ -79,6 +79,9 @@ public class GameManager : MonoBehaviour
 			currentFaction = PlayerManager.Faction.Uninitialized;
 		}
 
+		ButtonManager.instance.lifeName.text = gameInfo.lifeUser;
+		ButtonManager.instance.industryName.text = gameInfo.industryUser;
+
 		playAudio (currentFaction);
 
 		GameObject temp = GameObject.Find("GameCenter");
@@ -93,6 +96,9 @@ public class GameManager : MonoBehaviour
 					hasMovedThisTurn = false;
 					hasRolled = false;
 					Debug.Log("Faction that last ended turn (Life/Industry) (1/2): " + (int) PlayerManager.SwitchFaction(currentFaction));
+				}
+				else { // first turn
+
 				}
 			}
 		}

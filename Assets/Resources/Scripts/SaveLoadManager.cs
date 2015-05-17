@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Text;
 using System.Text.RegularExpressions;
+using Boomlagoon.JSON;
 
 public class SaveLoadManager : MonoBehaviour {
 
@@ -16,39 +17,34 @@ public class SaveLoadManager : MonoBehaviour {
 		return UTF8Encoding.UTF8.GetBytes(json);
 	}
 	public string CreateJSONGameStateString(Stack moves) {
-		int stringLength = moves.Count * 14 + 25;
-		StringBuilder json = new StringBuilder("{\"moves\": [", stringLength);
+		JSONArray moveArr = new JSONArray();
 		foreach (Move move in moves) {
-			json.Append("{");
-			json.Append(move.getFaction().ToString());
-			json.Append(",");
-			json.Append(move.getRow().ToString());
-			json.Append(",");
-			json.Append(move.getCol().ToString());
-			json.Append(",");
-			json.Append(move.getTier().ToString());
-			json.Append(",");
-			json.Append(move.getRemovedTier().ToString());
-			json.Append("},");
+			JSONObject moveJSON = new JSONObject();
+			moveJSON.Add("faction", move.getFaction());
+			moveJSON.Add("row", move.getRow());
+			moveJSON.Add("col", move.getCol());
+			moveJSON.Add("tier", move.getTier());
+			moveJSON.Add("removed_tier", move.getRemovedTier());
+			moveArr.Add(moveJSON);
 		}
-		json.Remove(json.Length-1, 1);
-		json.Append("]}");
-		return json.ToString();
+		JSONObject final = new JSONObject ();
+		final.Add ("Life", GameInfo.instance.lifeUser);
+		final.Add ("Industry", GameInfo.instance.industryUser);
+		final.Add ("Moves", moveArr);
+		return final.ToString ();
 	}
 	public Stack ParseJSONGameStateString(string json)
 	{
 		Stack stk = new Stack();
-		if (json == null || json.Length < 15)
-			return stk;
-		json = json.Substring(12,json.Length-15);
-		Debug.Log ("JSON: " + json);
-		string [] moves = Regex.Split(json,"},{");
-		foreach (string str in moves)
-		{
-			string[] temp = str.Split(',');
-			Move move = new Move((PlayerManager.Faction) int.Parse(temp[0]),int.Parse(temp[1]),int.Parse(temp[2]),int.Parse(temp[3]),int.Parse(temp[4]));
+		JSONObject input = new JSONObject (json);
+
+		foreach (JSONObject obj in input.GetArray("moves")) {
+			Move move = new Move((PlayerManager.Faction) obj.GetNumber("faction"), obj.GetNumber("row") , obj.GetNumber("col") ,obj.GetNumber("tier"), obj.GetNumber("removed_tier"));
 			stk.Push(move);
 		}
+
+		GameInfo.instance.lifeUser = input.GetString ("Life");
+		GameInfo.instance.industryUser = input.GetString ("Industry");
 		return stk;
 	}
 }
