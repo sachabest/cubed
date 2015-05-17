@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using Boomlagoon.JSON;
@@ -16,11 +17,11 @@ public class SaveLoadManager : MonoBehaviour {
 	public byte[] Encode(string json) {
 		return UTF8Encoding.UTF8.GetBytes(json);
 	}
-	public string CreateJSONGameStateString(Stack moves) {
+	public string CreateJSONGameStateString(Stack<Move> moves) {
 		JSONArray moveArr = new JSONArray();
 		foreach (Move move in moves) {
 			JSONObject moveJSON = new JSONObject();
-			moveJSON.Add("faction", move.getFaction());
+			moveJSON.Add("faction",(int) move.getFaction());
 			moveJSON.Add("row", move.getRow());
 			moveJSON.Add("col", move.getCol());
 			moveJSON.Add("tier", move.getTier());
@@ -33,13 +34,14 @@ public class SaveLoadManager : MonoBehaviour {
 		final.Add ("Moves", moveArr);
 		return final.ToString ();
 	}
-	public Stack ParseJSONGameStateString(string json)
+	public Stack<Move> ParseJSONGameStateString(string json)
 	{
-		Stack stk = new Stack();
-		JSONObject input = new JSONObject (json);
+		Stack<Move> stk = new Stack<Move>();
+		JSONObject input = JSONObject.Parse(json);
 
-		foreach (JSONObject obj in input.GetArray("moves")) {
-			Move move = new Move((PlayerManager.Faction) obj.GetNumber("faction"), obj.GetNumber("row") , obj.GetNumber("col") ,obj.GetNumber("tier"), obj.GetNumber("removed_tier"));
+		foreach (JSONValue val in input.GetArray("moves")) {
+			JSONObject obj = val.Obj;
+			Move move = new Move((PlayerManager.Faction) obj.GetNumber("faction"),(int)  obj.GetNumber("row") ,(int)  obj.GetNumber("col") ,(int) obj.GetNumber("tier"), (int) obj.GetNumber("removed_tier"));
 			stk.Push(move);
 		}
 

@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 	private PlayerManager.Faction humanFactionChoice;
 	public AI AI;
 	private int[] playerScores;
-	private Stack moves;
+	private Stack<Move> moves;
 	public PieceManager pieceManager;
 	public GCCubedListener gameCenter;
 	public SaveLoadManager saveLoad;
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
 		playerScores = new int[3];
 
 		// to hold moves for undo, sserialize, etc.
-		moves = new Stack();
+		moves = new Stack<Move>();
 
 		gameInfo = GameInfo.instance;
 		singleplayer = gameInfo.getSinglePlayer();
@@ -90,6 +90,8 @@ public class GameManager : MonoBehaviour
 			saveLoad = temp.GetComponentInChildren<SaveLoadManager>();
 			if (!singleplayer) {
 				moves = saveLoad.ParseJSONGameStateString(gameCenter.currentMatchData);
+				ButtonManager.instance.lifeName.text = GameInfo.instance.lifeUser;
+				ButtonManager.instance.industryName.text = GameInfo.instance.industryUser;
 				if (moves != null && moves.Count > 0) {
 					topOfStack = (Move) moves.Peek();
 					previousTurnEnded = (topOfStack.getCol() == -1) && (topOfStack.getRow() == -1) && (topOfStack.getTier() == -1);
@@ -117,7 +119,7 @@ public class GameManager : MonoBehaviour
 			mouseUI = false;
 		Debug.Log(mouseUI);
 	}
-	public Stack GetMoves() {
+	public Stack<Move> GetMoves() {
 		return moves;
 	}
 	
