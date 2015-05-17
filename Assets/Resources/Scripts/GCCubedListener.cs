@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Prime31;
 
-public class GCCubedListener : MonoBehaviour
-{
+public class GCCubedListener : MonoBehaviour {
 #if UNITY_IPHONE
 	
+	public static string UNDEF_OPPONENT = "Unknown Opponent";
 	public SaveLoadManager saveLoad;
 	private bool eventsLoaded;
 	public bool gcInUse;
@@ -33,6 +33,26 @@ public class GCCubedListener : MonoBehaviour
 		else {
 			//Debug.Log("Fuck Game Center");
 		}
+	}
+
+	public PlayerManager.Faction getLocalFaction() {
+		if (GameInfo.instance.lifeUser.Equals(localName())) {
+			return PlayerManager.Faction.Life;
+		} else if (GameInfo.instance.industryUser.Equals(localName())) {
+			return PlayerManager.Faction.Industry;
+		}
+		return PlayerManager.Faction.Uninitialized;
+	}
+	public string localName() {
+		return GameCenterBinding.playerAlias();
+	}
+	public string opponentName() {
+		foreach (GKTurnBasedParticipant p in currentMatch.participants) {
+			if (!p.player.alias.Equals(localName())) {
+				return p.player.alias;
+			}
+		}
+		return UNDEF_OPPONENT;
 	}
 	public bool loggedIn() {
 		return GameCenterBinding.isPlayerAuthenticated ();
@@ -66,6 +86,8 @@ public class GCCubedListener : MonoBehaviour
 			}
 		}
 		GameCenterTurnBasedBinding.endTurnWithNextParticipant(enemy, submitted);
+		// clear the moves stack so that moves don't bleed over from game to game
+		SaveLoadManager.instance.moves = null;
 		LoadLevel("MainMenuV2");
 		GameCenterTurnBasedBinding.loadMatches();
 	}
@@ -415,9 +437,8 @@ public class GCCubedListener : MonoBehaviour
 	void loadMatchDataEvent(byte[] bytes )
 	{
 		currentMatchData = System.Text.UTF8Encoding.UTF8.GetString( bytes );
-		
-		LoadLevel("cubed");
-		Debug.Log( "loadMatchDataEvent: " + currentMatchData );
+		SaveLoadManager.instance.ParseJSONGameStateString(currentMatchData);
+		LoadLevel("SinglePlayerOptions");
 	}
 
 

@@ -18,32 +18,6 @@ public class MenuCube : MonoBehaviour {
 		onS = false;
 		onW = false;
 	}
-#if UNITY_WEBPLAYER
-	void () {
-		int side = CurrentSide();
-		if (animation.isPlaying || gestures.dragging)
-			return;
-		switch (side) {
-		case 0:
-			break;
-		case (int) Sides.SinglePlayer:
-			Application.LoadLevel("cubed");
-			break;
-		case (int) Sides.MultiPlayer:
-			gameCenter.ShowMatchmaking();
-			break;
-		case (int) Sides.Options:
-			Application.LoadLevel("OptionsMenu");
-			break;
-		case (int) Sides.Credits:
-			Application.LoadLevel("Credits");
-			break;
-		default:
-			break;
-
-		}
-	}
-#endif
 	public void singleplayer() {
 		gameCenter.singleplayer = true;
 	}

@@ -88,9 +88,10 @@ public class GameManager : MonoBehaviour
 			gameCenter = temp.GetComponentInChildren<GCCubedListener>();
 			saveLoad = temp.GetComponentInChildren<SaveLoadManager>();
 			if (!singleplayer) {
-				moves = saveLoad.ParseJSONGameStateString(gameCenter.currentMatchData);
+				moves = saveLoad.moves;
 				ButtonManager.instance.lifeName.text = GameInfo.instance.lifeUser;
 				ButtonManager.instance.industryName.text = GameInfo.instance.industryUser;
+				humanFactionChoice = gameCenter.getLocalFaction();
 				if (moves != null && moves.Count > 0) {
 					topOfStack = (Move) moves.Peek();
 					previousTurnEnded = (topOfStack.getCol() == -1) && (topOfStack.getRow() == -1) && (topOfStack.getTier() == -1);

@@ -7,12 +7,15 @@ using Boomlagoon.JSON;
 
 public class SaveLoadManager : MonoBehaviour {
 
+	public Stack<Move> moves;
+
+	public static SaveLoadManager instance;
 	// Use this for initialization
 	void Start () {
-#if UNITY_WEBPLAYER
-		Network.InitializeSecurity();
-		MasterServer.RequestHostList("cubed");
-#endif
+
+	}
+	void Awake() {
+		instance = this;
 	}
 	public byte[] Encode(string json) {
 		return UTF8Encoding.UTF8.GetBytes(json);
@@ -34,7 +37,7 @@ public class SaveLoadManager : MonoBehaviour {
 		final.Add ("Moves", moveArr);
 		return final.ToString ();
 	}
-	public Stack<Move> ParseJSONGameStateString(string json)
+	public void ParseJSONGameStateString(string json)
 	{
 		Stack<Move> stk = new Stack<Move>();
 		JSONObject input = JSONObject.Parse(json);
@@ -47,6 +50,16 @@ public class SaveLoadManager : MonoBehaviour {
 
 		GameInfo.instance.lifeUser = input.GetString ("Life");
 		GameInfo.instance.industryUser = input.GetString ("Industry");
-		return stk;
+
+		// this to handle the caee when a game invitation is sent - the original sender
+		// does not know who the opponenet is yet, but the receiver of that inviatation
+		// will obviously know, as it is him/hersel. This will then propogate back to the 
+		// original user on the next turn save
+		if (GameInfo.instance.lifeUser.Equals(GCCubedListener.UNDEF_OPPONENT)) {
+			GameInfo.instance.lifeUser = GCCubedListener.instance.localName();
+		} else if (GameInfo.instance.industryUser.Equals(GCCubedListener.UNDEF_OPPONENT)) {
+			GameInfo.instance.industryUser = GCCubedListener.instance.localName();
+		}
+		moves = stk;
 	}
 }

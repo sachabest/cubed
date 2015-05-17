@@ -47,13 +47,23 @@ public class GameInfo : MonoBehaviour
 	{
 		if (inputChoice == 1) {
 			humanFactionChoice = PlayerManager.Faction.Life;
-			lifeUser = "Local Player";
-			industryUser = "Chong's AI";
+			if (singleplayer) {
+				lifeUser = "Local Player";
+				industryUser = "Chong's AI";
+			} else {
+				lifeUser = GCCubedListener.instance.localName();
+				industryUser = GCCubedListener.instance.opponentName();
+			}
 		}
 		if (inputChoice == 2) {
 			humanFactionChoice = PlayerManager.Faction.Industry;
-			industryUser = "Local Player";
-			lifeUser = "Chong's AI";
+			if (singleplayer) {
+				industryUser = "Local Player";
+				lifeUser = "Chong's AI";
+			} else {
+				lifeUser = GCCubedListener.instance.localName();
+				industryUser = GCCubedListener.instance.opponentName();
+			}
 		}
 	}
 	public PlayerManager.Faction getHumanFactionChoice()
