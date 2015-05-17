@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
 {
 	public GameBoard board;
 	public GameObject myBoardSphere;
-	public UILabel rollDisplay;
 	public bool rolledATwo, mouseUI;
 	public int tier, roll, winningScore;
 	public bool singleplayer = true;

@@ -12,9 +12,7 @@ public class GameInfo : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-		if (GCCubedListener.instance.currentMatch != null && GCCubedListener.instance.loggedIn()) {
 
-		}
 	}
 	
 	// Update is called once per frame
