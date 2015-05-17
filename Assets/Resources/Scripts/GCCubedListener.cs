@@ -105,7 +105,7 @@ public class GCCubedListener : MonoBehaviour {
 		StartCoroutine(Level(level));
 	}
 	public IEnumerator Level(string level) {
-		EtceteraBinding.showBezelActivityViewWithLabel("Loading..." + level);
+		EtceteraBinding.showBezelActivityViewWithLabel("Reticulating splines...");
         AsyncOperation load = Application.LoadLevelAsync(level);
 		yield return load;
 		EtceteraBinding.hideActivityView();
