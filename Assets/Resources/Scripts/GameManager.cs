@@ -104,7 +104,6 @@ public class GameManager : MonoBehaviour
 	}
 	void Start() {
 		// this needs to be here or the buttons won't have been created yet
-		Debug.Log(gameInfo.lifeUser);
 		ButtonManager.instance.lifeName.text = gameInfo.lifeUser;
 		ButtonManager.instance.industryName.text = gameInfo.industryUser;
 	}
@@ -144,6 +143,10 @@ public class GameManager : MonoBehaviour
 					winCameraLight.intensity = industryWinsIntensity;
 					WinScreenCube.renderer.material = (Material)Resources.Load ("Materials/IndustryWIN");	
 				}
+				if (!singleplayer) {
+					GCCubedListener.instance.Win();
+				}
+
 		//		PlayerIndicator.text = "Game Over.  Press Esc for Menu.";
 				GameIsOver = true;
 				WinCamera.enabled = true;

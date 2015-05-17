@@ -16,6 +16,8 @@
 		<string>CoreGraphics.framework</string>
 		<string>MessageUI.framework</string>
 	</array>
+	<key>linkerFlags</key>
+	<array/>
 	<key>neverShowCompletedMessage</key>
 	<false/>
 </dict>

@@ -61,5 +61,6 @@ public class SaveLoadManager : MonoBehaviour {
 			GameInfo.instance.industryUser = GCCubedListener.instance.localName();
 		}
 		moves = stk;
+
 	}
 }

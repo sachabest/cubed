@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class MenuGestures : MonoBehaviour {
 	
 	private bool dragging;
 	public MenuCube thisCube;
 	public GameInfo gameInfo;
+	public Image topArrow, bottomArrow, rightArrow, leftArrow;
 	
 	// Use this for initialization
 	void Start () {
@@ -62,6 +64,7 @@ public class MenuGestures : MonoBehaviour {
 
             //Mr. Hazard started coding here ... this is for simple, swipe-type of gestures
             int rotationDirection = getMenuCubeRotationDirection(move);
+            hideArrows(rotationDirection);
             this.rotateCubeInDirection(rotationDirection);
             //Mr. Hazard thinks he's done now.
 
@@ -74,6 +77,66 @@ public class MenuGestures : MonoBehaviour {
 				}
 			} 
              */
+		}
+	}
+
+
+	/// Please excuse the inverted if statements
+	/// I did it wrong once and am too lazy to fix it
+	private void hideArrows(int rotationDirection) {
+		switch (rotationDirection) {
+			case 1: // NORTH
+				if (!thisCube.onS) {
+					topArrow.gameObject.SetActive(true);
+					bottomArrow.gameObject.SetActive(true);
+					rightArrow.gameObject.SetActive(true);
+					leftArrow.gameObject.SetActive(true);
+				} else {
+					topArrow.gameObject.SetActive(false);
+					bottomArrow.gameObject.SetActive(true);
+					rightArrow.gameObject.SetActive(false);
+					leftArrow.gameObject.SetActive(false);
+				}
+				break;
+			case 2: // EAST
+				if (!thisCube.onA) {
+					topArrow.gameObject.SetActive(true);
+					bottomArrow.gameObject.SetActive(true);
+					rightArrow.gameObject.SetActive(true);
+					leftArrow.gameObject.SetActive(true);
+				} else {
+					topArrow.gameObject.SetActive(false);
+					bottomArrow.gameObject.SetActive(false);
+					rightArrow.gameObject.SetActive(true);
+					leftArrow.gameObject.SetActive(false);
+				}
+				break;
+			case 3: // SOUTH
+				if (!thisCube.onW) {
+					topArrow.gameObject.SetActive(true);
+					bottomArrow.gameObject.SetActive(true);
+					rightArrow.gameObject.SetActive(true);
+					leftArrow.gameObject.SetActive(true);
+				} else {
+					topArrow.gameObject.SetActive(false);
+					bottomArrow.gameObject.SetActive(true);
+					rightArrow.gameObject.SetActive(false);
+					leftArrow.gameObject.SetActive(false);
+				}
+				break;
+			case 4: // WEST
+				if (!thisCube.onD) {
+					topArrow.gameObject.SetActive(true);
+					bottomArrow.gameObject.SetActive(true);
+					rightArrow.gameObject.SetActive(true);
+					leftArrow.gameObject.SetActive(true);
+				} else {
+					topArrow.gameObject.SetActive(false);
+					bottomArrow.gameObject.SetActive(true);
+					rightArrow.gameObject.SetActive(false);
+					leftArrow.gameObject.SetActive(false);
+				}
+				break;
 		}
 	}
 
