@@ -185,43 +185,67 @@ public class MenuGestures : MonoBehaviour {
 				if (thisCube.NoKeyPressed() && !thisCube.animation.isPlaying) {
 					thisCube.CubeAnimation("SinglePlayer", false);
 					thisCube.onW = true;
+					thisCube.onS = false;
+					thisCube.onA = false;
+					thisCube.onD = false;
 					break;
 				}
 				else if (thisCube.onS) {
 					thisCube.CubeAnimation("Credits", true);
+					thisCube.onW = false;
 					thisCube.onS = false;
+					thisCube.onA = false;
+					thisCube.onD = false;
 				}
                 break;
             case 2: //EAST
                 if (thisCube.NoKeyPressed() && !thisCube.animation.isPlaying) {
 					thisCube.CubeAnimation("MultiPlayer", false);
+					thisCube.onW = false;
+					thisCube.onS = false;
+					thisCube.onA = false;
 					thisCube.onD = true;
 					break;
 				}
 				else if (thisCube.onA) {
 					thisCube.CubeAnimation("Options", true);
+					thisCube.onW = false;
+					thisCube.onS = false;
 					thisCube.onA = false;
+					thisCube.onD = false;			
 				}
                 break;
             case 3: //SOUTH
                 if (thisCube.NoKeyPressed() && !thisCube.animation.isPlaying) {
 					thisCube.CubeAnimation("Credits", false);
+					thisCube.onW = false;
 					thisCube.onS = true;
+					thisCube.onA = false;
+					thisCube.onD = false;
 					break;
 				}
 				else if (thisCube.onW) {
 					thisCube.CubeAnimation("SinglePlayer", true);
 					thisCube.onW = false;
+					thisCube.onS = false;
+					thisCube.onA = false;
+					thisCube.onD = false;
 				}
                 break;
             case 4: //WEST
                 if (thisCube.NoKeyPressed() && !thisCube.animation.isPlaying) {
 					thisCube.CubeAnimation("Options", false);
+					thisCube.onW = false;
+					thisCube.onS = false;
 					thisCube.onA = true;
+					thisCube.onD = false;
 					break;
 				}
 				else if (thisCube.onD) {
 					thisCube.CubeAnimation("MultiPlayer", true);
+					thisCube.onW = false;
+					thisCube.onS = false;
+					thisCube.onA = false;
 					thisCube.onD = false;
 				}
                 break;

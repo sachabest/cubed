@@ -75,8 +75,8 @@ public class GameManager : MonoBehaviour
 			AI = new AI(winningScore);
 
 			// set the current player to the human
-			currentFaction = PlayerManager.Faction.Uninitialized;
 		}
+		currentFaction = PlayerManager.Faction.Uninitialized;
 
 		playAudio (currentFaction);
 
@@ -316,7 +316,7 @@ public class GameManager : MonoBehaviour
 				}
 				else {
 					string[] options = { "OK" };
-					EtceteraBinding.showAlertWithTitleMessageAndButtons("Ending Turn...", "You diddn't move!", options);
+					EtceteraBinding.showAlertWithTitleMessageAndButtons("Cannot End Turn...", "You diddn't move!", options);
 					return;
 				}
 			}
@@ -353,7 +353,6 @@ public class GameManager : MonoBehaviour
 			ButtonManager.instance.rollButtonText.text = "Lock";
 
 		}
-
 	}
 
 	public bool PurchasePiece(int x, int y)

@@ -25,7 +25,7 @@ public class GCCubedListener : MonoBehaviour {
 		if (GameCenterTurnBasedBinding.isTurnBasedMultiplayerAvailable()) {
 			Debug.Log("Listener working");
 			Debug.Log("GameCenter working");
-			// LoadEvents();
+			LoadEvents();
 			eventsLoaded = true;
 			gcInUse = true;
 			Handheld.SetActivityIndicatorStyle(iOSActivityIndicatorStyle.Gray);
