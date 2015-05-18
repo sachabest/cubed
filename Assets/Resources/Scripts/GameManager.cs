@@ -75,10 +75,10 @@ public class GameManager : MonoBehaviour
 			AI = new AI(winningScore);
 
 			// set the current player to the human
+			currentFaction = PlayerManager.Faction.Uninitialized;
 		}
-		currentFaction = PlayerManager.Faction.Uninitialized;
 
-		playAudio (currentFaction);
+		playAudio (humanFactionChoice);
 
 		GameObject temp = GameObject.Find("GameCenter");
 		if (temp != null) {
@@ -90,6 +90,12 @@ public class GameManager : MonoBehaviour
 				ButtonManager.instance.industryName.text = GameInfo.instance.industryUser;
 				humanFactionChoice = gameCenter.getLocalFaction();
 				if (moves != null && moves.Count > 0) {
+					if (gameCenter.myTurn()) {
+						currentFaction = humanFactionChoice;
+					} else {
+						ButtonManager.instance.rollButtonText.text = "Back";
+						currentFaction = PlayerManager.SwitchFaction(humanFactionChoice);
+					}
 					topOfStack = (Move) moves.Peek();
 					previousTurnEnded = (topOfStack.getCol() == -1) && (topOfStack.getRow() == -1) && (topOfStack.getTier() == -1);
 					hasMovedThisTurn = false;
@@ -97,7 +103,7 @@ public class GameManager : MonoBehaviour
 					Debug.Log("Faction that last ended turn (Life/Industry) (1/2): " + (int) PlayerManager.SwitchFaction(currentFaction));
 				}
 				else { // first turn
-
+					currentFaction = PlayerManager.Faction.Uninitialized;
 				}
 			}
 		}
@@ -300,7 +306,7 @@ public class GameManager : MonoBehaviour
 		// pushes empty move to the stack to signify the end of a turn - player references the player that just played
 		// This is the case of GameCenter Multiplayer
 		if (gameCenter != null  && !singleplayer && !loadingMoves) {
-			if (!GameCenterTurnBasedBinding.isCurrentPlayersTurn()) {
+			if (!gameCenter.myTurn()) {
 				gameCenter.LoadLevel("MainMenuV2");
 				return;
 			}
