@@ -65,50 +65,55 @@ public class GameManager : MonoBehaviour
 		gameInfo = GameInfo.instance;
 		singleplayer = gameInfo.getSinglePlayer();
 		winningScore = gameInfo.getWinCondition();
-		humanFactionChoice = gameInfo.getHumanFactionChoice();
-
-		// log human faction for testing
-		Debug.Log (humanFactionChoice);
 
 		// if there is an AI playing, make it
 		if (singleplayer) {
 			AI = new AI(winningScore);
 
+			humanFactionChoice = gameInfo.getHumanFactionChoice();
+
 			// set the current player to the human
 			currentFaction = PlayerManager.Faction.Uninitialized;
 		}
 
-		playAudio (humanFactionChoice);
+		gameCenter = GCCubedListener.instance;
+		saveLoad = SaveLoadManager.instance;
+		if (gameCenter != null) {
+			GameCenterAwake();
+		}
 
-		GameObject temp = GameObject.Find("GameCenter");
-		if (temp != null) {
-			gameCenter = temp.GetComponentInChildren<GCCubedListener>();
-			saveLoad = temp.GetComponentInChildren<SaveLoadManager>();
-			if (!singleplayer) {
-				moves = saveLoad.moves;
-				ButtonManager.instance.lifeName.text = GameInfo.instance.lifeUser;
-				ButtonManager.instance.industryName.text = GameInfo.instance.industryUser;
-				humanFactionChoice = gameCenter.getLocalFaction();
-				if (moves != null && moves.Count > 0) {
-					if (gameCenter.myTurn()) {
-						currentFaction = humanFactionChoice;
-					} else {
-						ButtonManager.instance.rollButtonText.text = "Back";
-						currentFaction = PlayerManager.SwitchFaction(humanFactionChoice);
-					}
-					topOfStack = (Move) moves.Peek();
-					previousTurnEnded = (topOfStack.getCol() == -1) && (topOfStack.getRow() == -1) && (topOfStack.getTier() == -1);
-					hasMovedThisTurn = false;
-					hasRolled = false;
-					Debug.Log("Faction that last ended turn (Life/Industry) (1/2): " + (int) PlayerManager.SwitchFaction(currentFaction));
+		playAudio (humanFactionChoice);
+		// log human faction for testing
+		Debug.Log (humanFactionChoice);
+	}
+
+	// Refactored from Awake
+	void GameCenterAwake() {
+		if (!singleplayer) {
+			moves = saveLoad.moves;
+			humanFactionChoice = gameCenter.getLocalFaction();
+			if (moves != null && moves.Count > 0) {
+				if (gameCenter.myTurn()) {
+					currentFaction = humanFactionChoice;
+				} else {
+					ButtonManager.instance.rollButtonText.text = "Back";
+					currentFaction = PlayerManager.SwitchFaction(humanFactionChoice);
 				}
-				else { // first turn
-					currentFaction = PlayerManager.Faction.Uninitialized;
-				}
+				topOfStack = (Move) moves.Peek();
+				previousTurnEnded = (topOfStack.getCol() == -1) && (topOfStack.getRow() == -1) && (topOfStack.getTier() == -1);
+				hasMovedThisTurn = false;
+				hasRolled = false;
+				Debug.Log("Faction that last ended turn (Life/Industry) (1/2): " + (int) PlayerManager.SwitchFaction(currentFaction));
+			}
+			else { // first turn
+				Debug.Log("No move stack. Assuming first turn/");
+				currentFaction = PlayerManager.Faction.Uninitialized;
 			}
 		}
 	}
-	void Start() {
+
+	void Start () {
+		Debug.Log("Setting player names on UI");
 		// this needs to be here or the buttons won't have been created yet
 		ButtonManager.instance.lifeName.text = gameInfo.lifeUser;
 		ButtonManager.instance.industryName.text = gameInfo.industryUser;
@@ -292,7 +297,6 @@ public class GameManager : MonoBehaviour
 		Debug.Log ("CurrentPlayer: " + currentFaction + ". Has moved? " + hasMovedThisTurn + ". Has Rolled? " + hasRolled);
 		if (GameIsOver)
 			return;
-
 		// first turn
 		if (currentFaction == PlayerManager.Faction.Uninitialized) {
 			hasRolled = true;
@@ -318,6 +322,8 @@ public class GameManager : MonoBehaviour
 					hasMovedThisTurn = false;
 					hasRolled = false;
 					gameCenter.EndTurn(saveLoad.CreateJSONGameStateString(GetMoves()));
+					gameCenter.LoadLevel("MainMenuV2");
+					GameCenterTurnBasedBinding.loadMatches();
 					return;
 				}
 				else {

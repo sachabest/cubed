@@ -98,14 +98,10 @@ namespace Prime31
 		// Fired when the handleInviteFromGameCenter delegate method is called signifying an invite was received. Includes all players in the invite
 		public static event Action<List<object>> handleInviteFromGameCenterEvent;
 	
-	
-	
-	
-		static GameCenterTurnBasedManager()
-		{
+		void Awake() {
 			AbstractManager.initialize( typeof( GameCenterTurnBasedManager ) );
+
 		}
-	
 	
 		void loadMatchDataFinished( string matchData )
 		{

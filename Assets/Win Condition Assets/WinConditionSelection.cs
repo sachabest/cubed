@@ -30,9 +30,9 @@ public class WinConditionSelection : MonoBehaviour {
 	public void OnMouseDown()
 	{
 		theGameInfo.setWinCondition(myWinCondtion);
-		GameObject gameCenter = GameObject.Find ("GameCenter");
-		if (gameCenter != null) {
-			gameCenter.GetComponent<GCCubedListener>().LoadLevel("cubed");
+		GCCubedListener gc = GCCubedListener.instance;
+		if (gc != null) {
+			gc.LoadLevel("cubed");
 			return;
 		}
 		Application.LoadLevel("cubed");

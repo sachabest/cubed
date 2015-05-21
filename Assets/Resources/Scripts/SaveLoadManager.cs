@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
+using System;
 using Boomlagoon.JSON;
 
 public class SaveLoadManager : MonoBehaviour {
@@ -40,17 +40,26 @@ public class SaveLoadManager : MonoBehaviour {
 	public void ParseJSONGameStateString(string json)
 	{
 		Stack<Move> stk = new Stack<Move>();
-		JSONObject input = JSONObject.Parse(json);
+		JSONObject input = null;
+		try {
+			input = JSONObject.Parse(json);
 
-		foreach (JSONValue val in input.GetArray("moves")) {
-			JSONObject obj = val.Obj;
-			Move move = new Move((PlayerManager.Faction) obj.GetNumber("faction"),(int)  obj.GetNumber("row") ,(int)  obj.GetNumber("col") ,(int) obj.GetNumber("tier"), (int) obj.GetNumber("removed_tier"));
-			stk.Push(move);
+			foreach (JSONValue val in input.GetArray("moves")) {
+				JSONObject obj = val.Obj;
+				Move move = new Move((PlayerManager.Faction) obj.GetNumber("faction"),(int)  obj.GetNumber("row") ,(int)  obj.GetNumber("col") ,(int) obj.GetNumber("tier"), (int) obj.GetNumber("removed_tier"));
+				stk.Push(move);
+			}
+
+		} catch (Exception e) {
+			Debug.Log("Couldn't parse moves JSON ");
+		} try {
+			GameInfo.instance.lifeUser = input.GetString ("Life");
+			GameInfo.instance.industryUser = input.GetString ("Industry");
+		} catch (Exception ex) {
+			Debug.Log("Couldn't get player names from saved data. ");
+			GameInfo.instance.lifeUser = "";
+			GameInfo.instance.industryUser = "";
 		}
-
-		GameInfo.instance.lifeUser = input.GetString ("Life");
-		GameInfo.instance.industryUser = input.GetString ("Industry");
-
 		// this to handle the caee when a game invitation is sent - the original sender
 		// does not know who the opponenet is yet, but the receiver of that inviatation
 		// will obviously know, as it is him/hersel. This will then propogate back to the 

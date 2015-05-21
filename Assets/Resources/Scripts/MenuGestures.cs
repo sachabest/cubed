@@ -30,7 +30,6 @@ public class MenuGestures : MonoBehaviour {
 			break;
 		case (int) MenuCube.Sides.MultiPlayer:
 			gameInfo.Singleplayer(false);
-			gameInfo.setWinCondition(100);
 			thisCube.multiplayer();
 			thisCube.gameCenter.ShowMatchmaking();
 			break;

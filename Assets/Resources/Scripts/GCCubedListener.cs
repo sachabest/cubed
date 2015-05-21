@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Prime31;
@@ -47,12 +48,17 @@ public class GCCubedListener : MonoBehaviour {
 		return GameCenterBinding.playerAlias();
 	}
 	public string opponentName() {
-		foreach (GKTurnBasedParticipant p in currentMatch.participants) {
-			if (!p.player.alias.Equals(localName())) {
-				return p.player.alias;
+		try {
+		for (int count = 0; count < currentMatch.participants.Count; count++) {
+			GKTurnBasedParticipant loopPlayer = currentMatch.participants[count];
+			if (loopPlayer != null && loopPlayer.playerId != null && currentMatch.currentParticipant != null && currentMatch.currentParticipant.playerId != null
+			&& !loopPlayer.playerId.Equals(currentMatch.currentParticipant.playerId)) {
+				return loopPlayer.player.displayName;
 			}
 		}
+		} catch (Exception e) {}
 		return UNDEF_OPPONENT;
+
 	}
 	public bool loggedIn() {
 		return GameCenterBinding.isPlayerAuthenticated ();
@@ -88,8 +94,6 @@ public class GCCubedListener : MonoBehaviour {
 		GameCenterTurnBasedBinding.endTurnWithNextParticipant(enemy, submitted);
 		// clear the moves stack so that moves don't bleed over from game to game
 		SaveLoadManager.instance.moves = null;
-		LoadLevel("MainMenuV2");
-		GameCenterTurnBasedBinding.loadMatches();
 	}
 	public void Win() {
 		foreach (GKTurnBasedParticipant p in currentMatch.participants) {
@@ -130,6 +134,7 @@ public class GCCubedListener : MonoBehaviour {
 	void loadMatchDataEvent(byte[] bytes )
 	{
 		currentMatchData = System.Text.UTF8Encoding.UTF8.GetString( bytes );
+		Debug.Log("currMatch: " + currentMatchData);
 		SaveLoadManager.instance.ParseJSONGameStateString(currentMatchData);
 		if (SaveLoadManager.instance.moves.Count > 0) {
 			LoadLevel("cubed");

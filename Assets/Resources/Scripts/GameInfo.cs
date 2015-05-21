@@ -63,10 +63,11 @@ public class GameInfo : MonoBehaviour
 				industryUser = "Local Player";
 				lifeUser = "Chong's AI";
 			} else {
-				lifeUser = GCCubedListener.instance.localName();
-				industryUser = GCCubedListener.instance.opponentName();
+				lifeUser = GCCubedListener.instance.opponentName();
+				industryUser = GCCubedListener.instance.localName();
 			}
 		}
+		Debug.Log("InputChoice: " + inputChoice + " --- Life: " + lifeUser + " --- Industry: " + industryUser);
 	}
 	public PlayerManager.Faction getHumanFactionChoice()
 	{

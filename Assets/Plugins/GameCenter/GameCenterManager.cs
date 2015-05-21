@@ -122,12 +122,10 @@ namespace Prime31
 	
 	
 	
-	
-	    static GameCenterManager()
-	    {
+		void Awake() {
 			AbstractManager.initialize( typeof( GameCenterManager ) );
-	    }
-	
+		}
+		
 	
 		#region Player callbacks
 	
