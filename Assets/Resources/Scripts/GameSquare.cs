@@ -85,6 +85,9 @@ public class GameSquare : MonoBehaviour
 			touchLocation = Input.touches[0].position;
 			Debug.Log(touchLocation);
 		}
+		if (Application.isEditor) {
+			manager.HandleClick(xval, yval);
+		}
 	}
 	public void OnMouseUp()
 	{
