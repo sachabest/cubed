@@ -8,11 +8,10 @@ public class MenuCube : MonoBehaviour {
 	public MenuGestures gestures;
 	public GCCubedListener gameCenter;
 	public bool onW, onD, onS, onA;
-	private float yRot;
+	private float yRot = 10f;
 	public enum Sides {SinglePlayer = 1, MultiPlayer, Credits, Options};
 	// Use this for initialization
 	void Start () {
-		yRot = 0.1f;
 		onA = false;
 		onD = false;
 		onS = false;
@@ -25,8 +24,8 @@ public class MenuCube : MonoBehaviour {
 		gameCenter.singleplayer = false;
 	}
 	// Update is called once per frame
-	void LateUpdate () {
-		camera.transform.Rotate(new Vector3(0, yRot, 0), Space.World);
+	void FixedUpdate () {
+		camera.transform.Rotate(new Vector3(0, yRot * Time.deltaTime, 0), Space.World);
 		camera.transform.Translate(new Vector3(0, 0, 0), Space.Self);
 	}
 	public void CubeAnimation(string animationName, bool up) {
