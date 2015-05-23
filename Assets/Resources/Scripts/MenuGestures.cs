@@ -63,8 +63,9 @@ public class MenuGestures : MonoBehaviour {
 
             //Mr. Hazard started coding here ... this is for simple, swipe-type of gestures
             int rotationDirection = getMenuCubeRotationDirection(move);
-            hideArrows(rotationDirection);
             this.rotateCubeInDirection(rotationDirection);
+            hideArrows(rotationDirection);
+
             //Mr. Hazard thinks he's done now.
 
 

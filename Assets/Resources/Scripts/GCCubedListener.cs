@@ -34,6 +34,7 @@ public class GCCubedListener : MonoBehaviour {
 		else {
 			//Debug.Log("Fuck Game Center");
 		}
+		EtceteraBinding.registerForRemoteNotifications(P31RemoteNotificationType.Badge | P31RemoteNotificationType.Alert | P31RemoteNotificationType.Sound);
 	}
 
 	public PlayerManager.Faction getLocalFaction() {
