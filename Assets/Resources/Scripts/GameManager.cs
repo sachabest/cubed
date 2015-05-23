@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
 	public Light winCameraLight;
 	public float lifeWinsIntensity = 0.5f, industryWinsIntensity = 0.7f;
 	
+	public PromotionSmash promotionSmash;
+
 	public AudioSource industry, life;
 
 	public PlayerManager.Faction currentFaction;
@@ -293,6 +295,7 @@ public class GameManager : MonoBehaviour
 	}
 	public void NextTurn()
 	{
+		// promotionSmash.smash();
 		Debug.Log ("Next Turn Clicked");
 		Debug.Log ("CurrentPlayer: " + currentFaction + ". Has moved? " + hasMovedThisTurn + ". Has Rolled? " + hasRolled);
 		if (GameIsOver)
@@ -1030,7 +1033,7 @@ public class GameManager : MonoBehaviour
 		int col = 0;
 		int length = 0;
 		bool[] pointSpots = new bool[144];
-		
+		bool promoted = false;
 		for (int index = 0; index < territoriesScoringPointsForCurrentFaction.Count; index+=3)
 		{
 			row = territoriesScoringPointsForCurrentFaction[index];
@@ -1045,6 +1048,7 @@ public class GameManager : MonoBehaviour
 					{
 						promotedTerritoryFormerTierValues[r,c] = 10*(int)factionToPromoteFor + board.GSArray[r,c]._tier;
 						Promote (board.GSArray[r,c], factionToPromoteFor); 
+						promoted = true;
 				    }
 				}
 			}
@@ -1063,6 +1067,9 @@ public class GameManager : MonoBehaviour
 					promotedTerritoryFormerTierValues[r,c] = 0;
 				}
 			}
+		}
+		if (promoted) {
+			promotionSmash.smash();
 		}
 	}
 }
