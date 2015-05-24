@@ -53,8 +53,8 @@ public class GameInfo : MonoBehaviour
 				lifeUser = "Local Player";
 				industryUser = "Chong's AI";
 			} else {
-				lifeUser = GCCubedListener.instance.localName();
-				industryUser = GCCubedListener.instance.opponentName();
+				// lifeUser = GCCubedListener.instance.localName();
+				// industryUser = GCCubedListener.instance.opponentName();
 			}
 		}
 		if (inputChoice == 2) {
@@ -63,8 +63,8 @@ public class GameInfo : MonoBehaviour
 				industryUser = "Local Player";
 				lifeUser = "Chong's AI";
 			} else {
-				lifeUser = GCCubedListener.instance.opponentName();
-				industryUser = GCCubedListener.instance.localName();
+				// lifeUser = GCCubedListener.instance.opponentName();
+				// industryUser = GCCubedListener.instance.localName();
 			}
 		}
 		Debug.Log("InputChoice: " + inputChoice + " --- Life: " + lifeUser + " --- Industry: " + industryUser);

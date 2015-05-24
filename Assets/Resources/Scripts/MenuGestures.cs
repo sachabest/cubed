@@ -26,18 +26,18 @@ public class MenuGestures : MonoBehaviour {
 		case (int) MenuCube.Sides.SinglePlayer:
 			thisCube.singleplayer();
 			gameInfo.Singleplayer(true);
-			thisCube.gameCenter.LoadLevel("SinglePlayerOptions");
+			Application.LoadLevel("SinglePlayerOptions");
 			break;
 		case (int) MenuCube.Sides.MultiPlayer:
 			gameInfo.Singleplayer(false);
 			thisCube.multiplayer();
-			thisCube.gameCenter.ShowMatchmaking();
+			// thisCube.gameCenter.ShowMatchmaking();
 			break;
 		case (int) MenuCube.Sides.Options:
 			//Application.LoadLevel("OptionsMenu");
 			break;
 		case (int) MenuCube.Sides.Credits:
-			thisCube.gameCenter.LoadLevel("Credits");
+			Application.LoadLevel("Credits");
 			break;
 		default:
 			break;

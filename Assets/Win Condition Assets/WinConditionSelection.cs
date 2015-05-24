@@ -31,10 +31,10 @@ public class WinConditionSelection : MonoBehaviour {
 	{
 		theGameInfo.setWinCondition(myWinCondtion);
 		GCCubedListener gc = GCCubedListener.instance;
-		if (gc != null) {
-			gc.LoadLevel("cubed");
-			return;
-		}
+		// if (gc != null) {
+		// 	gc.LoadLevel("cubed");
+		// 	return;
+		// }
 		Application.LoadLevel("cubed");
 	}
 }

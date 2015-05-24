@@ -93,14 +93,14 @@ public class GameManager : MonoBehaviour
 	void GameCenterAwake() {
 		if (!singleplayer) {
 			moves = saveLoad.moves;
-			humanFactionChoice = gameCenter.getLocalFaction();
+			// humanFactionChoice = gameCenter.getLocalFaction();
 			if (moves != null && moves.Count > 0) {
-				if (gameCenter.myTurn()) {
-					currentFaction = humanFactionChoice;
-				} else {
+				// if (gameCenter.myTurn()) {
+				// 	currentFaction = humanFactionChoice;
+				// } else {
 					ButtonManager.instance.rollButtonText.text = "Back";
 					currentFaction = PlayerManager.SwitchFaction(humanFactionChoice);
-				}
+				// }
 				topOfStack = (Move) moves.Peek();
 				previousTurnEnded = (topOfStack.getCol() == -1) && (topOfStack.getRow() == -1) && (topOfStack.getTier() == -1);
 				hasMovedThisTurn = false;
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
 					WinScreenCube.renderer.material = (Material)Resources.Load ("Materials/IndustryWIN");	
 				}
 				if (!singleplayer) {
-					GCCubedListener.instance.Win();
+					// GCCubedListener.instance.Win();
 				}
 
 		//		PlayerIndicator.text = "Game Over.  Press Esc for Menu.";
@@ -313,28 +313,28 @@ public class GameManager : MonoBehaviour
 		// pushes empty move to the stack to signify the end of a turn - player references the player that just played
 		// This is the case of GameCenter Multiplayer
 		if (gameCenter != null  && !singleplayer && !loadingMoves) {
-			if (!gameCenter.myTurn()) {
-				gameCenter.LoadLevel("MainMenuV2");
-				return;
-			}
-			else if (hasRolled) {
-				if (hasMovedThisTurn) {
-					moves.Push(new Move(currentFaction, -1, -1, -1));
-					Debug.Log("GameCenter " + gameCenter);
-					Debug.Log("SaveLoad " + saveLoad);
-					hasMovedThisTurn = false;
-					hasRolled = false;
-					gameCenter.EndTurn(saveLoad.CreateJSONGameStateString(GetMoves()));
-					gameCenter.LoadLevel("MainMenuV2");
-					GameCenterTurnBasedBinding.loadMatches();
-					return;
-				}
-				else {
-					string[] options = { "OK" };
-					EtceteraBinding.showAlertWithTitleMessageAndButtons("Cannot End Turn...", "You diddn't move!", options);
-					return;
-				}
-			}
+			// if (!gameCenter.myTurn()) {
+			// 	gameCenter.LoadLevel("MainMenuV2");
+			// 	return;
+			// }
+			// else if (hasRolled) {
+			// 	if (hasMovedThisTurn) {
+			// 		moves.Push(new Move(currentFaction, -1, -1, -1));
+			// 		Debug.Log("GameCenter " + gameCenter);
+			// 		Debug.Log("SaveLoad " + saveLoad);
+			// 		hasMovedThisTurn = false;
+			// 		hasRolled = false;
+			// 		gameCenter.EndTurn(saveLoad.CreateJSONGameStateString(GetMoves()));
+			// 		gameCenter.LoadLevel("MainMenuV2");
+			// 		GameCenterTurnBasedBinding.loadMatches();
+			// 		return;
+			// 	}
+			// 	else {
+			// 		string[] options = { "OK" };
+			// 		EtceteraBinding.showAlertWithTitleMessageAndButtons("Cannot End Turn...", "You diddn't move!", options);
+			// 		return;
+			// 	}
+			// }
 		}
 
 		// handle AI roll (cannot remove)

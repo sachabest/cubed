@@ -64,11 +64,11 @@ public class SaveLoadManager : MonoBehaviour {
 		// does not know who the opponenet is yet, but the receiver of that inviatation
 		// will obviously know, as it is him/hersel. This will then propogate back to the 
 		// original user on the next turn save
-		if (GameInfo.instance.lifeUser.Equals(GCCubedListener.UNDEF_OPPONENT)) {
-			GameInfo.instance.lifeUser = GCCubedListener.instance.localName();
-		} else if (GameInfo.instance.industryUser.Equals(GCCubedListener.UNDEF_OPPONENT)) {
-			GameInfo.instance.industryUser = GCCubedListener.instance.localName();
-		}
+		// if (GameInfo.instance.lifeUser.Equals(GCCubedListener.UNDEF_OPPONENT)) {
+		// 	GameInfo.instance.lifeUser = GCCubedListener.instance.localName();
+		// } else if (GameInfo.instance.industryUser.Equals(GCCubedListener.UNDEF_OPPONENT)) {
+		// 	GameInfo.instance.industryUser = GCCubedListener.instance.localName();
+		// }
 		moves = stk;
 
 	}
