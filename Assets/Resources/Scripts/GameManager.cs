@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using Prime31;
+// using Prime31;
 
 public class GameManager : MonoBehaviour 
 {
