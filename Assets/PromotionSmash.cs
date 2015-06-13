@@ -42,6 +42,7 @@ public class PromotionSmash : MonoBehaviour {
 	}
 
 	public void smash() {
+		// yield return StartCoroutine(hold(0.5f));
 		selfImage.color = new Color(1f,1f,1f, 1f);
 		originalScale = new Vector2(400, 400);
 		this.gameObject.SetActive(true);
@@ -51,5 +52,9 @@ public class PromotionSmash : MonoBehaviour {
 		shrink = true;
 		audio.Play();
 		Debug.Log("smashing");
+	}
+
+	IEnumerator hold(float delay) {
+		yield return new WaitForSeconds(delay);
 	}
 }

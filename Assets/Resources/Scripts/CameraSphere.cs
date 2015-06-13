@@ -8,6 +8,7 @@ public class CameraSphere : MonoBehaviour
 	private float autoZoomSpeed = 1.0f;
 	private float manualZoomSpeed = 5.0f;
 	private float rotationSpeed = 30.0f;
+	private Vector3 originalPosition;
 	
 	public Camera mainCamera;
 	public Camera zoomCamera;
@@ -25,17 +26,19 @@ public class CameraSphere : MonoBehaviour
 		yRot = 0;
 		xVel = 0;
 		zVel = 0;
+		originalPosition = this.gameObject.transform.position;
 	}
 	
 	//Mr. Hazard wrote the next two methods on May 10, 2013
 	//The private method can only be called from the Update() method
 	//Precondition: squareToZoomTo != null
+
 	private void zoomToSquare()
 	{
 		Vector3 path = new Vector3(squareToZoomTo.transform.position.x - this.transform.position.x,
 				                   squareToZoomTo.transform.position.y - this.transform.position.y,
 				                   squareToZoomTo.transform.position.z - this.transform.position.z);
-			
+
 		this.transform.Translate(Time.deltaTime*autoZoomSpeed*path,Space.World);
 
 		if (path.magnitude < 0.1)
@@ -44,7 +47,9 @@ public class CameraSphere : MonoBehaviour
 	public void zoomToSquare(GameSquare square)
 	{
 		squareToZoomTo = square;
+		zoomCamera.transform.position = this.transform.position;
 		zoomCamera.GetComponent<CameraZoom>().zoomInOnASquare();
+		this.transform.position = originalPosition;
 	}
 	public GameSquare getTargetSquare()
 	{

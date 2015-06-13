@@ -256,6 +256,7 @@ public class GameManager : MonoBehaviour
 		{
 			if(Remove(xval, yval, square._tier))
 			{
+				roll = roll - 2;
 				square.DestroyPiece();
 				board.Reserve(square.xval, square.yval);  //sets the image for what level of reservation should be displayed
 				square._tier = 0;
